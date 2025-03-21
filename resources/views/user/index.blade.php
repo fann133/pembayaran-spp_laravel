@@ -1,0 +1,74 @@
+@extends('layouts.master')
+
+@section('title', 'Pembayaran SPP | Data User')
+@section('content')
+<div class="container-fluid">
+
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+        </div>
+    @endif
+    
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Data User</h1>
+    </div>
+    
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Data User</h6>
+            <a href="{{ route('user.create') }}" class="btn btn-primary btn-sm">
+                <i class="fas fa-plus"> Tambah Data</i>
+            </a>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive pt-2">
+                <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama</th>
+                            <th>Username</th>
+                            <th>Password</th>
+                            <th>Kategori</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($users as $key => $user)
+                        <tr>
+                            <td>{{ $key + 1 }}</td>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->username }}</td>
+                            <td>{{ $user->bypass }}</td>
+                            @php
+                                $roles = [
+                                    1 => 'Admin',
+                                    2 => 'Siswa',
+                                    3 => 'Guru',
+                                    4 => 'Bendahara',
+                                    5 => 'Kepala Sekolah'
+                                ];
+                            @endphp
+                            <td>{{ $roles[$user->role_id] }}</td>
+
+                            <td>
+                                <a href="#" class="btn btn-warning btn-circle btn-sm">
+                                    <i class="fas fa-pen"></i>
+                                </a>
+                                <a href="#" class="btn btn-danger btn-circle btn-sm">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
