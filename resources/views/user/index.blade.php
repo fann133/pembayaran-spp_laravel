@@ -16,12 +16,10 @@
         <h1 class="h3 mb-0 text-gray-800">Data User</h1>
     </div>
     
-    <div class="card shadow mb-4">
+    <div class="card shadow mb-4 border-bottom-primary">
         <div class="card-header py-3 d-flex justify-content-between">
             <h6 class="m-0 font-weight-bold text-primary">Data User</h6>
-            <a href="{{ route('user.create') }}" class="btn btn-primary btn-sm">
-                <i class="fas fa-plus"> Tambah Data</i>
-            </a>
+            <br>
         </div>
 
         <div class="card-body">
@@ -56,11 +54,8 @@
                             <td>{{ $roles[$user->role_id] }}</td>
 
                             <td>
-                                <a href="#" class="btn btn-warning btn-circle btn-sm">
+                                <a href="{{ route('user.edit', $user->id_users) }}" class="btn btn-warning btn-circle btn-sm">
                                     <i class="fas fa-pen"></i>
-                                </a>
-                                <a href="#" class="btn btn-danger btn-circle btn-sm">
-                                    <i class="fas fa-trash"></i>
                                 </a>
                             </td>
                         </tr>

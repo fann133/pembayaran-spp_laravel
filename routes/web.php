@@ -1,9 +1,12 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GuruController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\DatabaseController;
+use App\Http\Controllers\DashboardController;
 
 
 /*
@@ -50,14 +53,39 @@ Route::middleware(['auth'])->group(function () {
     // Route Hapus Siswa
     Route::delete('/siswas/{id}', [SiswaController::class, 'destroy'])->name('siswa.destroy');
 
+    // Route Create Account Siswa
+    Route::get('/siswa/create-account/{id_siswa}', [SiswaController::class, 'createAccount'])->name('siswa.createAccount');
+
+    // Route Lihat Guru
+    Route::get('/guru', [GuruController::class, 'index'])->name('guru.index');
+
+    // Route Tambah Guru
+    Route::get('/guru/create', [GuruController::class, 'create'])->name('guru.create');
+    Route::post('/guru/store', [GuruController::class, 'store'])->name('guru.store');
+
+    // Route Ubah Guru
+    Route::get('/guru/{id}/edit', [GuruController::class, 'edit'])->name('guru.edit');
+    Route::put('/guru/{id}', [GuruController::class, 'update'])->name('guru.update');
+
+    // Route Tambah Account Guru
+    Route::get('/guru/createAccount/{id_guru}', [GuruController::class, 'createAccount'])->name('guru.createAccount');
+
+    // Route Hapus Guru
+    Route::delete('/gurus/{id_guru}', [GuruController::class, 'destroy'])->name('guru.destroy');
+
+
     // Route User
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
 
-    Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
-    Route::get('/get-all-names', [UserController::class, 'getAllNames']);
-    Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
+    // Route Ubah User
+    Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
+    Route::put('/users/{id}', [UserController::class, 'update'])->name('user.update');
 
 
+    // Halaman Database
+    Route::get('/database', [DatabaseController::class, 'index'])->name('database');
+    Route::post('/database/backup', [DatabaseController::class, 'backup'])->name('database.backup');
+    Route::get('/database/download', [DatabaseController::class, 'download'])->name('database.download');
 
 });
 

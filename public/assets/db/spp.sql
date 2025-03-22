@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 21, 2025 at 09:31 AM
+-- Generation Time: Mar 22, 2025 at 09:20 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,12 +45,15 @@ CREATE TABLE `failed_jobs` (
 
 CREATE TABLE `gurus` (
   `id_guru` char(36) NOT NULL,
+  `users_id` char(36) DEFAULT NULL,
   `nip` varchar(255) NOT NULL,
   `nama` varchar(255) NOT NULL,
   `jenis_kelamin` enum('Laki-laki','Perempuan') NOT NULL,
   `tempat_lahir` varchar(255) NOT NULL,
   `tanggal_lahir` date NOT NULL,
   `agama` varchar(255) NOT NULL,
+  `status` enum('TETAP','HONOR','MAGANG') NOT NULL DEFAULT 'HONOR',
+  `role_id` enum('3','4','5') NOT NULL DEFAULT '3',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -59,8 +62,8 @@ CREATE TABLE `gurus` (
 -- Dumping data for table `gurus`
 --
 
-INSERT INTO `gurus` (`id_guru`, `nip`, `nama`, `jenis_kelamin`, `tempat_lahir`, `tanggal_lahir`, `agama`, `created_at`, `updated_at`) VALUES
-('d4697cb2-266a-4c27-9a60-85410925e9f0', '1234567890', 'Budi Santoso', 'Laki-laki', 'Jakarta', '1980-05-15', 'Islam', '2025-03-20 22:46:18', '2025-03-20 22:46:18');
+INSERT INTO `gurus` (`id_guru`, `users_id`, `nip`, `nama`, `jenis_kelamin`, `tempat_lahir`, `tanggal_lahir`, `agama`, `status`, `role_id`, `created_at`, `updated_at`) VALUES
+('d4697cb2-266a-4c27-9a60-85410925e9f0', '4301fe0f-d039-43b8-89b7-f5a12377cbef', '12345678901', 'Budi Santoso', 'Laki-laki', 'Jakarta', '1980-05-15', 'Islam', 'HONOR', '4', '2025-03-20 22:46:18', '2025-03-21 22:14:31');
 
 -- --------------------------------------------------------
 
@@ -97,7 +100,11 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (19, '2025_03_21_065117_add_bypass_column_to_users_table', 10),
 (20, '2025_03_21_065835_modify_users_table', 11),
 (21, '2025_03_21_070208_modify_users_table', 11),
-(22, '2025_03_21_072817_create_gurus_table', 12);
+(22, '2025_03_21_072817_create_gurus_table', 12),
+(23, '2025_03_22_013414_add_users_id_to_siswas_table', 13),
+(24, '2025_03_22_023010_add_jenis_kelamin__to_siswas_table', 14),
+(25, '2025_03_22_031320_add_columns_to_gurus_table', 15),
+(26, '2025_03_22_034723_update_users_id_foreign_key_on_siswas_table', 16);
 
 -- --------------------------------------------------------
 
@@ -154,7 +161,9 @@ CREATE TABLE `sessions` (
 CREATE TABLE `siswas` (
   `id_siswa` char(36) NOT NULL,
   `nama` varchar(255) NOT NULL,
+  `jenis_kelamin` enum('Laki-laki','Perempuan') DEFAULT NULL,
   `nis` varchar(255) NOT NULL,
+  `users_id` char(36) DEFAULT NULL,
   `tempat_lahir` varchar(255) NOT NULL,
   `tanggal_lahir` date NOT NULL,
   `kelas` varchar(255) NOT NULL,
@@ -168,11 +177,9 @@ CREATE TABLE `siswas` (
 -- Dumping data for table `siswas`
 --
 
-INSERT INTO `siswas` (`id_siswa`, `nama`, `nis`, `tempat_lahir`, `tanggal_lahir`, `kelas`, `category`, `status`, `created_at`, `updated_at`) VALUES
-('3619936c-fb11-4562-94e7-e0182693f3af', 'Siti Aisyah', '20231002', 'Bandung', '2006-08-22', 'XI IPS 2', 'menengah', 'AKTIF', '2025-03-18 21:32:41', '2025-03-18 21:32:41'),
-('3afe3e4b-5ca1-4f33-9caa-cbe0a38226fc', 'MUHAMAT IRFAN RIFAI2', '2023100612', 'Sorong1', '2025-02-28', '1223', 'atas', 'LULUS', '2025-03-20 17:49:48', '2025-03-20 21:15:29'),
-('9d22bce6-a545-40c3-a2c5-b29529a76871', 'Ahmad Fauzan', '20231001', 'Jakarta', '2005-06-15', 'XII IPA 1', 'atas', 'AKTIF', '2025-03-18 21:32:41', '2025-03-18 21:32:41'),
-('d8d0566e-4c6e-419d-a77a-27fa4a43da15', 'Bayu', '20231003', 'Banjar', '2025-03-01', 'MIPA 1', 'atas', 'AKTIF', '2025-03-19 22:56:00', '2025-03-19 22:56:00');
+INSERT INTO `siswas` (`id_siswa`, `nama`, `jenis_kelamin`, `nis`, `users_id`, `tempat_lahir`, `tanggal_lahir`, `kelas`, `category`, `status`, `created_at`, `updated_at`) VALUES
+('3afe3e4b-5ca1-4f33-9caa-cbe0a38226fc', 'MUHAMAT IRFAN RIFAI2', 'Laki-laki', '2023100612', '110c907d-c4dd-4351-a99d-7960056b0117', 'Sorong1', '2025-02-28', '1223', 'atas', 'AKTIF', '2025-03-20 17:49:48', '2025-03-21 19:05:56'),
+('9d22bce6-a545-40c3-a2c5-b29529a76871', 'Ahmad Fauzan', 'Laki-laki', '20231001', '89191045-f2f4-479c-a083-0444817e4db1', 'Jakarta', '2005-06-15', 'XII IPA 1', 'atas', 'AKTIF', '2025-03-18 21:32:41', '2025-03-21 19:06:01');
 
 -- --------------------------------------------------------
 
@@ -197,10 +204,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`name`, `password`, `bypass`, `created_at`, `updated_at`, `id_users`, `username`, `role_id`, `login_times`) VALUES
-('Siti Aisyah', '$2y$12$CIxPsqTLFz2goh2YB342Qe7ppxHqwcR/vXTRmmK7d3dujsqMHh3lC', 'Y1HLRKcV', '2025-03-20 23:27:04', '2025-03-20 23:28:25', '289014ce-f296-466c-8b00-92519a9c7d01', '20231002', '2', '2025-03-20 23:28:25'),
-('Budi Santoso', '$2y$12$cL22jSMYzKrpw/TlAFkKJO0m9RgB4jM9akyYiXdgb9qd7AwEzAiMS', 'Bv6sMl4n', '2025-03-20 23:27:21', '2025-03-20 23:27:21', '4c76df62-b2d6-4564-b939-4d956becf47c', '1234567890', '3', NULL),
-('Bayu', '$2y$12$br71MBilvFz2xjkqLVdal.m2UoDHw90.28xgbRKwE6BdLzM9SOupq', '60058', '2025-03-20 23:31:17', '2025-03-20 23:31:17', '6ecf6918-c83e-45f1-bda1-3a654f8661e7', '20231003', '2', NULL),
-('Administrator', '$2y$12$RXP.ZpY0sfnumX2u5qEVfeakWlgYiBDQ5.3s9FzCSoKO9mrDmk.Wq', 'password123', '2025-03-19 16:37:40', '2025-03-20 23:24:48', 'd78b44bb-58d7-4668-94b5-77f8a3fca965', 'admin', '1', '2025-03-20 23:24:48');
+('MUHAMAT IRFAN RIFAI2', '$2y$12$2acpEtS0QUzgT5xQRVD/Eec7ViRqbL6oTkXlSJySE7s3IcvsJHfIe', '2JbaFyZl', '2025-03-21 16:51:47', '2025-03-21 16:51:47', '110c907d-c4dd-4351-a99d-7960056b0117', '2023100612', '2', NULL),
+('Budi Santoso', '$2y$12$JEKxf2P1IOxh2/LmpR5Qc.tzaFu/SEWiFGmdmmBCK1KrgxGSE54DG', 'asdfsa', '2025-03-21 22:13:35', '2025-03-21 22:49:34', '4301fe0f-d039-43b8-89b7-f5a12377cbef', '1234567890', '1', '2025-03-21 22:39:55'),
+('Ahmad Fauzan', '$2y$12$jh0djChUyyKaORKGbsb4R.m3sCRtmCjHjzJ4QXF33z0W.m.c5Q.T2', 'vAjZ4otm', '2025-03-21 16:52:07', '2025-03-21 16:52:07', '89191045-f2f4-479c-a083-0444817e4db1', '20231001', '2', NULL),
+('Administrator', '$2y$12$RXP.ZpY0sfnumX2u5qEVfeakWlgYiBDQ5.3s9FzCSoKO9mrDmk.Wq', 'password123', '2025-03-19 16:37:40', '2025-03-21 23:20:11', 'd78b44bb-58d7-4668-94b5-77f8a3fca965', 'admin', '1', '2025-03-21 23:20:11');
 
 --
 -- Indexes for dumped tables
@@ -218,7 +225,8 @@ ALTER TABLE `failed_jobs`
 --
 ALTER TABLE `gurus`
   ADD PRIMARY KEY (`id_guru`),
-  ADD UNIQUE KEY `gurus_nip_unique` (`nip`);
+  ADD UNIQUE KEY `gurus_nip_unique` (`nip`),
+  ADD KEY `gurus_users_id_foreign` (`users_id`);
 
 --
 -- Indexes for table `migrations`
@@ -253,7 +261,8 @@ ALTER TABLE `sessions`
 --
 ALTER TABLE `siswas`
   ADD PRIMARY KEY (`id_siswa`),
-  ADD UNIQUE KEY `siswas_nis_unique` (`nis`);
+  ADD UNIQUE KEY `siswas_nis_unique` (`nis`),
+  ADD KEY `siswas_users_id_foreign` (`users_id`);
 
 --
 -- Indexes for table `users`
@@ -276,13 +285,29 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `gurus`
+--
+ALTER TABLE `gurus`
+  ADD CONSTRAINT `gurus_users_id_foreign` FOREIGN KEY (`users_id`) REFERENCES `users` (`id_users`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `siswas`
+--
+ALTER TABLE `siswas`
+  ADD CONSTRAINT `siswas_users_id_foreign` FOREIGN KEY (`users_id`) REFERENCES `users` (`id_users`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

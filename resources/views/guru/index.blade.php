@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Pembayaran SPP | Data Siswa')
+@section('title', 'Pembayaran SPP | Data Guru')
 @section('content')
 <div class="container-fluid">
 
@@ -19,14 +19,14 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Siswa</h1>
+        <h1 class="h3 mb-0 text-gray-800">Guru</h1>
     </div>
 
 
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Data Siswa</h6>
-                <a href="{{ route('siswa.create') }}" class="btn btn-primary btn-sm">
+                <h6 class="m-0 font-weight-bold text-primary">Data Guru</h6>
+                <a href="{{ route('guru.create') }}" class="btn btn-primary btn-sm">
                     <i class="fas fa-plus"> Tambah Data</i>
                 </a>
             </div>
@@ -38,42 +38,50 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama</th>
-                                <th>NIS</th>
+                                <th>NIP</th>
                                 <th>Tempat, Tanggal Lahir</th>
                                 <th>Jenis Kelamin</th>
-                                <th>Kelas</th>
+                                <th>Agama</th>
                                 <th>Kategori</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($siswa as $key => $siswa)
+                            @foreach ($guru as $key => $guru)
                             <tr>
                                 <td>{{ $key + 1 }}</td>
-                                <td>{{ $siswa->nama }} [{{ $siswa->status }}]</td>
-                                <td class="text-gray-900">{{ $siswa->nis }}</td>
-                                <td>{{ $siswa->tempat_lahir }}, {{ \Carbon\Carbon::parse($siswa->tanggal_lahir)->translatedFormat('d F Y') }}</td>
-                                <td>{{ $siswa->jenis_kelamin }}</td>
-                                <td>{{ $siswa->kelas }}</td>
-                                <td>{{ ucfirst($siswa->category) }}</td>
-                                <td>
-                                    <a href="{{ route('siswa.createAccount', $siswa->id_siswa) }}" class="btn btn-primary btn-circle btn-sm">
-                                        <i class="fas fa-plus"></i>
-                                    </a>
+                                <td>{{ $guru->nama }} [{{ $guru->status }}]</td>
+                                <td class="text-gray-900">{{ $guru->nip }}</td>
+                                <td>{{ $guru->tempat_lahir }}, {{ \Carbon\Carbon::parse($guru->tanggal_lahir)->translatedFormat('d F Y') }}</td>
+                                <td> {{ $guru->jenis_kelamin }}</td>
+                                <td>{{ $guru->agama }}</td>
+                                @php
+                                    $roles = [
+                                        3 => 'Guru',
+                                        4 => 'Bendahara',
+                                        5 => 'Kepala Sekolah'
+                                    ];
+                                @endphp
+                                <td>{{ $roles[$guru->role_id] }}</td>
 
-                                    <a href="{{ route('siswa.edit', $siswa->id_siswa) }}" class="btn btn-warning btn-circle btn-sm">
+                                <td>
+                                    <a href="{{ route('guru.createAccount', $guru->id_guru) }}" class="btn btn-primary btn-circle btn-sm">
+                                        <i class="fas fa-plus"></i>
+                                    </a>                                    
+
+                                    <a href="{{ route('guru.edit', $guru->id_guru) }}" class="btn btn-warning btn-circle btn-sm">
                                         <i class="fas fa-pen"></i>
                                     </a>
                                     
-                                        <a href="#" class="btn btn-danger btn-circle btn-sm delete-btn"
-                                           data-bs-toggle="modal"
-                                           data-bs-target="#deleteModal"
-                                           data-id="{{ $siswa->id_siswa }}"
-                                           data-nama="{{ $siswa->nama }}"
-                                           data-nis="{{ $siswa->nis }}">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    
+                                    <a href="#" class="btn btn-danger btn-circle btn-sm delete-btn-guru"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#deleteModalGuru"
+                                    data-id="{{ $guru->id_guru }}"
+                                    data-nama="{{ $guru->nama }}"
+                                    data-nip="{{ $guru->nip }}">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+
                                 </td>
                             </tr>
                             @endforeach
@@ -84,43 +92,43 @@
         </div>
 </div>
 
-        <!-- Modal Konfirmasi Hapus Pertama -->
-        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <!-- Modal Konfirmasi Hapus Pertama (Guru) -->
+        <div class="modal fade" id="deleteModalGuru" tabindex="-1" role="dialog" aria-labelledby="deleteModalGuruLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
+                        <h5 class="modal-title" id="deleteModalGuruLabel">Konfirmasi Hapus</h5>
                         <button class="close" type="button" data-bs-dismiss="modal">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        Apakah Anda yakin ingin menghapus siswa <strong id="siswaNama"></strong> | <strong id="siswaNIS"></strong> ini?
+                        Apakah Anda yakin ingin menghapus guru <strong id="guruNama"></strong> | <strong id="guruNIP"></strong> ini?
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="button" class="btn btn-danger" id="nextConfirmation">Hapus</button>
+                        <button type="button" class="btn btn-danger" id="nextConfirmationGuru">Hapus</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Modal Konfirmasi Hapus Kedua -->
-        <div class="modal fade" id="secondDeleteModal" tabindex="-1" role="dialog" aria-labelledby="secondDeleteModalLabel" aria-hidden="true">
+        <!-- Modal Konfirmasi Hapus Kedua (Guru) -->
+        <div class="modal fade" id="secondDeleteModalGuru" tabindex="-1" role="dialog" aria-labelledby="secondDeleteModalGuruLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="secondDeleteModalLabel">Konfirmasi Akhir</h5>
+                        <h5 class="modal-title" id="secondDeleteModalGuruLabel">Konfirmasi Akhir</h5>
                         <button class="close" type="button" data-bs-dismiss="modal">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        Ini adalah peringatan terakhir! Apakah Anda benar-benar yakin ingin menghapus siswa <strong id="finalSiswaNama"></strong> | <strong id="finalSiswaNIS"></strong> ini?
+                        Ini adalah peringatan terakhir! Apakah Anda benar-benar yakin ingin menghapus guru <strong id="finalGuruNama"></strong> | <strong id="finalGuruNIP"></strong> ini?
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <form id="deleteForm" method="POST" action="">
+                        <form id="deleteFormGuru" method="POST" action="">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">Hapus</button>
@@ -129,6 +137,5 @@
                 </div>
             </div>
         </div>
-
 
 @endsection

@@ -9,7 +9,7 @@
         <h1 class="h3 mb-0 text-gray-800">Tambah Data</h1>
     </div>
 
-    <div class="card shadow mb-4">
+    <div class="card shadow mb-4 border-bottom-primary">
         <div class="card-header py-3 d-flex justify-content-center">
             <h6 class="m-0 font-weight-bold text-primary">Data Siswa</h6>
         </div>
@@ -38,6 +38,14 @@
                 </div>
             
                 <div class="mt-2">
+                    <label class="form-label">Jenis Kelamin</label>
+                    <select name="jenis_kelamin" class="form-control form-control-sm w-50">
+                        <option value="Laki-laki">Laki-laki</option>
+                        <option value="Perempuan">Perempuan</option>
+                    </select>
+                </div>
+
+                <div class="mt-2">
                     <label class="form-label">Kelas</label>
                     <input type="text" name="kelas" class="form-control form-control-sm w-50" required>
                 </div>
@@ -51,7 +59,7 @@
                     </select>
                 </div>
             
-                <div class="mt-2">
+                <div class="mt-2 pb-4">
                     <label class="form-label">Status</label>
                     <select name="status" id="status" class="form-control form-control-sm w-50">
                         <option value="AKTIF">AKTIF</option>
@@ -60,16 +68,17 @@
                         <option value="KELUAR">KELUAR</option>
                     </select>
                 </div>
+            </div>
             
-            
-
-                <div class="d-flex justify-content-end mb-5">
-                    <div class="mt-2">
+            <div class="container d-flex flex-column col-12 justify-content-start">
+                <div class="d-flex mb-5 bg-gray-200">
+                    <div class="mb-4 mt-4 text-center w-75">
                         <button type="submit" class="btn btn-primary">Simpan</button>
                         <a href="{{ route('siswa.index') }}" class="btn btn-secondary">Batal</a>
                     </div>
                 </div>
             </div>
+
         </form>
     </div>
 </div>

@@ -26,9 +26,3 @@ class User extends Authenticatable
         });
     }
 }
-
-
-
-
-
-

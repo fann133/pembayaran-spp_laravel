@@ -9,7 +9,7 @@
         <h1 class="h3 mb-0 text-gray-800">Ubah Data</h1>
     </div>
 
-    <div class="card shadow mb-4">
+    <div class="card shadow mb-4 border-bottom-primary">
         <div class="card-header py-3 d-flex justify-content-center">
             <h6 class="m-0 font-weight-bold text-primary">Data Siswa</h6>
         </div>
@@ -35,6 +35,14 @@
                 <div class="mt-2">
                     <label class="form-label">Tanggal Lahir</label>
                     <input type="date" name="tanggal_lahir" class="form-control form-control-sm w-25" value="{{ $siswa->tanggal_lahir }}" required>
+                </div>
+
+                <div class="mt-2">
+                    <label class="form-label">Jenis Kelamin</label>
+                    <select name="jenis_kelamin" class="form-control form-control-sm w-50">
+                        <option value="Laki-laki" {{ $siswa->jenis_kelamin == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                        <option value="Perempuan" {{ $siswa->jenis_kelamin == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+                    </select>
                 </div>
             
                 <div class="mt-2">

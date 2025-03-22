@@ -14,7 +14,7 @@
     <!-- Nav Item - Dashboard -->
     <li class="nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('dashboard') }}">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <i class="fas fa-fw fa-chart-line"></i>
             <span>Dashboard</span></a>
     </li>
 
@@ -32,7 +32,18 @@
             <i class="fas fa-fw fa-user"></i>
             <span>Siswa</span></a>
     </li>
+
+
     
+    {{-- Tampilan guru --}}
+    <li class="nav-item {{ request()->routeIs('guru.index') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('guru.index') }}">
+            <i class="fas fa-fw fa-chalkboard-teacher"></i>
+            <span>Guru</span></a>
+    </li>
+
+
+
     {{-- Tampilan User --}}
     <li class="nav-item {{ request()->routeIs('user.index') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('user.index') }}">
@@ -103,12 +114,15 @@
             <span>Charts</span></a>
     </li>
 
-    <!-- Nav Item - Tables -->
-    <li class="nav-item">
-        <a class="nav-link" href="tables.html">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Tables</span></a>
+
+    <!-- Nav Item - Database -->
+    <li class="nav-item {{ request()->routeIs('database') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('database') }}">
+            <i class="fas fa-fw fa-database"></i>
+            <span>Database</span>
+        </a>
     </li>
+
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">

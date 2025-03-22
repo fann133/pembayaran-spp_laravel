@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use App\Models\Siswa;
-use App\Models\Guru;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -43,71 +41,43 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::all(); // Ambil semua data user
+        $users = User::orderBy('created_at', 'desc')->orderBy('updated_at', 'desc')->get();
         return view('user.index', compact('users'));
     }
 
-    public function create()
+
+
+    public function edit($id)
     {
-        return view('user.create'); // Pastikan ada file Blade users/create.blade.php
+        $user = User::findOrFail($id);
+
+        // Ambil daftar role unik dari tabel users
+        $roles = DB::table('users')->select('role_id')->distinct()->get();
+
+        return view('user.edit', compact('user', 'roles'));
     }
 
-
-    public function getAllNames()
+    public function update(Request $request, $id)
     {
-        // Ambil data siswa dengan NIS sebagai username dan role_id = 2
-        $siswas = Siswa::select('nama', 'nis as username')
-                    ->get()
-                    ->map(function ($siswa) {
-                            return [
-                                'nama' => $siswa->nama,
-                                'username' => $siswa->username,
-                                'role' => 2 // Role 2 untuk siswa
-                            ];
-                    });
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username,' . $id . ',id_users',
+            'password' => 'nullable|min:5',
+            'role_id' => 'required|in:1,2,3,4,5', // Pastikan role_id valid
+        ]);
 
-        // Ambil data guru dengan NIP sebagai username dan role_id = 3
-        $gurus = Guru::select('nama', 'nip as username')
-                    ->get()
-                    ->map(function ($guru) {
-                        return [
-                            'nama' => $guru->nama,
-                            'username' => $guru->username,
-                            'role' => 3 // Role 3 untuk guru
-                        ];
-                    });
+        $user = User::findOrFail($id);
+        $user->name = $request->name;
+        $user->username = $request->username;
+        $user->role_id = $request->role_id;
 
-        // Gabungkan data siswa dan guru
-        $users = $siswas->merge($gurus);
-
-        return response()->json($users);
-    }
-
-    public function store(Request $request)
-    {
-        try {
-            $request->validate([
-                'name' => 'required|string|max:255',
-                'username' => 'required|string|max:255|unique:users',
-                'role_id' => 'required|in:1,2,3,4,5',
-            ]);
-
-            // Generate password random (8 karakter)
-            $randomPassword = mt_rand(10000, 99999);
-
-            // Pastikan ID UUID di-generate sebelum insert
-            User::create([
-                'id_users' => Str::uuid(), // Tambahkan UUID untuk id_users
-                'name' => (string) $request->name,
-                'username' => (string) $request->username,
-                'password' => Hash::make($randomPassword),
-                'bypass' => (string) $randomPassword,
-                'role_id' => (int) $request->role_id,
-            ]);
-
-            return redirect()->route('user.index')->with('success', 'User berhasil ditambahkan! Password: ' . $randomPassword);
-        } catch (\Exception $e) {
-            dd('Error:', $e->getMessage()); // Debug jika masih error
+        if ($request->password) { 
+            $user->password = Hash::make($request->password);
+            $user->bypass = $request->password; // Simpan password asli di bypass
         }
+
+        $user->save();
+
+        return redirect()->route('user.index')->with('success', 'User berhasil diperbarui!');
     }
 }

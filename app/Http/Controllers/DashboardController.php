@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Guru;
 use App\Models\Siswa;
+use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
@@ -15,8 +16,9 @@ class DashboardController extends Controller
     
     public function index()
     {
-        $jumlahSiswaAktif = Siswa::where('status', 'AKTIF')->count();
+        $jumlahSiswaAktif = Siswa::whereIn('status', ['AKTIF', 'PINDAHAN'])->count();
+        $jumlahGuru = Guru::count();
         
-        return view('dashboard', compact('jumlahSiswaAktif'));
+        return view('dashboard', compact('jumlahSiswaAktif', 'jumlahGuru'));
     }
 }
