@@ -6,11 +6,15 @@ use App\Http\Controllers\Siswa\DashboardController as SiswaDashboardController;
 use App\Http\Controllers\Guru\DashboardController as GuruDashboardController;
 use App\Http\Controllers\Bendahara\DashboardController as BendaharaDashboardController;
 use App\Http\Controllers\Kepsek\DashboardController as KepsekDashboardController;
+
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Admin\SiswaController;
 use App\Http\Controllers\Admin\GuruController;
+use App\Http\Controllers\Admin\KelasController;
+use App\Http\Controllers\Admin\BiayaController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DatabaseController;
 
@@ -52,6 +56,21 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/guru/{id}', [GuruController::class, 'update'])->name('admin.guru.update');
         Route::get('/guru/createAccount/{id_guru}', [GuruController::class, 'createAccount'])->name('admin.guru.createAccount');
         Route::delete('/guru/{id_guru}', [GuruController::class, 'destroy'])->name('admin.guru.destroy');
+
+
+        Route::get('/kelas', [KelasController::class, 'index'])->name('admin.kelas.index');
+        Route::get('/kelas/create', [KelasController::class, 'create'])->name('admin.kelas.create');
+        Route::post('/kelas/store', [KelasController::class, 'store'])->name('admin.kelas.store');
+        Route::get('/kelas/{id_kelas}', [KelasController::class, 'show'])->name('admin.kelas.show');
+        Route::get('/kelas/{id_kelas}/edit', [KelasController::class, 'edit'])->name('admin.kelas.edit');
+        Route::put('/kelas/{id_kelas}', [KelasController::class, 'update'])->name('admin.kelas.update');
+
+
+        Route::get('/biaya', [BiayaController::class, 'index'])->name('admin.biaya.index');
+        Route::get('/biaya/create', [BiayaController::class, 'create'])->name('admin.biaya.create');
+        Route::post('/biaya', [BiayaController::class, 'store'])->name('admin.biaya.store');
+
+
 
         // Manajemen User
         Route::get('/user', [UserController::class, 'index'])->name('admin.user.index');

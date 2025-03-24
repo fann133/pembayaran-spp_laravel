@@ -47,8 +47,14 @@
 
                 <div class="mt-2">
                     <label class="form-label">Kelas</label>
-                    <input type="text" name="kelas" class="form-control form-control-sm w-50" required>
+                    <select name="kelas" class="form-control form-control-sm w-50" required>
+                        <option value="">Pilih Kelas</option>
+                        @foreach ($kelas as $k)
+                            <option value="{{ $k->id_kelas }}">{{ $k->nama }}</option>
+                        @endforeach
+                    </select>
                 </div>
+                
             
                 <div class="mt-2">
                     <label class="form-label">Kategori</label>

@@ -43,6 +43,13 @@
     </li>
 
 
+    {{-- Tampilan Kelas --}}
+    <li class="nav-item {{ request()->routeIs('admin.kelas.index') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.kelas.index') }}">
+            <i class="fas fa-fw fa-school"></i>
+            <span>Kelas</span></a>
+    </li>
+    
 
     {{-- Tampilan User --}}
     <li class="nav-item {{ request()->routeIs('admin.user.index') ? 'active' : '' }}">
@@ -50,14 +57,6 @@
             <i class="fas fa-fw fa-users"></i>
             <span>User</span></a>
     </li>
-
-    {{-- Tampilan Kelas
-    <li class="nav-item {{ request()->routeIs('admin.kelas.index') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('admin.kelas.index') }}">
-            <i class="fas fa-fw fa-user"></i>
-            <span>Siswa</span></a>
-    </li> --}}
-
 
     <!-- Nav Item - Utilities Collapse Menu -->
     <li class="nav-item">

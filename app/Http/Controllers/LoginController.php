@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Log;
+use App\Models\Guru;
 use App\Models\User;
 use App\Models\Siswa;
-use App\Models\Guru;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -25,7 +26,7 @@ class LoginController extends Controller
             $userId = $user->id_users; // Ambil primary key dari tabel users
             
             // Debugging
-            \Log::info('Login berhasil', ['role_id' => $role_id, 'userId' => $userId]);
+            Log::info('Login berhasil', ['role_id' => $role_id, 'userId' => $userId]);
 
             // Tentukan redirect berdasarkan role_id
             $redirectRoute = null;

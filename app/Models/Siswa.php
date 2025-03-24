@@ -19,7 +19,7 @@ class Siswa extends Model
     protected $keyType = 'string'; // UUID menggunakan string
 
     protected $fillable = [
-        'id_siswa', 'nama', 'jenis_kelamin', 'nis', 'tempat_lahir', 'tanggal_lahir', 'kelas', 'status', 'users_id'
+        'id_siswa', 'nama', 'jenis_kelamin', 'nis', 'tempat_lahir', 'tanggal_lahir', 'kelas', 'status', 'users_id', 'id_kelas'
     ];
 
     protected static function boot()
@@ -43,6 +43,17 @@ class Siswa extends Model
     {
         return $this->belongsTo(User::class, 'users_id', 'id_users');
     }
+
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class, 'kelas', 'id_kelas');
+    }
+
+    public function kelasData()
+    {
+        return $this->belongsTo(Kelas::class, 'kelas', 'id_kelas');
+    }
+
 
 }
 

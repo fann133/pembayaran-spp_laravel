@@ -54,7 +54,7 @@
                                 <td class="text-gray-900">{{ $siswa->nis }}</td>
                                 <td>{{ $siswa->tempat_lahir }}, {{ \Carbon\Carbon::parse($siswa->tanggal_lahir)->translatedFormat('d F Y') }}</td>
                                 <td>{{ $siswa->jenis_kelamin }}</td>
-                                <td>{{ $siswa->kelas }}</td>
+                                <td>{{ $siswa->kelasData->nama ?? 'Tidak ada kelas' }}</td>
                                 <td>{{ ucfirst($siswa->category) }}</td>
                                 <td>
                                     <a href="{{ route('admin.siswa.createAccount', $siswa->id_siswa) }}" class="btn btn-primary btn-circle btn-sm">

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Siswa; // Pastikan model Siswa diimpor
 use App\Models\User; // Pastikan model User diimpor
+use App\Models\Kelas; // Pastikan model User diimpor
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -14,14 +15,16 @@ class SiswaController extends Controller
 {
     public function index()
     {
+        $siswas = Siswa::with('kelasData')->get();
         $siswa = Siswa::orderBy('created_at', 'desc')->orderBy('updated_at', 'desc')->get();
-        return view('admin.siswa.index', compact('siswa'));
+        return view('admin.siswa.index', compact('siswa', 'siswas'));
     }
 
     // Tambah Siswa
     public function create()
     {
-        return view('admin.siswa.create'); // Menampilkan form tambah siswa
+        $kelas = Kelas::all();
+        return view('admin.siswa.create', compact('kelas')); // Menampilkan form tambah siswa
     }
 
     public function store(Request $request)
@@ -32,7 +35,7 @@ class SiswaController extends Controller
             'tempat_lahir' => 'required|string|max:255',
             'tanggal_lahir' => 'required|date',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
-            'kelas' => 'required|string',
+            'kelas' => 'required|exists:kelas,id_kelas',
             'category' => 'required|in:atas,menengah,bawah',
             'status' => 'required|in:AKTIF,LULUS,PINDAHAN,KELUAR',
         ]);
@@ -56,9 +59,9 @@ class SiswaController extends Controller
     // Ubah Siswa
     public function edit($id)
     {
-        
+        $kelas = Kelas::all();
         $siswa = Siswa::findOrFail($id);
-        return view('admin.siswa.edit', compact('siswa'));
+        return view('admin.siswa.edit', compact('siswa', 'kelas'));
     }
 
     public function update(Request $request, $id)
