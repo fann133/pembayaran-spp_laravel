@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('admin.layouts.master')
 
 @section('title', 'Pembayaran SPP | Data User')
 @section('content')
@@ -54,7 +54,7 @@
                             <td>{{ $roles[$user->role_id] }}</td>
 
                             <td>
-                                <a href="{{ route('user.edit', $user->id_users) }}" class="btn btn-warning btn-circle btn-sm">
+                                <a href="{{ route('admin.user.edit', $user->id_users) }}" class="btn btn-warning btn-circle btn-sm">
                                     <i class="fas fa-pen"></i>
                                 </a>
                             </td>

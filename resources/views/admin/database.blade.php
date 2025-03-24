@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('admin.layouts.master')
 
 @section('content')
 <div class="container">
@@ -12,7 +12,7 @@
         <div class="card-header">Pilih Opsi Backup</div>
         <div class="card-body">
             <!-- Backup Seluruh Database -->
-            <form action="{{ route('database.backup') }}" method="POST">
+            <form action="{{ route('admin.database.backup') }}" method="POST">
                 @csrf
                 <button type="submit" class="btn btn-primary">Backup Seluruh Database</button>
             </form>
@@ -21,7 +21,7 @@
 
             <!-- Backup Per Tabel -->
             <h5>Backup Per Tabel</h5>
-            <form action="{{ route('database.backup') }}" method="POST">
+            <form action="{{ route('admin.database.backup') }}" method="POST">
                 @csrf
                 <div class="form-group">
                     <label for="table">Pilih Tabel:</label>

@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('admin.layouts.master')
 
 @section('content')
 <div class="container">
@@ -7,7 +7,7 @@
             <h4>Tambah Data Guru</h4>
         </div>
         <div class="card-body">
-            <form action="{{ route('guru.store') }}" method="POST">
+            <form action="{{ route('admin.guru.store') }}" method="POST">
                 @csrf
                 <div class="mb-3">
                     <label for="nip" class="form-label">NIP</label>
@@ -64,7 +64,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary">Simpan</button>
-                <a href="{{ route('guru.index') }}" class="btn btn-secondary">Kembali</a>
+                <a href="{{ route('admin.guru.index') }}" class="btn btn-secondary">Kembali</a>
             </form>
         </div>
     </div>

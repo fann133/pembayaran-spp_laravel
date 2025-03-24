@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
 use App\Models\Guru;
 use App\Models\User;
 
@@ -14,13 +16,13 @@ class GuruController extends Controller
     public function index()
     {
         $guru = Guru::orderBy('created_at', 'desc')->orderBy('updated_at', 'desc')->get();
-        return view('guru.index', compact('guru'));
+        return view('admin.guru.index', compact('guru'));
     }
 
     // Halaman Tambah Guru
     public function create()
     {
-        return view('guru.create');
+        return view('admin.guru.create');
     }
 
     // Sistem Tambah Guru
@@ -49,7 +51,7 @@ class GuruController extends Controller
             'role_id' => $request->role_id,
         ]);
 
-        return redirect()->route('guru.index')->with('success', 'Data Guru berhasil ditambahkan.');
+        return redirect()->route('admin.guru.index')->with('success', 'Data Guru berhasil ditambahkan.');
     }
 
 
@@ -57,7 +59,7 @@ class GuruController extends Controller
     public function edit($id)
     {
         $guru = Guru::findOrFail($id);
-        return view('guru.edit', compact('guru'));
+        return view('admin.guru.edit', compact('guru'));
     }
 
     // Sistem Ubah Guru
@@ -77,7 +79,7 @@ class GuruController extends Controller
         $guru = Guru::findOrFail($id);
         $guru->update($request->all());
 
-        return redirect()->route('guru.index')->with('success', 'Data guru berhasil diperbarui.');
+        return redirect()->route('admin.guru.index')->with('success', 'Data guru berhasil diperbarui.');
     }
 
     public function createAccount($id_guru)
@@ -116,7 +118,7 @@ class GuruController extends Controller
         $siswa = Guru::findOrFail($id);
         $siswa->delete(); // Ini otomatis akan menghapus user karena foreign key CASCADE
 
-        return redirect()->route('guru.index')->with('success', 'Guru dan User terkait berhasil dihapus.');
+        return redirect()->route('admin.guru.index')->with('success', 'Guru dan User terkait berhasil dihapus.');
     }
 
 }

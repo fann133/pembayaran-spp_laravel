@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('admin.layouts.master')
 
 @section('content')
 <div class="container">
@@ -17,7 +17,7 @@
     <div class="card">
         <div class="card-header">Form Edit Guru</div>
         <div class="card-body">
-            <form action="{{ route('guru.update', $guru->id_guru) }}" method="POST">
+            <form action="{{ route('admin.guru.update', $guru->id_guru) }}" method="POST">
                 @csrf
                 @method('PUT')
 
@@ -73,7 +73,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-success mt-3">Simpan Perubahan</button>
-                <a href="{{ route('guru.index') }}" class="btn btn-secondary mt-3">Batal</a>
+                <a href="{{ route('admin.guru.index') }}" class="btn btn-secondary mt-3">Batal</a>
             </form>
         </div>
     </div>

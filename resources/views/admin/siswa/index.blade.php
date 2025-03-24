@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('admin.layouts.master')
 
 @section('title', 'Pembayaran SPP | Data Siswa')
 @section('content')
@@ -26,7 +26,7 @@
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">Data Siswa</h6>
-                <a href="{{ route('siswa.create') }}" class="btn btn-primary btn-sm">
+                <a href="{{ route('admin.siswa.create') }}" class="btn btn-primary btn-sm">
                     <i class="fas fa-plus"> Tambah Data</i>
                 </a>
             </div>
@@ -57,11 +57,11 @@
                                 <td>{{ $siswa->kelas }}</td>
                                 <td>{{ ucfirst($siswa->category) }}</td>
                                 <td>
-                                    <a href="{{ route('siswa.createAccount', $siswa->id_siswa) }}" class="btn btn-primary btn-circle btn-sm">
+                                    <a href="{{ route('admin.siswa.createAccount', $siswa->id_siswa) }}" class="btn btn-primary btn-circle btn-sm">
                                         <i class="fas fa-plus"></i>
                                     </a>
 
-                                    <a href="{{ route('siswa.edit', $siswa->id_siswa) }}" class="btn btn-warning btn-circle btn-sm">
+                                    <a href="{{ route('admin.siswa.edit', $siswa->id_siswa) }}" class="btn btn-warning btn-circle btn-sm">
                                         <i class="fas fa-pen"></i>
                                     </a>
                                     

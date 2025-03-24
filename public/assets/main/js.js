@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function() {
         finalSiswaNIS.textContent = siswaNIS.textContent;
 
         // Perbarui action form sebelum modal kedua terbuka
-        deleteForm.action = "/siswas/" + siswaId;
+        deleteForm.action = "siswa/" + siswaId;
 
         // Tampilkan modal kedua
         let secondModal = new bootstrap.Modal(secondDeleteModal);
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function() {
         guruNIP.textContent = nip;
 
         // Set action form
-        deleteFormGuru.action = "/gurus/" + guruId;
+        deleteFormGuru.action = "guru/" + guruId;
 
         // Ketika tombol "Hapus" ditekan, tutup modal pertama dan buka modal kedua
         nextConfirmationGuru.onclick = function() {
@@ -102,4 +102,3 @@ document.addEventListener("DOMContentLoaded", function() {
         };
     });
 });
-

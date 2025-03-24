@@ -1,106 +1,94 @@
 <?php
 
+
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Siswa\DashboardController as SiswaDashboardController;
+use App\Http\Controllers\Guru\DashboardController as GuruDashboardController;
+use App\Http\Controllers\Bendahara\DashboardController as BendaharaDashboardController;
+use App\Http\Controllers\Kepsek\DashboardController as KepsekDashboardController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\GuruController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\SiswaController;
-use App\Http\Controllers\DatabaseController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\Admin\SiswaController;
+use App\Http\Controllers\Admin\GuruController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\DatabaseController;
 
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
-
+Route::fallback(function () {
+    return response()->view('blank', [], 404);
+});
+// Halaman Login
 Route::get('/', function () {
     return view('login');
 });
 
-// Route untuk menampilkan halaman login
 Route::get('/login', function () {
-    return view('login'); // Pastikan ada file resources/views/login.blade.php
+    return view('login');
 })->name('login');
 
-// Route untuk autentikasi login
-Route::post('/login/authenticate', [UserController::class, 'authenticate'])->name('login.authenticate');
+Route::post('/login/authenticate', [LoginController::class, 'authenticate'])->name('login.authenticate');
 
-
-// Route Grub
+// Middleware Authentication dan Role Protection
 Route::middleware(['auth'])->group(function () {
-    // Route Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // **ADMIN ROUTES**
+    Route::middleware('role:admin')->prefix('admin')->group(function () {
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
-    // Route Lihat Siswa
-    Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.index');
+        // Manajemen Siswa
+        Route::get('/siswa', [SiswaController::class, 'index'])->name('admin.siswa.index');
+        Route::get('/siswa/create', [SiswaController::class, 'create'])->name('admin.siswa.create');
+        Route::post('/siswa/store', [SiswaController::class, 'store'])->name('admin.siswa.store');
+        Route::get('/siswa/{id}/edit', [SiswaController::class, 'edit'])->name('admin.siswa.edit');
+        Route::post('/siswa/{id}/update', [SiswaController::class, 'update'])->name('admin.siswa.update');
+        Route::delete('/siswa/{id}', [SiswaController::class, 'destroy'])->name('admin.siswa.destroy');
+        Route::get('/siswa/create-account/{id_siswa}', [SiswaController::class, 'createAccount'])->name('admin.siswa.createAccount');
 
-    // Route Tambah Siswa
-    Route::get('/siswa/create', [SiswaController::class, 'create'])->name('siswa.create');
-    Route::post('/siswa/store', [SiswaController::class, 'store'])->name('siswa.store');
+        // Manajemen Guru
+        Route::get('/guru', [GuruController::class, 'index'])->name('admin.guru.index');
+        Route::get('/guru/create', [GuruController::class, 'create'])->name('admin.guru.create');
+        Route::post('/guru/store', [GuruController::class, 'store'])->name('admin.guru.store');
+        Route::get('/guru/{id}/edit', [GuruController::class, 'edit'])->name('admin.guru.edit');
+        Route::put('/guru/{id}', [GuruController::class, 'update'])->name('admin.guru.update');
+        Route::get('/guru/createAccount/{id_guru}', [GuruController::class, 'createAccount'])->name('admin.guru.createAccount');
+        Route::delete('/guru/{id_guru}', [GuruController::class, 'destroy'])->name('admin.guru.destroy');
 
-    // Route Ubah Siswa
-    Route::get('/siswas/{id}/edit', [SiswaController::class, 'edit'])->name('siswa.edit');
-    Route::post('/siswas/{id}/update', [SiswaController::class, 'update'])->name('siswa.update');
+        // Manajemen User
+        Route::get('/user', [UserController::class, 'index'])->name('admin.user.index');
+        Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('admin.user.edit');
+        Route::put('/users/{id}', [UserController::class, 'update'])->name('admin.user.update');
 
-    // Route Hapus Siswa
-    Route::delete('/siswas/{id}', [SiswaController::class, 'destroy'])->name('siswa.destroy');
+        // Database Management
+        Route::get('/database', [DatabaseController::class, 'index'])->name('admin.database');
+        Route::post('/database/backup', [DatabaseController::class, 'backup'])->name('admin.database.backup');
+        Route::get('/database/download', [DatabaseController::class, 'download'])->name('admin.database.download');
+    });
 
-    // Route Create Account Siswa
-    Route::get('/siswa/create-account/{id_siswa}', [SiswaController::class, 'createAccount'])->name('siswa.createAccount');
+    // **SISWA ROUTES**
+    Route::middleware('role:siswa')->prefix('siswa')->group(function () {
+        Route::get('/dashboard', [SiswaDashboardController::class, 'index'])->name('siswa.dashboard');
+    });
 
-    // Route Lihat Guru
-    Route::get('/guru', [GuruController::class, 'index'])->name('guru.index');
+    // **GURU ROUTES**
+    Route::middleware('role:guru')->prefix('guru')->group(function () {
+        Route::get('/dashboard', [GuruDashboardController::class, 'index'])->name('guru.dashboard');
+    });
 
-    // Route Tambah Guru
-    Route::get('/guru/create', [GuruController::class, 'create'])->name('guru.create');
-    Route::post('/guru/store', [GuruController::class, 'store'])->name('guru.store');
+    // **BENDAHARA ROUTES**
+    Route::middleware('role:bendahara')->prefix('bendahara')->group(function () {
+        Route::get('/dashboard', [BendaharaDashboardController::class, 'index'])->name('bendahara.dashboard');
+    });
 
-    // Route Ubah Guru
-    Route::get('/guru/{id}/edit', [GuruController::class, 'edit'])->name('guru.edit');
-    Route::put('/guru/{id}', [GuruController::class, 'update'])->name('guru.update');
-
-    // Route Tambah Account Guru
-    Route::get('/guru/createAccount/{id_guru}', [GuruController::class, 'createAccount'])->name('guru.createAccount');
-
-    // Route Hapus Guru
-    Route::delete('/gurus/{id_guru}', [GuruController::class, 'destroy'])->name('guru.destroy');
-
-
-    // Route User
-    Route::get('/user', [UserController::class, 'index'])->name('user.index');
-
-    // Route Ubah User
-    Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
-    Route::put('/users/{id}', [UserController::class, 'update'])->name('user.update');
-
-
-    // Halaman Database
-    Route::get('/database', [DatabaseController::class, 'index'])->name('database');
-    Route::post('/database/backup', [DatabaseController::class, 'backup'])->name('database.backup');
-    Route::get('/database/download', [DatabaseController::class, 'download'])->name('database.download');
-
+    // **KEPSEK ROUTES**
+    Route::middleware('role:kepsek')->prefix('kepsek')->group(function () {
+        Route::get('/dashboard', [KepsekDashboardController::class, 'index'])->name('kepsek.dashboard');
+    });
 });
 
-
-
-
-
-// Route untuk logout
-Route::post('/logout', function() {
-    Auth::logout(); // Logout user dari session
-    request()->session()->invalidate(); // Hapus session
-    request()->session()->regenerateToken(); // Regenerate token CSRF
-    
+// **LOGOUT ROUTE**
+Route::post('/logout', function () {
+    Auth::logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
     return redirect('/login');
 })->name('logout');
-
-
-

@@ -1,6 +1,7 @@
 <?php
+namespace App\Http\Controllers\Admin;
 
-namespace App\Http\Controllers;
+use App\Http\Controllers\Controller;
 
 use App\Models\Guru;
 use App\Models\Siswa;
@@ -19,6 +20,6 @@ class DashboardController extends Controller
         $jumlahSiswaAktif = Siswa::whereIn('status', ['AKTIF', 'PINDAHAN'])->count();
         $jumlahGuru = Guru::count();
         
-        return view('dashboard', compact('jumlahSiswaAktif', 'jumlahGuru'));
+        return view('admin.dashboard', compact('jumlahSiswaAktif', 'jumlahGuru'));
     }
 }

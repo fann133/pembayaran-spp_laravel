@@ -1,10 +1,10 @@
-@extends('layouts.master')
+@extends('admin.layouts.master')
 
 @section('content')
 <div class="container">
     <h2>Edit User</h2>
     
-    <form action="{{ route('user.update', $user->id_users) }}" method="POST">
+    <form action="{{ route('admin.user.update', $user->id_users) }}" method="POST">
         @csrf
         @method('PUT')
 
@@ -36,7 +36,7 @@
 
 
         <button type="submit" class="btn btn-primary">Update User</button>
-        <a href="{{ route('user.index') }}" class="btn btn-secondary">Batal</a>
+        <a href="{{ route('admin.user.index') }}" class="btn btn-secondary">Batal</a>
     </form>
 </div>
 @endsection

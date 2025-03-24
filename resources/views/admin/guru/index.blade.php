@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('admin.layouts.master')
 
 @section('title', 'Pembayaran SPP | Data Guru')
 @section('content')
@@ -26,7 +26,7 @@
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">Data Guru</h6>
-                <a href="{{ route('guru.create') }}" class="btn btn-primary btn-sm">
+                <a href="{{ route('admin.guru.create') }}" class="btn btn-primary btn-sm">
                     <i class="fas fa-plus"> Tambah Data</i>
                 </a>
             </div>
@@ -65,11 +65,11 @@
                                 <td>{{ $roles[$guru->role_id] }}</td>
 
                                 <td>
-                                    <a href="{{ route('guru.createAccount', $guru->id_guru) }}" class="btn btn-primary btn-circle btn-sm">
+                                    <a href="{{ route('admin.guru.createAccount', $guru->id_guru) }}" class="btn btn-primary btn-circle btn-sm">
                                         <i class="fas fa-plus"></i>
                                     </a>                                    
 
-                                    <a href="{{ route('guru.edit', $guru->id_guru) }}" class="btn btn-warning btn-circle btn-sm">
+                                    <a href="{{ route('admin.guru.edit', $guru->id_guru) }}" class="btn btn-warning btn-circle btn-sm">
                                         <i class="fas fa-pen"></i>
                                     </a>
                                     

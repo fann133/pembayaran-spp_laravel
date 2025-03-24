@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Models\Siswa; // Pastikan model Siswa diimpor
@@ -13,13 +15,13 @@ class SiswaController extends Controller
     public function index()
     {
         $siswa = Siswa::orderBy('created_at', 'desc')->orderBy('updated_at', 'desc')->get();
-        return view('siswa.index', compact('siswa'));
+        return view('admin.siswa.index', compact('siswa'));
     }
 
     // Tambah Siswa
     public function create()
     {
-        return view('siswa.create'); // Menampilkan form tambah siswa
+        return view('admin.siswa.create'); // Menampilkan form tambah siswa
     }
 
     public function store(Request $request)
@@ -47,7 +49,7 @@ class SiswaController extends Controller
             'status' => $request->status,
         ]);
         
-        return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil ditambahkan!');
+        return redirect()->route('admin.siswa.index')->with('success', 'Data siswa berhasil ditambahkan!');
     }
 
 
@@ -56,7 +58,7 @@ class SiswaController extends Controller
     {
         
         $siswa = Siswa::findOrFail($id);
-        return view('siswa.edit', compact('siswa'));
+        return view('admin.siswa.edit', compact('siswa'));
     }
 
     public function update(Request $request, $id)
@@ -73,7 +75,7 @@ class SiswaController extends Controller
             'status' => $request->status,
         ]);
 
-        return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil diperbarui');
+        return redirect()->route('admin.siswa.index')->with('success', 'Data siswa berhasil diperbarui');
     }
 
 
@@ -83,7 +85,7 @@ class SiswaController extends Controller
         $siswa = Siswa::findOrFail($id);
         $siswa->delete(); // Ini otomatis akan menghapus user karena foreign key CASCADE
 
-        return redirect()->route('siswa.index')->with('success', 'Siswa dan user terkait berhasil dihapus.');
+        return redirect()->route('admin.siswa.index')->with('success', 'Siswa dan User terkait berhasil dihapus.');
     }
 
 
