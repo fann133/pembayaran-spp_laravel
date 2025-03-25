@@ -9,7 +9,6 @@
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
         </div>
-<<<<<<< HEAD
     @endif
 
     @if (session('error'))
@@ -34,7 +33,6 @@
             <div class="mb-5 row justify-content-center d-flex align-items-center">
                 <div class="col-auto">
                     <label class="form-label">Filter Kategori</label>
-=======
         <div class="card-body">
             <a href="{{ route('admin.biaya.create') }}" class="btn btn-primary mb-3">Tambah Biaya</a>
             
@@ -76,7 +74,6 @@
                             @endforeach
                         </tbody>
                     </table>
->>>>>>> 2f412e5 (update)
                 </div>
                 <div class="col-auto">
                     <select id="filterKategori" class="form-control form-control-sm">
