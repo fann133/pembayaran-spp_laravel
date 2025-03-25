@@ -9,6 +9,7 @@
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
         </div>
+<<<<<<< HEAD
     @endif
 
     @if (session('error'))
@@ -33,6 +34,49 @@
             <div class="mb-5 row justify-content-center d-flex align-items-center">
                 <div class="col-auto">
                     <label class="form-label">Filter Kategori</label>
+=======
+        <div class="card-body">
+            <a href="{{ route('admin.biaya.create') }}" class="btn btn-primary mb-3">Tambah Biaya</a>
+            
+            @foreach (['Atas' => $biayaAtas, 'Menengah' => $biayaMenengah, 'Bawah' => $biayaBawah] as $kategori => $biayaList)
+                <h5 class="text-dark mt-4">Kategori: {{ $kategori }}</h5>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Nama</th>
+                                <th>Kode</th>
+                                <th>Jenis</th>
+                                <th>Jumlah</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($biayaList as $biaya)
+                                <tr>
+                                    <td>{{ $biaya->nama }}</td>
+                                    <td>{{ $biaya->kode }}</td>
+                                    <td>{{ $biaya->jenis }}</td>
+                                    <td>{{ number_format($biaya->jumlah, 0, ',', '.') }}</td>
+                                    <td>
+                                        <span class="badge {{ $biaya->status == 'AKTIF' ? 'badge-success' : 'badge-danger' }}">
+                                            {{ $biaya->status }}
+                                        </span>
+                                    </td>                                    
+                                    <td>
+                                        <a href="" class="btn btn-warning btn-sm">Edit</a>
+                                        <form action="" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+>>>>>>> 2f412e5 (update)
                 </div>
                 <div class="col-auto">
                     <select id="filterKategori" class="form-control form-control-sm">
