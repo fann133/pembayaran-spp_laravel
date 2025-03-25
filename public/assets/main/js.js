@@ -18,6 +18,20 @@ setTimeout(function() {
 
 
 
+// Filter Data Kategori Biaya
+document.getElementById('filterKategori').addEventListener('change', function () {
+    let selectedKategori = this.value;
+    let url = new URL(window.location.href);
+    if (selectedKategori) {
+        url.searchParams.set('kategori', selectedKategori);
+    } else {
+        url.searchParams.delete('kategori');
+    }
+    window.location.href = url.toString();
+});
+
+
+
 // Modal Hapus Siswa
 document.addEventListener("DOMContentLoaded", function() {
     const deleteModal = document.getElementById("deleteModal");
@@ -102,3 +116,92 @@ document.addEventListener("DOMContentLoaded", function() {
         };
     });
 });
+
+
+
+// JS Modal Hapus Kelas
+document.addEventListener("DOMContentLoaded", function() {
+    const deleteModalKelas = document.getElementById("deleteModalKelas");
+    const secondDeleteModalKelas = document.getElementById("secondDeleteModalKelas");
+    const deleteFormKelas = document.getElementById("deleteFormKelas");
+
+    const kelasNama = document.getElementById("kelasNama");
+    const kelasKode = document.getElementById("kelasKode");
+    const finalKelasNama = document.getElementById("finalKelasNama");
+    const finalKelasKode = document.getElementById("finalKelasKode");
+
+    const nextConfirmationKelas = document.getElementById("nextConfirmationKelas");
+
+    deleteModalKelas.addEventListener("show.bs.modal", function(event) {
+        let button = event.relatedTarget;
+        let kelasId = button.getAttribute("data-id");
+        let nama = button.getAttribute("data-nama");
+        let kode = button.getAttribute("data-kode");
+
+        kelasNama.textContent = nama;
+        kelasKode.textContent = kode;
+
+        deleteFormKelas.action = "kelas/" + kelasId;
+
+        nextConfirmationKelas.onclick = function() {
+            let modal1 = bootstrap.Modal.getInstance(deleteModalKelas);
+            modal1.hide();
+
+            finalKelasNama.textContent = nama;
+            finalKelasKode.textContent = kode;
+
+            let modal2 = new bootstrap.Modal(secondDeleteModalKelas);
+            modal2.show();
+        };
+    });
+});
+
+
+
+// JS Modal Hapus Biaya
+document.addEventListener("DOMContentLoaded", function() {
+    const deleteModalBiaya = document.getElementById("deleteModalBiaya");
+    const secondDeleteModalBiaya = document.getElementById("secondDeleteModalBiaya");
+    const deleteFormBiaya = document.getElementById("deleteFormBiaya");
+
+    const biayaNama = document.getElementById("biayaNama");
+    const biayaKode = document.getElementById("biayaKode");
+    const finalBiayaNama = document.getElementById("finalBiayaNama");
+    const finalBiayaKode = document.getElementById("finalBiayaKode");
+
+    const nextConfirmationBiaya = document.getElementById("nextConfirmationBiaya");
+
+    deleteModalBiaya.addEventListener("show.bs.modal", function(event) {
+        let button = event.relatedTarget;
+        let biayaId = button.getAttribute("data-id");
+        let nama = button.getAttribute("data-nama");
+        let kode = button.getAttribute("data-kode");
+
+        // Set nama & kode di modal pertama
+        biayaNama.textContent = nama;
+        biayaKode.textContent = kode;
+
+        // Set action form ke route yang sesuai
+        deleteFormBiaya.action = "/admin/biaya/" + biayaId;
+
+        // Ketika tombol "Hapus" ditekan, tutup modal pertama dan buka modal kedua
+        nextConfirmationBiaya.onclick = function() {
+            let modal1 = bootstrap.Modal.getInstance(deleteModalBiaya);
+            modal1.hide();
+
+            // Set nama & kode di modal kedua
+            finalBiayaNama.textContent = nama;
+            finalBiayaKode.textContent = kode;
+
+            let modal2 = new bootstrap.Modal(secondDeleteModalBiaya);
+            modal2.show();
+        };
+    });
+});
+
+
+
+
+
+
+

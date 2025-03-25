@@ -86,4 +86,11 @@ class KelasController extends Controller
     }
 
 
+    public function destroy($id_kelas)
+    {
+        $kelas = Kelas::findOrFail($id_kelas);
+        $kelas->delete();
+
+        return redirect()->route('admin.kelas.index')->with('success', 'Kelas berhasil dihapus.');
+    }
 }

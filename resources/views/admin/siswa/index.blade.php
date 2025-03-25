@@ -65,14 +65,14 @@
                                         <i class="fas fa-pen"></i>
                                     </a>
                                     
-                                        <a href="#" class="btn btn-danger btn-circle btn-sm delete-btn"
-                                           data-bs-toggle="modal"
-                                           data-bs-target="#deleteModal"
-                                           data-id="{{ $siswa->id_siswa }}"
-                                           data-nama="{{ $siswa->nama }}"
-                                           data-nis="{{ $siswa->nis }}">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
+                                    <a href="#" class="btn btn-danger btn-circle btn-sm delete-btn"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal"
+                                        data-id="{{ $siswa->id_siswa }}"
+                                        data-nama="{{ $siswa->nama }}"
+                                        data-nis="{{ $siswa->nis }}">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
                                     
                                 </td>
                             </tr>

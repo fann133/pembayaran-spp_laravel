@@ -57,9 +57,21 @@
 
                                 <td>{{ $k->deskripsi }}</td>
                                 <td>
-                                    <a href="{{ route('admin.kelas.show', $k->id_kelas) }}" class="btn btn-info btn-sm">Detail</a>
-                                    <a href="{{ route('admin.kelas.edit', $k->id_kelas) }}" class="btn btn-warning btn-sm">Edit</a>
-                                    <a href="#" class="btn btn-danger btn-sm">Hapus</a>
+                                    <a href="{{ route('admin.kelas.show', $k->id_kelas) }}" class="btn btn-info btn-circle btn-sm">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{{ route('admin.kelas.edit', $k->id_kelas) }}" class="btn btn-warning btn-circle btn-sm">
+                                        <i class="fas fa-pen"></i>
+                                    </a>
+                                    <!-- Tombol Hapus Kelas -->
+                                    <a href="#" class="btn btn-danger btn-circle btn-sm delete-btn"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#deleteModalKelas"
+                                    data-id="{{ $k->id_kelas }}"
+                                    data-nama="{{ $k->nama }}"
+                                    data-kode="{{ $k->kode_kelas }}">
+                                    <i class="fas fa-trash"></i>
+                                    </a>
                                 </td>
                             </tr>
                             @endforeach
@@ -69,5 +81,52 @@
             </div>
         </div>
 </div>
+
+            <!-- Modal Konfirmasi Hapus Pertama (Kelas) -->
+            <div class="modal fade" id="deleteModalKelas" tabindex="-1" role="dialog" aria-labelledby="deleteModalKelasLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalKelasLabel">Konfirmasi Hapus Kelas</h5>
+                            <button class="close" type="button" data-bs-dismiss="modal">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Apakah Anda yakin ingin menghapus kelas <strong id="kelasNama"></strong> | <strong id="kelasKode"></strong> ini?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="button" class="btn btn-danger" id="nextConfirmationKelas">Hapus</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Konfirmasi Hapus Kedua (Kelas) -->
+            <div class="modal fade" id="secondDeleteModalKelas" tabindex="-1" role="dialog" aria-labelledby="secondDeleteModalKelasLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="secondDeleteModalKelasLabel">Konfirmasi Akhir</h5>
+                            <button class="close" type="button" data-bs-dismiss="modal">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Ini adalah peringatan terakhir! Apakah Anda benar-benar yakin ingin menghapus kelas <strong id="finalKelasNama"></strong> | <strong id="finalKelasKode"></strong> ini?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <form id="deleteFormKelas" method="POST" action="">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Hapus</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
 @endsection

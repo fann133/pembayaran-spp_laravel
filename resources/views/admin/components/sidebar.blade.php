@@ -61,21 +61,32 @@
     </div>
 
     {{-- Tampilan User --}}
-    <li class="nav-item {{ request()->routeIs('admin.biaya.index', 'admin.biaya.edit') ? 'active' : '' }}">
+    <li class="nav-item {{ request()->routeIs('admin.biaya.index', 'admin.biaya.create', 'admin.biaya.edit') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('admin.biaya.index') }}">
-            <i class="fas fa-shopping-cart"></i> <!-- Untuk Font Awesome 5 -->
+            <i class="fas fa-money-bill-alt"></i>
             <span>Biaya</span></a>
     </li>
     
-    <li class="nav-item {{ request()->routeIs('admin.user.index', 'admin.user.edit') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('admin.user.index') }}">
-            <i class="fas fa-shopping-cart"></i> <!-- Untuk Font Awesome 5 -->
-            <span>Pembayaran</span></a>
-    </li>
+
     
     <li class="nav-item {{ request()->routeIs('admin.user.index', 'admin.user.edit') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('admin.user.index') }}">
-            <i class="fas fa-shopping-cart"></i> <!-- Untuk Font Awesome 5 -->
+            <i class="fas fa-fw fa-hand-holding-usd"></i>
+            <span>Tagihan</span></a>
+    </li>
+    
+
+
+    <li class="nav-item {{ request()->routeIs('admin.user.index', 'admin.user.edit') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.user.index') }}">
+            <i class="fas fa-shopping-cart"></i>
+            <span>Pembayaran</span></a>
+    </li>
+
+
+    <li class="nav-item {{ request()->routeIs('admin.user.index', 'admin.user.edit') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.user.index') }}">
+            <i class="fas fa-file-invoice-dollar"></i>
             <span>Laporan</span></a>
     </li>
 

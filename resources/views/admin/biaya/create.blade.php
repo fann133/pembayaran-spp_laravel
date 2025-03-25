@@ -8,7 +8,7 @@
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Tambah Biaya</h6>
         </div>
-        <div class="card-body">
+        <div class="card-body border-bottom-primary">
             <form action="{{ route('admin.biaya.store') }}" method="POST">
                 @csrf
 

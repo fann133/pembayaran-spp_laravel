@@ -64,13 +64,15 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/kelas/{id_kelas}', [KelasController::class, 'show'])->name('admin.kelas.show');
         Route::get('/kelas/{id_kelas}/edit', [KelasController::class, 'edit'])->name('admin.kelas.edit');
         Route::put('/kelas/{id_kelas}', [KelasController::class, 'update'])->name('admin.kelas.update');
+        Route::delete('/kelas/{id_kelas}', [KelasController::class, 'destroy'])->name('admin.kelas.destroy');
 
 
         Route::get('/biaya', [BiayaController::class, 'index'])->name('admin.biaya.index');
         Route::get('/biaya/create', [BiayaController::class, 'create'])->name('admin.biaya.create');
-        Route::post('/biaya', [BiayaController::class, 'store'])->name('admin.biaya.store');
-
-
+        Route::post('/biaya', [BiayaController::class, 'store'])->name('admin.biaya.store');        
+        Route::get('/biaya/{id}/edit', [BiayaController::class, 'edit'])->name('admin.biaya.edit');
+        Route::put('/biaya/{id}', [BiayaController::class, 'update'])->name('admin.biaya.update');
+        Route::delete('/biaya/{id_biaya}', [BiayaController::class, 'destroy'])->name('admin.biaya.destroy');
 
         // Manajemen User
         Route::get('/user', [UserController::class, 'index'])->name('admin.user.index');
@@ -88,20 +90,20 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard', [SiswaDashboardController::class, 'index'])->name('siswa.dashboard');
     });
 
-    // **GURU ROUTES**
-    Route::middleware('role:guru')->prefix('guru')->group(function () {
-        Route::get('/dashboard', [GuruDashboardController::class, 'index'])->name('guru.dashboard');
-    });
+    // // **GURU ROUTES**
+    // Route::middleware('role:guru')->prefix('guru')->group(function () {
+    //     Route::get('/dashboard', [GuruDashboardController::class, 'index'])->name('guru.dashboard');
+    // });
 
-    // **BENDAHARA ROUTES**
-    Route::middleware('role:bendahara')->prefix('bendahara')->group(function () {
-        Route::get('/dashboard', [BendaharaDashboardController::class, 'index'])->name('bendahara.dashboard');
-    });
+    // // **BENDAHARA ROUTES**
+    // Route::middleware('role:bendahara')->prefix('bendahara')->group(function () {
+    //     Route::get('/dashboard', [BendaharaDashboardController::class, 'index'])->name('bendahara.dashboard');
+    // });
 
-    // **KEPSEK ROUTES**
-    Route::middleware('role:kepsek')->prefix('kepsek')->group(function () {
-        Route::get('/dashboard', [KepsekDashboardController::class, 'index'])->name('kepsek.dashboard');
-    });
+    // // **KEPSEK ROUTES**
+    // Route::middleware('role:kepsek')->prefix('kepsek')->group(function () {
+    //     Route::get('/dashboard', [KepsekDashboardController::class, 'index'])->name('kepsek.dashboard');
+    // });
 });
 
 // **LOGOUT ROUTE**
