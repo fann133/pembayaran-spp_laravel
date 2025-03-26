@@ -72,7 +72,7 @@
         </div>
     </div>
 
-    <script src="{{ asset('assets/main/js.js') }}"></script>
+    <script src="{{ asset('assets/main/script.js') }}"></script>
 
     <!-- Bootstrap core JavaScript -->
     <script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>

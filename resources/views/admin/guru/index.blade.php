@@ -138,4 +138,47 @@
             </div>
         </div>
 
+        <script>
+            // JS Modal Hapus Guru
+            document.addEventListener("DOMContentLoaded", function() {
+                const deleteModalGuru = document.getElementById("deleteModalGuru");
+                const secondDeleteModalGuru = document.getElementById("secondDeleteModalGuru");
+                const deleteFormGuru = document.getElementById("deleteFormGuru");
+                
+                const guruNama = document.getElementById("guruNama");
+                const guruNIP = document.getElementById("guruNIP");
+                const finalGuruNama = document.getElementById("finalGuruNama");
+                const finalGuruNIP = document.getElementById("finalGuruNIP");
+
+                const nextConfirmationGuru = document.getElementById("nextConfirmationGuru");
+
+                deleteModalGuru.addEventListener("show.bs.modal", function(event) {
+                    let button = event.relatedTarget;
+                    let guruId = button.getAttribute("data-id");
+                    let nama = button.getAttribute("data-nama");
+                    let nip = button.getAttribute("data-nip");
+
+                    // Set nama & NIP di modal pertama
+                    guruNama.textContent = nama;
+                    guruNIP.textContent = nip;
+
+                    // Set action form
+                    deleteFormGuru.action = "guru/" + guruId;
+
+                    // Ketika tombol "Hapus" ditekan, tutup modal pertama dan buka modal kedua
+                    nextConfirmationGuru.onclick = function() {
+                        let modal1 = bootstrap.Modal.getInstance(deleteModalGuru);
+                        modal1.hide();
+
+                        // Set nama & NIP di modal kedua
+                        finalGuruNama.textContent = nama;
+                        finalGuruNIP.textContent = nip;
+
+                        let modal2 = new bootstrap.Modal(secondDeleteModalGuru);
+                        modal2.show();
+                    };
+                });
+            });
+        </script>
+
 @endsection

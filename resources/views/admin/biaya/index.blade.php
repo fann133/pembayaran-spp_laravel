@@ -33,47 +33,6 @@
             <div class="mb-5 row justify-content-center d-flex align-items-center">
                 <div class="col-auto">
                     <label class="form-label">Filter Kategori</label>
-        <div class="card-body">
-            <a href="{{ route('admin.biaya.create') }}" class="btn btn-primary mb-3">Tambah Biaya</a>
-            
-            @foreach (['Atas' => $biayaAtas, 'Menengah' => $biayaMenengah, 'Bawah' => $biayaBawah] as $kategori => $biayaList)
-                <h5 class="text-dark mt-4">Kategori: {{ $kategori }}</h5>
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Nama</th>
-                                <th>Kode</th>
-                                <th>Jenis</th>
-                                <th>Jumlah</th>
-                                <th>Status</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($biayaList as $biaya)
-                                <tr>
-                                    <td>{{ $biaya->nama }}</td>
-                                    <td>{{ $biaya->kode }}</td>
-                                    <td>{{ $biaya->jenis }}</td>
-                                    <td>{{ number_format($biaya->jumlah, 0, ',', '.') }}</td>
-                                    <td>
-                                        <span class="badge {{ $biaya->status == 'AKTIF' ? 'badge-success' : 'badge-danger' }}">
-                                            {{ $biaya->status }}
-                                        </span>
-                                    </td>                                    
-                                    <td>
-                                        <a href="" class="btn btn-warning btn-sm">Edit</a>
-                                        <form action="" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus data ini?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
                 </div>
                 <div class="col-auto">
                     <select id="filterKategori" class="form-control form-control-sm">
@@ -91,6 +50,7 @@
                 <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>Nama</th>
                             <th>Kode</th>
                             <th>Jenis</th>
@@ -102,13 +62,15 @@
                     <tbody>
                         @foreach ($biayaList as $biaya => $b)
                             <tr>
+                                <td>{{ $biaya + 1 }}</td>
                                 <td>{{ $b->nama }} <span class="badge {{ $b->status == 'AKTIF' ? 'badge-success' : 'badge-danger' }}">
                                         {{ $b->status }}
                                     </span>
                                 </td>
                                 <td>{{ $b->kode }}</td>
                                 <td>{{ $b->jenis }}</td>
-                                <td>{{ number_format($b->jumlah, 0, ',', '.') }}</td>
+                                <td>{{ number_format((float) $b->jumlah, 0, ',', '.') }}</td>
+
                                 <td>{{ $b->kategori }}</td>
                                 <td>
                                     <a href="{{ route('admin.biaya.edit', $b->id_biaya) }}" class="btn btn-warning btn-circle btn-sm">
@@ -179,4 +141,59 @@
                     </div>
                 </div>
             </div>
+
+            <script>
+                // Filter Data Kategori Biaya
+                document.getElementById('filterKategori').addEventListener('change', function () {
+                    let selectedKategori = this.value;
+                    let url = new URL(window.location.href);
+                    if (selectedKategori) {
+                        url.searchParams.set('kategori', selectedKategori);
+                    } else {
+                        url.searchParams.delete('kategori');
+                    }
+                    window.location.href = url.toString();
+                });
+
+                // JS Modal Hapus Biaya
+                document.addEventListener("DOMContentLoaded", function() {
+                    const deleteModalBiaya = document.getElementById("deleteModalBiaya");
+                    const secondDeleteModalBiaya = document.getElementById("secondDeleteModalBiaya");
+                    const deleteFormBiaya = document.getElementById("deleteFormBiaya");
+
+                    const biayaNama = document.getElementById("biayaNama");
+                    const biayaKode = document.getElementById("biayaKode");
+                    const finalBiayaNama = document.getElementById("finalBiayaNama");
+                    const finalBiayaKode = document.getElementById("finalBiayaKode");
+
+                    const nextConfirmationBiaya = document.getElementById("nextConfirmationBiaya");
+
+                    deleteModalBiaya.addEventListener("show.bs.modal", function(event) {
+                        let button = event.relatedTarget;
+                        let biayaId = button.getAttribute("data-id");
+                        let nama = button.getAttribute("data-nama");
+                        let kode = button.getAttribute("data-kode");
+
+                        // Set nama & kode di modal pertama
+                        biayaNama.textContent = nama;
+                        biayaKode.textContent = kode;
+
+                        // Set action form ke route yang sesuai
+                        deleteFormBiaya.action = "/admin/biaya/" + biayaId;
+
+                        // Ketika tombol "Hapus" ditekan, tutup modal pertama dan buka modal kedua
+                        nextConfirmationBiaya.onclick = function() {
+                            let modal1 = bootstrap.Modal.getInstance(deleteModalBiaya);
+                            modal1.hide();
+
+                            // Set nama & kode di modal kedua
+                            finalBiayaNama.textContent = nama;
+                            finalBiayaKode.textContent = kode;
+
+                            let modal2 = new bootstrap.Modal(secondDeleteModalBiaya);
+                            modal2.show();
+                        };
+                    });
+                });
+            </script>
 @endsection

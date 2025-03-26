@@ -130,5 +130,49 @@
             </div>
         </div>
 
+        <script>
+            // Modal Hapus Siswa
+            document.addEventListener("DOMContentLoaded", function() {
+                const deleteModal = document.getElementById("deleteModal");
+                const secondDeleteModal = document.getElementById("secondDeleteModal");
+                const deleteForm = document.getElementById("deleteForm");
+                const siswaNama = document.getElementById("siswaNama");
+                const siswaNIS = document.getElementById("siswaNIS");
+                const finalSiswaNama = document.getElementById("finalSiswaNama");
+                const finalSiswaNIS = document.getElementById("finalSiswaNIS");
+                const nextConfirmation = document.getElementById("nextConfirmation");
+
+                let siswaId = "";
+
+                deleteModal.addEventListener("show.bs.modal", function(event) {
+                    let button = event.relatedTarget;
+                    siswaId = button.getAttribute("data-id");
+                    let nama = button.getAttribute("data-nama");
+                    let nis = button.getAttribute("data-nis");
+
+                    // Tampilkan nama dan NIS siswa di modal pertama
+                    siswaNama.textContent = nama;
+                    siswaNIS.textContent = nis;
+                });
+
+                // Ketika tombol "Hapus" di modal pertama ditekan, modal kedua muncul
+                nextConfirmation.addEventListener("click", function() {
+                    // Tutup modal pertama
+                    let firstModal = bootstrap.Modal.getInstance(deleteModal);
+                    firstModal.hide();
+
+                    // Tampilkan nama dan NIS siswa di modal kedua
+                    finalSiswaNama.textContent = siswaNama.textContent;
+                    finalSiswaNIS.textContent = siswaNIS.textContent;
+
+                    // Perbarui action form sebelum modal kedua terbuka
+                    deleteForm.action = "siswa/" + siswaId;
+
+                    // Tampilkan modal kedua
+                    let secondModal = new bootstrap.Modal(secondDeleteModal);
+                    secondModal.show();
+                });
+            });
+        </script>
 
 @endsection

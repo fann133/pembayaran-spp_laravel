@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\SiswaController;
 use App\Http\Controllers\Admin\GuruController;
 use App\Http\Controllers\Admin\KelasController;
 use App\Http\Controllers\Admin\BiayaController;
+use App\Http\Controllers\Admin\TagihanController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DatabaseController;
 
@@ -73,6 +74,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/biaya/{id}/edit', [BiayaController::class, 'edit'])->name('admin.biaya.edit');
         Route::put('/biaya/{id}', [BiayaController::class, 'update'])->name('admin.biaya.update');
         Route::delete('/biaya/{id_biaya}', [BiayaController::class, 'destroy'])->name('admin.biaya.destroy');
+
+        Route::get('/tagihan', [TagihanController::class, 'index'])->name('admin.tagihan.index');
 
         // Manajemen User
         Route::get('/user', [UserController::class, 'index'])->name('admin.user.index');

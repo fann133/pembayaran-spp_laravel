@@ -129,4 +129,43 @@
             </div>
 
 
+            <script>
+                // JS Modal Hapus Kelas
+                document.addEventListener("DOMContentLoaded", function() {
+                    const deleteModalKelas = document.getElementById("deleteModalKelas");
+                    const secondDeleteModalKelas = document.getElementById("secondDeleteModalKelas");
+                    const deleteFormKelas = document.getElementById("deleteFormKelas");
+
+                    const kelasNama = document.getElementById("kelasNama");
+                    const kelasKode = document.getElementById("kelasKode");
+                    const finalKelasNama = document.getElementById("finalKelasNama");
+                    const finalKelasKode = document.getElementById("finalKelasKode");
+
+                    const nextConfirmationKelas = document.getElementById("nextConfirmationKelas");
+
+                    deleteModalKelas.addEventListener("show.bs.modal", function(event) {
+                        let button = event.relatedTarget;
+                        let kelasId = button.getAttribute("data-id");
+                        let nama = button.getAttribute("data-nama");
+                        let kode = button.getAttribute("data-kode");
+
+                        kelasNama.textContent = nama;
+                        kelasKode.textContent = kode;
+
+                        deleteFormKelas.action = "kelas/" + kelasId;
+
+                        nextConfirmationKelas.onclick = function() {
+                            let modal1 = bootstrap.Modal.getInstance(deleteModalKelas);
+                            modal1.hide();
+
+                            finalKelasNama.textContent = nama;
+                            finalKelasKode.textContent = kode;
+
+                            let modal2 = new bootstrap.Modal(secondDeleteModalKelas);
+                            modal2.show();
+                        };
+                    });
+                });
+            </script>
+
 @endsection
