@@ -180,4 +180,5 @@
     var dataSPP = {!! json_encode($dataSPP) !!};
     var dataNonSPP = {!! json_encode($dataNonSPP) !!};
 </script>
+
 @endsection
