@@ -5,7 +5,7 @@
 @section('content')
 <div class="container-fluid">
     <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <div class="d-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Ubah Data</h1>
     </div>
 
@@ -16,60 +16,72 @@
 
         <form action="{{ route('admin.siswa.update', $siswa->id_siswa) }}" method="POST">
             @csrf
-            <div class="container d-flex flex-column col-5 justify-content-start">
+            <div class="container d-flex flex-column col-12 col-md-5 justify-content-center">
                 <div class="mt-2">
                     <label class="form-label">Nama</label>
-                    <input type="text" name="nama" class="form-control form-control-sm" value="{{ $siswa->nama }}" required>
+                    <input type="text" name="nama" class="form-control form-control" value="{{ $siswa->nama }}" required>
                 </div>
                 
                 <div class="mt-2">
                     <label class="form-label">NIS</label>
-                    <input type="text" name="nis" class="form-control form-control-sm w-75" value="{{ $siswa->nis }}" required>
+                    <input type="text" name="nis" class="form-control form-control" value="{{ $siswa->nis }}" required>
                 </div>
             
                 <div class="mt-2">
                     <label class="form-label">Tempat Lahir</label>
-                    <input type="text" name="tempat_lahir" class="form-control form-control-sm w-50" value="{{ $siswa->tempat_lahir }}" required>
+                    <input type="text" name="tempat_lahir" class="form-control form-control" value="{{ $siswa->tempat_lahir }}" required>
                 </div>
             
                 <div class="mt-2">
                     <label class="form-label">Tanggal Lahir</label>
-                    <input type="date" name="tanggal_lahir" class="form-control form-control-sm w-25" value="{{ $siswa->tanggal_lahir }}" required>
+                    <input type="date" name="tanggal_lahir" class="form-control form-control" value="{{ $siswa->tanggal_lahir }}" required>
                 </div>
 
                 <div class="mt-2">
-                    <label class="form-label">Jenis Kelamin</label>
-                    <select name="jenis_kelamin" class="form-control form-control-sm w-50">
-                        <option value="Laki-laki" {{ $siswa->jenis_kelamin == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
-                        <option value="Perempuan" {{ $siswa->jenis_kelamin == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
-                    </select>
+                    <label class="form-label d-block">Jenis Kelamin</label>
+                    
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="jenis_kelamin" id="laki-laki" value="Laki-laki" {{ $siswa->jenis_kelamin == 'Laki-laki' ? 'checked' : '' }}>
+                        <label class="form-check-label" for="laki-laki">Laki-laki</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="jenis_kelamin" id="perempuan" value="Perempuan" {{ $siswa->jenis_kelamin == 'Perempuan' ? 'checked' : '' }}>
+                        <label class="form-check-label" for="perempuan">Perempuan</label>
+                    </div>
                 </div>
             
                 <div class="mt-2">
                     <label class="form-label">Kelas</label>
-                    <select name="kelas" class="form-control form-control-sm w-50" required>
+                    <select name="id_kelas" class="form-control form-control" required>
                         <option value="">Pilih Kelas</option>
                         @foreach ($kelas as $k)
-                            <option value="{{ $k->id_kelas }}" {{ $siswa->kelas == $k->id_kelas ? 'selected' : '' }}>
+                            <option value="{{ $k->id_kelas }}" {{ $siswa->id_kelas == $k->id_kelas ? 'selected' : '' }}>
                                 {{ $k->nama }}
                             </option>
                         @endforeach
                     </select>
                 </div>
+
                 
             
                 <div class="mt-2">
                     <label class="form-label">Kategori</label>
-                    <select name="category" class="form-control form-control-sm w-50">
-                        <option value="atas" {{ $siswa->category == 'atas' ? 'selected' : '' }}>Atas</option>
-                        <option value="menengah" {{ $siswa->category == 'menengah' ? 'selected' : '' }}>Menengah</option>
-                        <option value="bawah" {{ $siswa->category == 'bawah' ? 'selected' : '' }}>Bawah</option>
+                    <select name="category" class="form-control form-control">
+                            <option value="">Pilih Kategori</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->kategori }}" 
+                                {{ $siswa->category == $category->kategori ? 'selected' : '' }}>
+                                {{ ucfirst($category->kategori) }}
+                            </option>
+                        @endforeach
                     </select>
                 </div>
+
             
                 <div class="mt-2 pb-4">
                     <label class="form-label">Status</label>
-                    <select name="status" id="status" class="form-control form-control-sm w-50">
+                    <select name="status" id="status" class="form-control form-control">
                         <option value="AKTIF" {{ $siswa->status == 'AKTIF' ? 'selected' : '' }}>AKTIF</option>
                         <option value="LULUS" {{ $siswa->status == 'LULUS' ? 'selected' : '' }}>LULUS</option>
                         <option value="PINDAHAN" {{ $siswa->status == 'PINDAHAN' ? 'selected' : '' }}>PINDAHAN</option>

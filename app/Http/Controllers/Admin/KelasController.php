@@ -30,7 +30,7 @@ class KelasController extends Controller
             'nama' => 'required|string|max:255',
             'kode_kelas' => 'required|string|max:255|unique:kelas,kode_kelas',
             'deskripsi' => 'nullable|string',
-            'pengampu_kelas' => 'required|exists:gurus,id_guru|unique:kelas,pengampu_kelas',
+            'pengampu_kelas' => 'nullable|exists:gurus,id_guru|unique:kelas,pengampu_kelas',
         ], [
             'pengampu_kelas.unique' => 'Guru ini sudah mengampu kelas lain!',
         ]);

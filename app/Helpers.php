@@ -6,7 +6,7 @@ if (!function_exists('getDashboardRoute')) {
     function getDashboardRoute()
     {
         if (!Auth::check()) {
-            return route('login'); // Redirect ke login jika belum login
+            return route('auth'); // Redirect ke login jika belum login
         }
 
         $user = Auth::user();

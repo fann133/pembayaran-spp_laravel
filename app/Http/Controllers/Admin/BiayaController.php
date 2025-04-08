@@ -42,12 +42,14 @@ class BiayaController extends Controller
             'kategori' => 'required|in:Atas,Menengah,Bawah',
         ]);
 
+        $jumlah = str_replace('.', '', $request->jumlah);
+
         Biaya::create([
             'nama' => $request->nama, // ✅ Tambah nama
             'jenis' => $request->jenis,
             'kode' => $request->kode,
             'deskripsi' => $request->deskripsi,
-            'jumlah' => $request->jumlah,
+            'jumlah' => $jumlah,
             'status' => $request->status,
             'kategori' => $request->kategori,
         ]);

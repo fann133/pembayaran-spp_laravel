@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Tagihan extends Model
 {
@@ -15,7 +16,7 @@ class Tagihan extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
-        'id_tagihan', 'id_siswa', 'nama', 'nis', 'id_biaya', 
+        'id_tagihan', 'id_siswa', 'nama', 'nis', 'kelas', 'kode', 'id_biaya', 
         'nama_pembayaran', 'jenis', 'jumlah', 'bulan', 'status'
     ];
 
@@ -24,9 +25,26 @@ class Tagihan extends Model
         return $this->belongsTo(Siswa::class, 'id_siswa', 'id_siswa');
     }
 
+    public function kelas()
+    {
+        return $this->hasOneThrough(Kelas::class, Siswa::class, 'id_siswa', 'id_kelas', 'id_siswa', 'id_kelas');
+    }
+
     public function biaya()
     {
         return $this->belongsTo(Biaya::class, 'id_biaya', 'id_biaya');
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Generate UUID sebelum membuat tagihan baru
+        static::creating(function ($tagihan) {
+            $tagihan->id_tagihan = (string) Str::uuid();
+        });
+    }
+
+
 }
 

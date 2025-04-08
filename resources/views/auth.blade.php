@@ -37,7 +37,12 @@
 
             <div class="col-xl-10 col-lg-12 col-md-9">
                 <div class="text-center my-5 mb-3">
-                    <img src="assets/img/logo.png" alt="" height="150" width="150">
+                @php
+                    use App\Models\Setting;
+                    $pengaturan = Setting::first();
+                @endphp
+
+                <img src="{{ asset($pengaturan->logo ?? 'assets/img/logo-login/logo.png') }}?v={{ time() }}" height="100" alt="Logo Sekarang">
                 </div>
 
                 <div class="card o-hidden border-0 shadow-lg">

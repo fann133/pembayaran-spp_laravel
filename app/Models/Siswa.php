@@ -19,7 +19,8 @@ class Siswa extends Model
     protected $keyType = 'string'; // UUID menggunakan string
 
     protected $fillable = [
-        'id_siswa', 'nama', 'jenis_kelamin', 'nis', 'tempat_lahir', 'tanggal_lahir', 'kelas', 'status', 'users_id', 'id_kelas'
+        'nama', 'nis', 'jenis_kelamin', 'tempat_lahir', 'tanggal_lahir',
+        'id_kelas', 'users_id', 'kelas', 'category', 'status'
     ];
 
     protected static function boot()

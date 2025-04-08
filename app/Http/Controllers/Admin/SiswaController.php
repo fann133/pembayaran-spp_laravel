@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Siswa; // Pastikan model Siswa diimpor
 use App\Models\User; // Pastikan model User diimpor
 use App\Models\Kelas; // Pastikan model User diimpor
+use App\Models\Biaya; // Pastikan model User diimpor
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -23,10 +24,12 @@ class SiswaController extends Controller
     // Tambah Siswa
     public function create()
     {
-        $kelas = Kelas::all();
-        return view('admin.siswa.create', compact('kelas')); // Menampilkan form tambah siswa
+        $categories = Biaya::select('kategori')->distinct()->get();
+        $kelas = Kelas::all(); // Ambil semua kelas
+        return view('admin.siswa.create', compact('kelas', 'categories'));
     }
 
+    // Simpan data siswa baru
     public function store(Request $request)
     {
         $request->validate([
@@ -35,51 +38,77 @@ class SiswaController extends Controller
             'tempat_lahir' => 'required|string|max:255',
             'tanggal_lahir' => 'required|date',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
-            'kelas' => 'required|exists:kelas,id_kelas',
-            'category' => 'required|in:atas,menengah,bawah',
+            'id_kelas' => 'required|exists:kelas,id_kelas',
+            'category' => 'required|in:Atas,Menengah,Bawah',
             'status' => 'required|in:AKTIF,LULUS,PINDAHAN,KELUAR',
         ]);
 
+        // Ambil nama kelas berdasarkan id_kelas
+        $kelas = Kelas::where('id_kelas', $request->id_kelas)->first();
+
+        $category = Biaya::where('kategori', $request->category)->first();
+
+        // Simpan ke tabel siswa
         Siswa::create([
-            'id_siswa' => Str::uuid(), // Generate UUID otomatis
             'nama' => $request->nama,
             'nis' => $request->nis,
             'tempat_lahir' => $request->tempat_lahir,
             'tanggal_lahir' => $request->tanggal_lahir,
             'jenis_kelamin' => $request->jenis_kelamin,
-            'kelas' => $request->kelas,
-            'category' => $request->category,
+            'id_kelas' => $request->id_kelas, // Simpan ID kelas di kolom id_kelas
+            'kelas' => $kelas->nama, // Simpan nama kelas di kolom kelas
+            'category' => $category->kategori,
             'status' => $request->status,
         ]);
-        
-        return redirect()->route('admin.siswa.index')->with('success', 'Data siswa berhasil ditambahkan!');
+
+        return redirect()->route('admin.siswa.index')->with('success', 'Siswa berhasil ditambahkan');
     }
 
 
-    // Ubah Siswa
+    // Tampilan View Edit Siswa
     public function edit($id)
     {
+        $categories = Biaya::select('kategori')->distinct()->get();
         $kelas = Kelas::all();
         $siswa = Siswa::findOrFail($id);
-        return view('admin.siswa.edit', compact('siswa', 'kelas'));
+        return view('admin.siswa.edit', compact('siswa', 'kelas', 'categories'));
     }
 
+    // Ubah Siswa
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'nis' => 'required|string|unique:siswas,nis,' . $id . ',id_siswa',
+            'tempat_lahir' => 'required|string|max:255',
+            'tanggal_lahir' => 'required|date',
+            'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
+            'id_kelas' => 'required|exists:kelas,id_kelas',
+            'category' => 'required|in:Atas,Menengah,Bawah',
+            'status' => 'required|in:AKTIF,LULUS,PINDAHAN,KELUAR',
+        ]);
+
         $siswa = Siswa::findOrFail($id);
+        // Ambil data kelas berdasarkan id_kelas
+        $kelas = Kelas::where('id_kelas', $request->id_kelas)->first();
+        $category = Biaya::where('kategori', $request->category)->first();
+
+        // Update data siswa
         $siswa->update([
             'nama' => $request->nama,
             'nis' => $request->nis,
             'tempat_lahir' => $request->tempat_lahir,
             'tanggal_lahir' => $request->tanggal_lahir,
             'jenis_kelamin' => $request->jenis_kelamin,
-            'kelas' => $request->kelas,
-            'category' => $request->category,
+            'id_kelas' => $request->id_kelas, // Simpan ID kelas
+            'kelas' => $kelas->nama, // Simpan Nama kelas
+            'category' => $category->kategori,
             'status' => $request->status,
         ]);
 
         return redirect()->route('admin.siswa.index')->with('success', 'Data siswa berhasil diperbarui');
     }
+
 
 
     // Hapus Siswa

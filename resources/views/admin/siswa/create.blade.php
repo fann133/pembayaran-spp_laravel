@@ -16,58 +16,63 @@
 
         <form action="{{ route('admin.siswa.store') }}" method="POST">
             @csrf
-            <div class="container d-flex flex-column col-5 justify-content-start">
+            <div class="container d-flex flex-column col-12 col-md-5 justify-content-center">
                 <div class="mt-2">
-                    <label class="form-label">Nama</label>
-                    <input type="text" name="nama" class="form-control form-control-sm" placeholder="Masukan Nama" required>
+                    <label id="nama" class="form-label">Nama</label>
+                    <input type="text" name="nama" class="form-control" placeholder="Masukan Nama Lengkap" required oninput="this.value = this.value.toUpperCase();">
                 </div>
                 
                 <div class="mt-2">
                     <label class="form-label">NIS</label>
-                    <input type="text" name="nis" class="form-control form-control-sm w-75" placeholder="Masukan NIS" required>
+                    <input type="text" name="nis" class="form-control" placeholder="Masukan NIS" required>
                 </div>
             
                 <div class="mt-2">
                     <label class="form-label">Tempat Lahir</label>
-                    <input type="text" name="tempat_lahir" class="form-control form-control-sm w-50" placeholder="Masukan Tempat Lahir" required>
+                    <input type="text" name="tempat_lahir" class="form-control" placeholder="Masukan Tempat Lahir" required>
                 </div>
             
                 <div class="mt-2">
                     <label class="form-label">Tanggal Lahir</label>
-                    <input type="date" name="tanggal_lahir" class="form-control form-control-sm w-25" required>
+                    <input type="date" name="tanggal_lahir" class="form-control" required>
                 </div>
             
                 <div class="mt-2">
-                    <label class="form-label">Jenis Kelamin</label>
-                    <select name="jenis_kelamin" class="form-control form-control-sm w-50">
-                        <option value="Laki-laki">Laki-laki</option>
-                        <option value="Perempuan">Perempuan</option>
-                    </select>
+                    <label class="form-label d-block">Jenis Kelamin</label>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="jenis_kelamin" id="laki-laki" value="Laki-laki">
+                        <label class="form-check-label" for="laki-laki">Laki-laki</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="jenis_kelamin" id="perempuan" value="Perempuan">
+                        <label class="form-check-label" for="perempuan">Perempuan</label>
+                    </div>
                 </div>
 
                 <div class="mt-2">
                     <label class="form-label">Kelas</label>
-                    <select name="kelas" class="form-control form-control-sm w-50" required>
+                    <select name="id_kelas" class="form-control" required>
                         <option value="">Pilih Kelas</option>
                         @foreach ($kelas as $k)
                             <option value="{{ $k->id_kelas }}">{{ $k->nama }}</option>
                         @endforeach
                     </select>
                 </div>
-                
-            
+
                 <div class="mt-2">
                     <label class="form-label">Kategori</label>
-                    <select name="category" class="form-control form-control-sm w-50">
-                        <option value="atas">Atas</option>
-                        <option value="menengah">Menengah</option>
-                        <option value="bawah">Bawah</option>
+                    <select name="category" class="form-control">
+                            <option value="">Pilih Kategori</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->kategori }}">{{ ucfirst($category->kategori) }}</option>
+                        @endforeach
                     </select>
                 </div>
-            
+
                 <div class="mt-2 pb-4">
                     <label class="form-label">Status</label>
-                    <select name="status" id="status" class="form-control form-control-sm w-50">
+                    <select name="status" id="status" class="form-control">
                         <option value="AKTIF">AKTIF</option>
                         <option value="LULUS">LULUS</option>
                         <option value="PINDAHAN">PINDAHAN</option>

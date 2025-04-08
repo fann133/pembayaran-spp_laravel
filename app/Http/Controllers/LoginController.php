@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Log;
+
 use App\Models\Guru;
 use App\Models\User;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
@@ -19,64 +21,74 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
-        // Cek apakah kredensial cocok
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user(); // Ambil data pengguna yang login
-            $role_id = $user->role_id; // Ambil role_id dari user
-            $userId = $user->id_users; // Ambil primary key dari tabel users
-            
-            // Debugging
-            Log::info('Login berhasil', ['role_id' => $role_id, 'userId' => $userId]);
+        // Cek apakah username ada
+        $user = User::where('username', $credentials['username'])->first();
 
-            // Tentukan redirect berdasarkan role_id
-            $redirectRoute = null;
-            $userData = null;
-
-            switch ($role_id) {
-                case 1:
-                    $redirectRoute = 'admin.dashboard';
-                    $userData = $user;
-                    break;
-
-                case 2:
-                    $siswa = Siswa::where('users_id', (string) $userId)->first();
-                    if ($siswa) {
-                        $redirectRoute = 'siswa.dashboard';
-                        $userData = $siswa;
-                    } else {
-                        \Log::error('Data siswa tidak ditemukan', ['userId' => $userId]);
-                        return redirect()->route('login')->withErrors(['error' => 'Data siswa tidak ditemukan.']);
-                    }
-                    break;
-
-                case 3:
-                case 4:
-                case 5:
-                    $guru = Guru::where('id_users', (string) $userId)->first();
-                    if ($guru) {
-                        $redirectRoute = $this->getRoleRoute($role_id) . '.dashboard';
-                        $userData = $guru;
-                    } else {
-                        \Log::error('Data guru tidak ditemukan', ['userId' => $userId]);
-                        return redirect()->route('login')->withErrors(['error' => 'Data guru tidak ditemukan.']);
-                    }
-                    break;
-
-                default:
-                    \Log::error('Role tidak ditemukan', ['role_id' => $role_id]);
-                    return redirect()->route('login')->withErrors(['error' => 'Role tidak ditemukan']);
-            }
-
-            // Simpan data user di session
-            session()->put('userData', $userData);
-
-            // Redirect ke halaman yang sesuai
-            return redirect()->route($redirectRoute);
+        if (!$user) {
+            // Username tidak ditemukan
+            return back()->withErrors(['username' => 'Username tidak ditemukan']);
         }
 
-        // Jika login gagal
-        return back()->withErrors(['error' => 'Username atau password salah']);
+        // Cek apakah password cocok
+        if (!Hash::check($credentials['password'], $user->password)) {
+            // Password salah
+            return back()->withErrors(['password' => 'Password salah']);
+        }
+
+        // Login user
+        Auth::login($user);
+
+        $role_id = $user->role_id ?? null;
+        $userId = $user->id_users ?? null;
+
+        if (!$userId) {
+            Log::error('ID User tidak ditemukan saat login', ['user' => $user]);
+            return redirect()->route('login')->withErrors(['error' => 'Terjadi kesalahan saat login, coba lagi.']);
+        }
+
+        session(['id_users' => $userId]);
+
+        $redirectRoute = null;
+        $userData = null;
+
+        switch ($role_id) {
+            case 1:
+                $redirectRoute = 'admin.dashboard';
+                $userData = $user;
+                break;
+
+            case 2:
+                $siswa = Siswa::where('users_id', (string) $userId)->first();
+                if ($siswa) {
+                    $redirectRoute = 'siswa.dashboard';
+                    $userData = $siswa;
+                } else {
+                    return redirect()->route('login')->withErrors(['error' => 'Data siswa tidak ditemukan.']);
+                }
+                break;
+
+            case 3:
+            case 4:
+            case 5:
+                $guru = Guru::where('id_users', (string) $userId)->first();
+                if ($guru) {
+                    $redirectRoute = $this->getRoleRoute($role_id) . '.dashboard';
+                    $userData = $guru;
+                } else {
+                    return redirect()->route('login')->withErrors(['error' => 'Data guru tidak ditemukan.']);
+                }
+                break;
+
+            default:
+                return redirect()->route('login')->withErrors(['error' => 'Role tidak ditemukan']);
+        }
+
+        session()->put('userData', $userData);
+
+        return redirect()->route($redirectRoute);
     }
+
+
 
 
 

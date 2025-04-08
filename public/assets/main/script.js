@@ -17,12 +17,11 @@ setTimeout(function() {
 }, 5000); // 1 detik
 
 
+// Format Rupiah
+const rupiah = document.getElementById('rupiah');
 
-
-
-
-
-
-
-
-
+rupiah.addEventListener('input', function (e) {
+    let value = this.value.replace(/\D/g, '');
+    value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    this.value = value;
+});

@@ -26,8 +26,11 @@
 
 
 </head>
-
-<body id="page-top">
+@stack('scripts')
+@php
+    $isMobile = preg_match('/(android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini)/i', request()->header('User-Agent'));
+@endphp
+<body id="page-top" class="{{ $isMobile ? 'sidebar-toggled' : '' }}">
     <!-- Preloader -->
     <div class="preloader">
         <div class="spinner-border text-primary preloader-spinner" role="status">

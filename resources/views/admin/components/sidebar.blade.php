@@ -1,12 +1,17 @@
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+@php
+    use App\Models\Setting;
+    $pengaturan = Setting::first();
+@endphp
 
-    <!-- Sidebar - Brand -->
+<ul class="navbar-nav {{ $pengaturan->warna_sidebar }} sidebar sidebar-dark accordion {{ $isMobile ? 'toggled' : '' }}" id="accordionSidebar">
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('admin.dashboard') }}">
-        <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-laugh-wink"></i>
+        <div class="sidebar-brand-icon">
+            <i class="fas {{ $pengaturan->ikon_sidebar }}"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">SB Admin</div>
+        <div class="sidebar-brand-text mx-3">{{ $pengaturan->nama_aplikasi }}</div>
     </a>
+
+
 
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
@@ -26,32 +31,32 @@
         Master
     </div>
 
-    {{-- Tampilan Siswa --}}
-    <li class="nav-item {{ request()->routeIs('admin.siswa.index', 'admin.siswa.create', 'admin.siswa.edit') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('admin.siswa.index') }}">
-            <i class="fas fa-fw fa-user"></i>
-            <span>Siswa</span>
-        </a>
-    </li>
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Data Akademik</span>
+            </a>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item {{ request()->routeIs('admin.profil.index') ? 'active' : '' }}" href="{{ route('admin.profil.index') }}">
+                        <i class="fas fa-fw fa-school"></i> Profil Sekolah
+                    </a>
+                    <a class="collapse-item {{ request()->routeIs('admin.siswa.index', 'admin.siswa.create', 'admin.siswa.edit') ? 'active' : '' }}" href="{{ route('admin.siswa.index') }}">
+                        <i class="fas fa-fw fa-user"></i> Siswa
+                    </a>
+                    <a class="collapse-item {{ request()->routeIs('admin.guru.index', 'admin.guru.create', 'admin.guru.edit') ? 'active' : '' }}" href="{{ route('admin.guru.index') }}">
+                        <i class="fas fa-fw fa-user-graduate"></i> Guru
+                    </a>
+                    <a class="collapse-item {{ request()->routeIs('admin.kelas.index', 'admin.kelas.create', 'admin.kelas.show', 'admin.kelas.edit') ? 'active' : '' }}" href="{{ route('admin.kelas.index') }}">
+                        <i class="fas fa-fw fa-chalkboard-teacher"></i> Kelas
+                    </a>
+                </div>
+            </div>
+        </li>
 
-
-
-    
-    {{-- Tampilan guru --}}
-    <li class="nav-item {{ request()->routeIs('admin.guru.index', 'admin.guru.create', 'admin.guru.edit') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('admin.guru.index') }}">
-            <i class="fas fa-fw fa-chalkboard-teacher"></i>
-            <span>Guru</span></a>
-    </li>
-
-
-    {{-- Tampilan Kelas --}}
-    <li class="nav-item {{ request()->routeIs('admin.kelas.index', 'admin.kelas.create', 'admin.kelas.show', 'admin.kelas.edit') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('admin.kelas.index') }}">
-            <i class="fas fa-fw fa-school"></i>
-            <span>Kelas</span></a>
-    </li>
-
+        
     <!-- Divider -->
     <hr class="sidebar-divider">
 
@@ -77,24 +82,17 @@
     
 
 
-    <li class="nav-item {{ request()->routeIs('admin.user.index', 'admin.user.edit') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('admin.user.index') }}">
+    <li class="nav-item {{ request()->routeIs('admin.pembayaran.index') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.pembayaran.index') }}">
             <i class="fas fa-shopping-cart"></i>
             <span>Pembayaran</span></a>
-    </li>
-
-
-    <li class="nav-item {{ request()->routeIs('admin.user.index', 'admin.user.edit') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('admin.user.index') }}">
-            <i class="fas fa-file-invoice-dollar"></i>
-            <span>Laporan</span></a>
     </li>
 
     <hr class="sidebar-divider">
 
     <!-- Heading -->
     <div class="sidebar-heading">
-        Hak Akses
+        Aplikasi
     </div>
 
     {{-- Tampilan User --}}
@@ -102,6 +100,13 @@
         <a class="nav-link" href="{{ route('admin.user.index') }}">
             <i class="fas fa-fw fa-users"></i>
             <span>User</span></a>
+    </li>
+
+
+    <li class="nav-item {{ request()->routeIs('admin.pengaturan') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.pengaturan') }}">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Setting</span></a>
     </li>
 
 
