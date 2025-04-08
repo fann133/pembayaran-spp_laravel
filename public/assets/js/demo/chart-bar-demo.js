@@ -32,13 +32,20 @@ var ctx = document.getElementById("myBarChart");
 var myBarChart = new Chart(ctx, {
   type: 'bar',
   data: {
-    labels: ["January", "February", "March", "April", "May", "June"],
+    labels: typeof chartLabels !== 'undefined' ? chartLabels : [],
     datasets: [{
-      label: "Revenue",
-      backgroundColor: "#4e73df",
-      hoverBackgroundColor: "#2e59d9",
-      borderColor: "#4e73df",
-      data: [4215, 5312, 6251, 7841, 9821, 14984],
+      label: "SPP",
+      backgroundColor: "#1cc88a",
+      hoverBackgroundColor: "#17a673",
+      borderColor: "#1cc88a",
+      data: typeof dataSPP !== 'undefined' ? dataSPP : [],
+    },
+    {
+      label: "NON-SPP",
+      backgroundColor: "#36b9cc",
+      hoverBackgroundColor: "#2c9faf",
+      borderColor: "#36b9cc",
+      data: typeof dataNonSPP !== 'undefined' ? dataNonSPP : [],
     }],
   },
   options: {
@@ -61,7 +68,7 @@ var myBarChart = new Chart(ctx, {
           drawBorder: false
         },
         ticks: {
-          maxTicksLimit: 6
+          autoSkip: false
         },
         maxBarThickness: 25,
       }],
@@ -73,7 +80,7 @@ var myBarChart = new Chart(ctx, {
           padding: 10,
           // Include a dollar sign in the ticks
           callback: function(value, index, values) {
-            return '$' + number_format(value);
+            return 'Rp ' + number_format(value, 0, ',', '.');
           }
         },
         gridLines: {
