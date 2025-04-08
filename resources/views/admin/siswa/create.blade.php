@@ -18,23 +18,23 @@
             @csrf
             <div class="container d-flex flex-column col-12 col-md-5 justify-content-center">
                 <div class="mt-2">
-                    <label id="nama" class="form-label">Nama</label>
-                    <input type="text" name="nama" class="form-control" placeholder="Masukan Nama Lengkap" required oninput="this.value = this.value.toUpperCase();">
+                    <label class="form-label" for="nama">Nama</label>
+                    <input type="text" name="nama" id="nama" class="form-control" placeholder="Masukan Nama Lengkap" required oninput="this.value = this.value.toUpperCase();">
                 </div>
                 
                 <div class="mt-2">
-                    <label class="form-label">NIS</label>
-                    <input type="text" name="nis" class="form-control" placeholder="Masukan NIS" required>
+                    <label class="form-label" for="nis">NIS</label>
+                    <input type="text" name="nis" id="nis" class="form-control" placeholder="Masukan NIS" required>
                 </div>
             
                 <div class="mt-2">
-                    <label class="form-label">Tempat Lahir</label>
-                    <input type="text" name="tempat_lahir" class="form-control" placeholder="Masukan Tempat Lahir" required>
+                    <label class="form-label" for="tempat_lahir">Tempat Lahir</label>
+                    <input type="text" name="tempat_lahir" id="tempat_lahir" class="form-control" placeholder="Masukan Tempat Lahir" required>
                 </div>
             
                 <div class="mt-2">
-                    <label class="form-label">Tanggal Lahir</label>
-                    <input type="date" name="tanggal_lahir" class="form-control" required>
+                    <label class="form-label" for="tanggal_lahir">Tanggal Lahir</label>
+                    <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control" required>
                 </div>
             
                 <div class="mt-2">
@@ -52,7 +52,7 @@
 
                 <div class="mt-2">
                     <label class="form-label">Kelas</label>
-                    <select name="id_kelas" class="form-control" required>
+                    <select name="id_kelas" class="form-control select2" required>
                         <option value="">Pilih Kelas</option>
                         @foreach ($kelas as $k)
                             <option value="{{ $k->id_kelas }}">{{ $k->nama }}</option>
@@ -62,7 +62,7 @@
 
                 <div class="mt-2">
                     <label class="form-label">Kategori</label>
-                    <select name="category" class="form-control">
+                    <select name="category" class="form-control select2">
                             <option value="">Pilih Kategori</option>
                         @foreach($categories as $category)
                             <option value="{{ $category->kategori }}">{{ ucfirst($category->kategori) }}</option>
@@ -72,7 +72,7 @@
 
                 <div class="mt-2 pb-4">
                     <label class="form-label">Status</label>
-                    <select name="status" id="status" class="form-control">
+                    <select name="status" id="status" class="form-control select2">
                         <option value="AKTIF">AKTIF</option>
                         <option value="LULUS">LULUS</option>
                         <option value="PINDAHAN">PINDAHAN</option>

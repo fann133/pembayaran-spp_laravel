@@ -26,14 +26,24 @@
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">Data Pembayaran</h6>
+                <button type="submit" form="printForm" class="btn btn-secondary btn-sm">
+                  <i class="fas fa-print"> Print</i>
+                </button>
             </div>
             
             <div class="card-body border-bottom-primary">
+              <form id="printForm" method="POST" action="{{ route('pembayaran.printAll') }}" target="_blank">
+                @csrf
                 <div class="table-responsive pt-2">
                     <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>No</th>
+                                <th class="text-center align-middle" style="width: 50px;">
+                                  <div class="form-check d-flex align-items-center justify-content-center">
+                                      <input class="form-check-input" style="width: 20px; height: 20px;" type="checkbox" id="checkAll">
+                                      <label class="form-check-label" for="checkAll"></label>
+                                  </div>
+                                </th>
                                 <th>Tanggal</th>
                                 <th>Nama</th>
                                 <th>Pembayaran</th>
@@ -47,9 +57,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($pembayaran as $item)
+                            @foreach($pembayaran as $key => $item)
                             <tr>
-                            <td>{{ $loop->iteration }}</td>
+                                <td class="text-center align-middle">
+                                  <div class="form-check d-flex align-items-center justify-content-center">
+                                      <input class="form-check-input tagihan-checkbox" style="width: 20px; height: 20px;" type="checkbox" name="pembayaran_id[]" value="{{ $item->id_pembayaran }}" id="pembayaran_{{ $key }}">
+                                      <label class="form-check-label" for="pembayaran_{{ $key }}" style="margin-left: 30px;">{{ $key + 1 }}</label>
+                                  </div>
+                                </td>
                                 <td>{{ \Carbon\Carbon::parse($item->tanggal_bayar)->translatedFormat('d F Y') }}</td>
                                 <td>{{ $item->nama }} <br><span class="font-weight-bold">{{ $item->nis }}</span> [{{ $item->kelas }}]</td>
                                 <td>{{ $item->nama_pembayaran }} [<span class="font-weight-bold">{{ $item->kode }}</span>] <br><span class="font-weight-bold">{{ $item->bulan }}</span></td>
@@ -83,6 +98,7 @@
                         </tbody>
                     </table>
                 </div>
+              </form>
             </div>
         </div>
 </div>
@@ -133,6 +149,23 @@
 
   
   <script>
+    // Checklist data
+    document.addEventListener("DOMContentLoaded", function () {
+            const checkAll = document.getElementById('checkAll');
+            const checkboxes = document.querySelectorAll('.pembayaran-checkbox');
+
+            checkAll.addEventListener('change', function () {
+                checkboxes.forEach(cb => cb.checked = this.checked);
+            });
+        });
+
+        document.getElementById('checkAll').addEventListener('change', function () {
+            let checkboxes = document.querySelectorAll('input[name="pembayaran_id[]"]');
+            checkboxes.forEach(cb => cb.checked = this.checked);
+        });
+
+
+    // Modal Hapus Pembayaran
     document.addEventListener("DOMContentLoaded", function () {
         const deleteModal = document.getElementById("deleteModal");
         const secondDeleteModal = document.getElementById("secondDeleteModal");

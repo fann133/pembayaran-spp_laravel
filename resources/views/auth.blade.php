@@ -9,6 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <link rel="icon" type="image/png" href="{{ asset($pengaturan->logo ?? 'assets/img/logo-login/logo.png') }}?v={{ time() }}">
     <title>Pembayaran SPP - Login</title>
 
     {{-- Custom CSS --}}
@@ -23,7 +24,7 @@
 
 </head>
 
-<body class="bg-gradient-light">
+<body class="bg-login"> {{-- bg-gradient-light --}}
     <!-- Preloader -->
     <div class="preloader">
         <div class="spinner-border text-primary preloader-spinner" role="status">
@@ -42,7 +43,7 @@
                     $pengaturan = Setting::first();
                 @endphp
 
-                <img src="{{ asset($pengaturan->logo ?? 'assets/img/logo-login/logo.png') }}?v={{ time() }}" height="100" alt="Logo Sekarang">
+                <img src="{{ asset($pengaturan->logo ?? 'assets/img/logo-login/logo.png') }}?v={{ time() }}" height="150" alt="Logo Sekarang">
                 </div>
 
                 <div class="card o-hidden border-0 shadow-lg">

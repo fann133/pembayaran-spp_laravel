@@ -9,6 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <link rel="icon" type="image/png" href="{{ asset($pengaturan->logo ?? 'assets/img/logo-login/logo.png') }}?v={{ time() }}">
     <title>@yield('title', 'SB Admin 2')</title>
 
     {{-- Custom CSS --}}
@@ -23,7 +24,7 @@
 
      <!-- Custom styles for this page -->
      <link href="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-
+     <link href="{{ asset('assets/css/select2.min.css') }}" rel="stylesheet">
 
 </head>
 @stack('scripts')
@@ -121,6 +122,13 @@
     
     <script src="{{ asset('assets/vendor/npm/bootstrap.bundle.min.js') }}"></script>
 
+    {{-- JS Select2 --}}
+    <script src="{{ asset('assets/js/select2.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2();
+        });
+    </script>
 
     </body>
 

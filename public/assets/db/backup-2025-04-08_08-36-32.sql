@@ -362,7 +362,7 @@ CREATE TABLE `settings` (
 
 LOCK TABLES `settings` WRITE;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
-INSERT INTO `settings` VALUES ('1a5d1d6b-13b5-11f0-807c-0a002700000b','SB ADMIN1','far fa-angry','bg-gradient-primary','Copyright © Pembayaran SPP 2025','assets/img/logo-login/logo.png','2025-04-06 04:01:22','2025-04-07 18:45:38');
+INSERT INTO `settings` VALUES ('1a5d1d6b-13b5-11f0-807c-0a002700000b','SB ADMIN1','fas fa-sad-tear','bg-gradient-primary','Copyright © Pembayaran SPP 2025','assets/img/logo-login/logo.png','2025-04-06 04:01:22','2025-04-07 23:15:13');
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -442,6 +442,7 @@ CREATE TABLE `tagihan` (
 
 LOCK TABLES `tagihan` WRITE;
 /*!40000 ALTER TABLE `tagihan` DISABLE KEYS */;
+INSERT INTO `tagihan` VALUES ('b200fe02-0121-4e0f-af45-543900169122','23b59d89-0d9a-4d3d-a57a-55bf9109abcf','YULI','525462','IPA','6a40b62f-1398-4952-80b2-9db27b668100','11','SPP Bulanan','SPP','11','Februari','BELUM DIBAYAR','2025-04-07 23:28:25','2025-04-07 23:28:25'),('de159f76-94fa-4797-8a0c-70651f098b4e','0644abb1-ad11-443f-94af-50a94f76c44a','MARIA','14542011','IPA','6a40b62f-1398-4952-80b2-9db27b668100','11','SPP Bulanan','SPP','11','Januari','BELUM DIBAYAR','2025-04-07 23:28:16','2025-04-07 23:28:16');
 /*!40000 ALTER TABLE `tagihan` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -486,4 +487,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-08 14:22:48
+-- Dump completed on 2025-04-08 17:36:32

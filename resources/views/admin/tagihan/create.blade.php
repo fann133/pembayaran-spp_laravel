@@ -33,7 +33,7 @@
                     <!-- Nama Siswa -->
                     <div class="mt-2">
                         <label for="id_siswa">Nama Siswa</label>
-                        <select class="form-control" name="id_siswa" id="id_siswa" required>
+                        <select class="form-control select2" name="id_siswa" id="id_siswa" required>
                             <option value="">-- Pilih Siswa --</option>
                             @foreach ($siswas as $siswa)
                                 <option value="{{ $siswa->id_siswa }}" data-nama="{{ $siswa->nama }}" data-kelas="{{ $siswa->kelas }}" data-nis="{{ $siswa->nis }}">

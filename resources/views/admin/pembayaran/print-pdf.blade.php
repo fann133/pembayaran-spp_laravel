@@ -2,7 +2,7 @@
 <html>
 <head>
     <link rel="icon" type="image/png" href="{{ asset($pengaturan->logo ?? 'assets/img/logo-login/logo.png') }}?v={{ time() }}">
-    <title>Data Tagihan</title>
+    <title>Data pembayaran</title>
     <style>
         body { font-family: sans-serif; font-size: 12px; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
@@ -22,11 +22,10 @@
                 <th>Nama Pembayaran</th>
                 <th>Jenis</th>
                 <th>Jumlah</th>
-                <th>Status</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($tagihan as $i => $t)
+            @foreach($pembayaran as $i => $t)
             <tr>
                 <td>{{ $i + 1 }}</td>
                 <td>{{ $t->nama }}</td>
@@ -35,7 +34,6 @@
                 <td>{{ $t->nama_pembayaran }}</td>
                 <td>{{ $t->jenis }}</td>
                 <td>{{ number_format($t->jumlah) }}</td>
-                <td>{{ $t->status }}</td>
             </tr>
             @endforeach
         </tbody>

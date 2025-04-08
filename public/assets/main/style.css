@@ -20,3 +20,9 @@
     transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
 }
 
+.bg-login {
+    background: url('/assets/img/background.jpeg') no-repeat center center;
+    background-size: cover;
+}
+
+

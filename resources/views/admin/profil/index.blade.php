@@ -24,49 +24,49 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label>Nama Sekolah</label>
-                                <input type="text" name="nama_sekolah" class="form-control" value="{{ old('nama_sekolah', $profil->nama_sekolah ?? '') }}">
+                                <label for="nama_sekolah">Nama Sekolah</label>
+                                <input type="text" name="nama_sekolah" id="nama_sekolah" class="form-control" value="{{ old('nama_sekolah', $profil->nama_sekolah ?? '') }}">
                             </div>
 
                             <div class="form-group col-md-6">
-                                <label>Kepala Sekolah</label>
-                                <input type="text" name="kepala_sekolah" class="form-control" value="{{ old('kepala_sekolah', $profil->kepala_sekolah ?? '') }}">
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <label>NPSN</label>
-                                <input type="text" name="npsn" class="form-control" value="{{ old('npsn', $profil->npsn ?? '') }}">
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <label>Tahun Pelajaran</label>
-                                <input type="text" name="tahun_pelajaran" class="form-control" value="{{ old('tahun_pelajaran', $profil->tahun_pelajaran ?? '') }}">
+                                <label for="kepala_sekolah">Kepala Sekolah</label>
+                                <input type="text" name="kepala_sekolah" id="kepala_sekolah" class="form-control" value="{{ old('kepala_sekolah', $profil->kepala_sekolah ?? '') }}">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label>Telepon</label>
-                                <input type="text" name="telepon" class="form-control" value="{{ old('telepon', $profil->telepon ?? '') }}">
+                                <label for="npsn">NPSN</label>
+                                <input type="text" name="npsn" id="npsn" class="form-control" value="{{ old('npsn', $profil->npsn ?? '') }}">
                             </div>
 
                             <div class="form-group col-md-6">
-                                <label>Email</label>
-                                <input type="email" name="email" class="form-control" value="{{ old('email', $profil->email ?? '') }}">
+                                <label for="tahun_pelajaran">Tahun Pelajaran</label>
+                                <input type="text" name="tahun_pelajaran" id="tahun_pelajaran" class="form-control" value="{{ old('tahun_pelajaran', $profil->tahun_pelajaran ?? '') }}">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label>Website</label>
-                                <input type="text" name="website" class="form-control" value="{{ old('website', $profil->website ?? '') }}">
+                                <label for="telepon">Telepon</label>
+                                <input type="text" name="telepon" id="telepon" class="form-control" value="{{ old('telepon', $profil->telepon ?? '') }}">
                             </div>
 
                             <div class="form-group col-md-6">
-                                <label>Alamat Sekolah</label>
-                                <input type="text" name="alamat_sekolah" class="form-control" value="{{ old('alamat_sekolah', $profil->alamat_sekolah ?? '') }}">
+                                <label for="email">Email</label>
+                                <input type="email" name="email" id="email" class="form-control" value="{{ old('email', $profil->email ?? '') }}">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="website">Website</label>
+                                <input type="text" name="website" id="website" class="form-control" value="{{ old('website', $profil->website ?? '') }}">
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="alamat_sekolah">Alamat Sekolah</label>
+                                <input type="text" name="alamat_sekolah" id="alamat_sekolah" class="form-control" value="{{ old('alamat_sekolah', $profil->alamat_sekolah ?? '') }}">
                             </div>
                         </div>
                     </div>

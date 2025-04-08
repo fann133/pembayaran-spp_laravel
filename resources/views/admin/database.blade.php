@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <h1 class="mb-4">Backup Database</h1>
 
     @if(session('error'))
@@ -25,7 +25,7 @@
                 @csrf
                 <div class="form-group">
                     <label for="table">Pilih Tabel:</label>
-                    <select name="table" id="table" class="form-control">
+                    <select name="table" id="table" class="form-control select2">
                         <option value="">-- Pilih Tabel --</option>
                         @foreach($tables as $table)
                             <option value="{{ $table->$tableKey }}">{{ $table->$tableKey }}</option>
