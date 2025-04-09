@@ -4,6 +4,7 @@
 namespace App\Exports;
 
 use App\Models\Pembayaran;
+use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
@@ -25,11 +26,13 @@ class PembayaranExport implements FromCollection, WithHeadings, WithMapping, Sho
 
     public function collection()
     {
+        $query = Pembayaran::with(['siswa', 'user']);
+
         if ($this->ids) {
-            return Pembayaran::whereIn('id_pembayaran', $this->ids)->get();
+            $query->whereIn('id_pembayaran', $this->ids);
         }
 
-        return Pembayaran::all();
+        return $query->orderBy('nis', 'asc')->get();
     }
 
     public function styles(Worksheet $sheet)
@@ -41,7 +44,7 @@ class PembayaranExport implements FromCollection, WithHeadings, WithMapping, Sho
             // Header (baris 1) ditebalkan dan diratakan tengah
             1 => ['font' => ['bold' => true], 'alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER]],
             // Semua baris lainnya juga rata tengah
-            'A2:M' . $highestRow => [
+            'A2:N' . $highestRow => [
                 'alignment' => [
                     'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
                 ],
@@ -60,9 +63,12 @@ class PembayaranExport implements FromCollection, WithHeadings, WithMapping, Sho
     public function map($pembayaran): array
     {
         static $no = 1;
-
+        $tanggal = $pembayaran->tanggal_bayar
+        ? Carbon::parse($pembayaran->tanggal_bayar)->translatedFormat('l, d F Y')
+        : '-';
         return [
             $no++,
+            $tanggal,
             $pembayaran->siswa->nama ?? '-',
             "\t" . (string)$pembayaran->nis,
             $pembayaran->kelas,
@@ -83,6 +89,7 @@ class PembayaranExport implements FromCollection, WithHeadings, WithMapping, Sho
     {
         return [
             'No',
+            'Tanggal Bayar',
             'Nama Siswa',
             'NIS',
             'Kelas',
