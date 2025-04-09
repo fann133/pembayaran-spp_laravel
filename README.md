@@ -17,7 +17,7 @@ Template yang digunakan: [SB Admin 2](https://startbootstrap.com/previews/sb-adm
 
 ---
 
-## Sambil Ngoding Wajib Hukumnya dengarkan lagu ini
+## 🎥 Sambil Ngoding Wajib Hukumnya dengarkan lagu ini
 [![Lihat Video Demo](https://img.youtube.com/vi/CtRIsakAgjQ/0.jpg)](https://youtu.be/CtRIsakAgjQ?si=Durnh1AAhMHUqCLS "Klik untuk menonton di YouTube")
 
 ---
