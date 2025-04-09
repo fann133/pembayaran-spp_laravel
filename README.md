@@ -2,6 +2,7 @@
 
 Aplikasi ini dibuat menggunakan **Laravel** untuk mengelola sistem pembayaran SPP dengan fitur tagihan, pembayaran, manajemen user, dan hak akses role.
 
+Versi Laravel yang digunakan: [10.X] (https://laravel.com/docs/10.x)
 Template yang digunakan: [SB Admin 2](https://startbootstrap.com/previews/sb-admin-2)
 
 ---
