@@ -109,6 +109,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/pembayaran', [PembayaranController::class, 'index'])->name('admin.pembayaran.index');
         Route::get('/pembayaran/print/{id}', [PembayaranController::class, 'print'])->name('pembayaran.print');
         Route::post('/pembayaran/printAll', [PembayaranController::class, 'printAll'])->name('pembayaran.printAll');
+        Route::post('/pembayaran/export-excel', [PembayaranController::class, 'exportExcel'])->name('pembayaran.exportExcel');
         Route::delete('/pembayaran/{id}', [PembayaranController::class, 'destroy'])->name('pembayaran.destroy');
 
         

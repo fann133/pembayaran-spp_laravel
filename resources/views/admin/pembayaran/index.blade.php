@@ -26,12 +26,34 @@
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">Data Pembayaran</h6>
-                <button type="submit" form="printForm" class="btn btn-secondary btn-sm">
-                  <i class="fas fa-print"> Print</i>
-                </button>
+                <!-- Dropdown Menu -->
+                <div class="dropdown no-arrow">
+                  <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuTools" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-bars fa-sm fa-fw text-gray-400"></i>
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuTools">
+                    <div class="dropdown-header">Export Options:</div>
+
+                    <!-- Tombol Print PDF -->
+                    <button type="submit" form="printForm" class="dropdown-item">
+                      <i class="fas fa-print text-gray-600"></i> Print PDF
+                    </button>
+
+                    <!-- Tombol Ekstrak Excel -->
+                    <button type="button" class="dropdown-item" id="excelBtn">
+                      <i class="fas fa-file-excel text-success"></i> Ekstrak Excel
+                    </button>
+                  </div>
+                </div>
             </div>
             
             <div class="card-body border-bottom-primary">
+              <form id="excelForm" method="POST" action="{{ route('pembayaran.exportExcel') }}" style="display: none;">
+                @csrf
+                  @foreach ($pembayaran as $p)
+                      <input type="checkbox" name="pembayaran_id[]" class="pembayaran-checkbox" value="{{ $p->id_pembayaran }}">
+                  @endforeach
+              </form>
               <form id="printForm" method="POST" action="{{ route('pembayaran.printAll') }}" target="_blank">
                 @csrf
                 <div class="table-responsive pt-2">
@@ -150,7 +172,7 @@
   
   <script>
     // Checklist data
-    document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function () {
             const checkAll = document.getElementById('checkAll');
             const checkboxes = document.querySelectorAll('.pembayaran-checkbox');
 
@@ -209,6 +231,47 @@
             secondModal.show();
         });
     });
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const checkAll = document.getElementById('checkAll');
+        const checkboxes = document.querySelectorAll('input[name="pembayaran_id[]"]');
+
+        document.querySelector('#excelBtn')?.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const excelForm = document.querySelector('#excelForm');
+
+            // Hapus input tersembunyi sebelumnya
+            excelForm.querySelectorAll('input[name="pembayaran_id[]"]').forEach(el => el.remove());
+
+            const checked = document.querySelectorAll('#printForm input[name="pembayaran_id[]"]:checked');
+
+            // Jika "checkAll" dicentang → kirim semua data
+            if (checkAll.checked) {
+                checkboxes.forEach(input => {
+                    const hidden = document.createElement('input');
+                    hidden.type = 'hidden';
+                    hidden.name = 'pembayaran_id[]';
+                    hidden.value = input.value;
+                    excelForm.appendChild(hidden);
+                });
+            } else {
+                // Kirim hanya yang dicentang
+                checked.forEach(input => {
+                    const hidden = document.createElement('input');
+                    hidden.type = 'hidden';
+                    hidden.name = 'pembayaran_id[]';
+                    hidden.value = input.value;
+                    excelForm.appendChild(hidden);
+                });
+            }
+
+            // Submit
+            excelForm.submit();
+        });
+    });
+
   </script>
   
 

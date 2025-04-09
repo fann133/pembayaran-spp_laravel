@@ -22,6 +22,7 @@
                 <th>Nama Pembayaran</th>
                 <th>Jenis</th>
                 <th>Jumlah</th>
+                <th>Oleh</th>
             </tr>
         </thead>
         <tbody>
@@ -34,6 +35,7 @@
                 <td>{{ $t->nama_pembayaran }}</td>
                 <td>{{ $t->jenis }}</td>
                 <td>{{ number_format($t->jumlah) }}</td>
+                <td>{{ $t->user->name }}</td>
             </tr>
             @endforeach
         </tbody>

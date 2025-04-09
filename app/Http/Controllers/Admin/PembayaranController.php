@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Pembayaran;
 use Mpdf\Mpdf;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PembayaranExport;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class PembayaranController extends Controller
 {
@@ -47,6 +50,19 @@ class PembayaranController extends Controller
         return response($mpdf->Output('Data-Pembayaran.pdf', 'S'))
             ->header('Content-Type', 'application/pdf')
             ->header('Content-Disposition', 'inline; filename="Data-Pembayaran.pdf"');
+    }
+
+    public function exportExcel(Request $request)
+    {
+        $ids = $request->input('pembayaran_id');
+        
+        if (empty($ids)) {
+            return redirect()->back()->with('error', 'Centang dulu data pembayaran siswa!');
+        }
+
+        $timestamp = Carbon::now()->format('His_d-m-Y'); // Format: jammenitdetik_tanggal-bulan-tahun
+        $filename = 'Data_Pembayaran_' . $timestamp . '.xlsx';
+        return Excel::download(new PembayaranExport($ids), $filename);
     }
 
     public function destroy($id)
