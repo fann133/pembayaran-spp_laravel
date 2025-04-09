@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -88,9 +89,14 @@ class LoginController extends Controller
         return redirect()->route($redirectRoute);
     }
 
+    public function authenticated(Request $request, $user)
+    {
+        // Simpan waktu login ke session
+        Session::put('login_time', now());
 
-
-
+        // Redirect sesuai role atau kebutuhanmu
+        return redirect()->intended('dashboard');
+    }
 
     /**
      * Fungsi untuk menentukan route berdasarkan role_id

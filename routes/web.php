@@ -12,6 +12,7 @@ use App\Models\Biaya;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SiswaController;
 use App\Http\Controllers\Admin\ProfilController;
 use App\Http\Controllers\Admin\GuruController;
@@ -38,6 +39,11 @@ Route::get('/auth', function () {
 })->name('auth');
 
 Route::post('/login/authenticate', [LoginController::class, 'authenticate'])->name('login.authenticate');
+
+Route::middleware(['auth', 'session.timeout'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+});
+
 
 // Middleware Authentication dan Role Protection
 Route::middleware(['auth'])->group(function () {
