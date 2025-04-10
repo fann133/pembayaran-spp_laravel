@@ -41,7 +41,7 @@
                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $jumlahGuru }}</div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-chalkboard-teacher fa-2x text-gray-300"></i>
+                            <i class="fas fa-user-graduate fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
@@ -54,16 +54,16 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Progress bulan {{ $bulanNow }}
                             </div>
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
-                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ $progress }}%</div>
                                 </div>
                                 <div class="col">
                                     <div class="progress progress-sm mr-2">
                                         <div class="progress-bar bg-info" role="progressbar"
-                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
+                                            style="width: {{ $progress }}%" aria-valuenow="{{ $progress }}%" aria-valuemin="0"
                                             aria-valuemax="100"></div>
                                     </div>
                                 </div>
@@ -84,11 +84,11 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                Pending Requests</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                Jumlah Pemasukan</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Rp {{ number_format($totalPemasukan, 0, ',', '.') }}</div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-comments fa-2x text-gray-300"></i>
+                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
@@ -124,7 +124,7 @@
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-                    <div class="chart-area">
+                    <div class="chart-bar">
                         <canvas id="myBarChart"></canvas>
                     </div>
                 </div>
@@ -137,7 +137,7 @@
                 <!-- Card Header - Dropdown -->
                 <div
                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Diagram Tagihan</h6>
                     <div class="dropdown no-arrow">
                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -158,16 +158,7 @@
                     <div class="chart-pie pt-4 pb-2">
                         <canvas id="myPieChart"></canvas>
                     </div>
-                    <div class="mt-4 text-center small">
-                        <span class="mr-2">
-                            <i class="fas fa-circle text-primary"></i> Direct
-                        </span>
-                        <span class="mr-2">
-                            <i class="fas fa-circle text-success"></i> Social
-                        </span>
-                        <span class="mr-2">
-                            <i class="fas fa-circle text-info"></i> Referral
-                        </span>
+                    <div class="mt-4 text-center small" id="pieLabels">
                     </div>
                 </div>
             </div>
@@ -176,9 +167,15 @@
 </div>
 
 <script>
+    // Bar Chart
     var chartLabels = {!! json_encode($labels) !!};
     var dataSPP = {!! json_encode($dataSPP) !!};
     var dataNonSPP = {!! json_encode($dataNonSPP) !!};
+
+    // Pie Chart
+    var pieChartData = @json($dataPie);
+    const labels = @json($kelasData);
+    const data = @json($jumlahBelumBayar);
 </script>
 
 @endsection

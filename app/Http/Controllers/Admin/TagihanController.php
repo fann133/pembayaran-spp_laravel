@@ -156,14 +156,21 @@ class TagihanController extends Controller
         ]);
 
         if ($status == 'LUNAS') {
-            // Jika sudah lunas, hanya hapus data dari tabel tagihan, pembayaran tetap ada
-            $tagihan->delete();
+            $tagihan->update([
+                'jumlah' => 0, // pastikan jumlah sisa 0
+                'status' => 'SUDAH DIBAYAR',
+            ]);
+        
             return redirect()->route('admin.tagihan.index')->with('success', 'Pembayaran berhasil. Tagihan sudah lunas.');
         } else {
             // Jika masih ada sisa hutang, update tagihan dengan jumlah piutang yang tersisa
-            $tagihan->update(['jumlah' => $piutang]);
+            $tagihan->update([
+                'jumlah' => $piutang,
+                'status' => 'BELUM DIBAYAR',
+            ]);
+        
             return redirect()->route('admin.tagihan.index')->with('warning', 'Pembayaran berhasil. Tagihan belum lunas.');
-        }
+        }        
     }
 
     public function print($id_tagihan)
