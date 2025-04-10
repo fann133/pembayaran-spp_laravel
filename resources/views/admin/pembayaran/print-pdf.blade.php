@@ -34,7 +34,7 @@
                 <td>{{ $t->kelas }}</td>
                 <td>{{ $t->nama_pembayaran }}</td>
                 <td>{{ $t->jenis }}</td>
-                <td>{{ number_format($t->jumlah) }}</td>
+                <td>{{ number_format($t->jumlah_tagihan) }}</td>
                 <td>{{ $t->user->name }}</td>
             </tr>
             @endforeach

@@ -37,7 +37,7 @@
         </tr>
         <tr>
             <th>Jumlah</th>
-            <td>Rp {{ number_format($pembayaran->jumlah, 0, ',', '.') }}</td>
+            <td>Rp {{ number_format($pembayaran->jumlah_tagihan, 0, ',', '.') }}</td>
         </tr>
         <tr>
             <th>Tanggal</th>

@@ -179,8 +179,4 @@ document.getElementById('jenis_pembayaran').addEventListener('change', function(
     }
 });
 </script>
-
-
-
-
 @endsection

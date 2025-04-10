@@ -75,7 +75,7 @@ class PembayaranExport implements FromCollection, WithHeadings, WithMapping, Sho
             $pembayaran->nama_pembayaran,
             $pembayaran->kode ?? '-',
             $pembayaran->jenis,
-            $pembayaran->bulan ?? '-',
+            $pembayaran->bulan ? $pembayaran->bulan : '-',
             'Rp' . number_format($pembayaran->jumlah_tagihan, 0, ',', '.'),
             'Rp' . number_format($pembayaran->dibayar, 0, ',', '.'),
             'Rp' . number_format($pembayaran->piutang, 0, ',', '.'),

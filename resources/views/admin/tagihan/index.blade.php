@@ -50,6 +50,7 @@
                                 </div>
                             </th>                                                        
                             <th>Nama</th>
+                            <th>Tanggal</th>
                             <th>Pembayaran</th>
                             <th>Jenis</th>
                             <th>Kode</th>
@@ -66,7 +67,8 @@
                                         <input class="form-check-input tagihan-checkbox" style="width: 20px; height: 20px;" type="checkbox" name="tagihan_id[]" value="{{ $item->id_tagihan }}" id="tagihan_{{ $key }}">
                                         <label class="form-check-label" for="tagihan_{{ $key }}" style="margin-left: 30px;">{{ $key + 1 }}</label>
                                     </div>
-                                </td>                                                 
+                                </td>
+                                <td>{{ $item->tanggal_tagihan }}</td>                      
                                 <td>{{ $item->nama }} <br><span class="font-weight-bold">{{ $item->nis }}</span> [{{ $item->kelas }}]</td>
                                 <td>{{ $item->nama_pembayaran }} <br><span class="font-weight-bold">{{ $item->bulan }}</span></td>
                                 <td>{{ $item->jenis }}</td>

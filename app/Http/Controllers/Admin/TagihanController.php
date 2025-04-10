@@ -29,7 +29,7 @@ class TagihanController extends Controller
 
     public function create()
     {
-        $siswas = Siswa::where('status', 'AKTIF')->get();
+        $siswas = Siswa::whereIn('status', ['AKTIF', 'PINDAHAN'])->get();
         $biayas = Biaya::where('status', 'AKTIF')->get();
         return view('admin.tagihan.create', compact('siswas', 'biayas'));
     }
@@ -100,10 +100,11 @@ class TagihanController extends Controller
             'id_biaya' => $biaya->id_biaya,
             'nama_pembayaran' => $biaya->nama,
             'jenis' => $biaya->jenis,
+            'kode' => $biaya->kode, // Menggunakan kode biaya dan menyimpannya di tagihan
             'jumlah' => $biaya->jumlah,
             'bulan' => $biaya->jenis === 'SPP' ? $request->bulan : '',
             'status' => $request->status,
-            'kode' => $biaya->kode, // Menggunakan kode biaya dan menyimpannya di tagihan
+            'tanggal_tagihan' => now()->toDateString(),
         ]);
 
         return redirect()->route('admin.tagihan.index')->with('success', 'Tagihan berhasil ditambahkan.');
@@ -156,21 +157,13 @@ class TagihanController extends Controller
         ]);
 
         if ($status == 'LUNAS') {
-            $tagihan->update([
-                'jumlah' => 0, // pastikan jumlah sisa 0
-                'status' => 'SUDAH DIBAYAR',
-            ]);
-        
+            $tagihan->delete();
             return redirect()->route('admin.tagihan.index')->with('success', 'Pembayaran berhasil. Tagihan sudah lunas.');
         } else {
             // Jika masih ada sisa hutang, update tagihan dengan jumlah piutang yang tersisa
-            $tagihan->update([
-                'jumlah' => $piutang,
-                'status' => 'BELUM DIBAYAR',
-            ]);
-        
+            $tagihan->update(['jumlah' => $piutang]);
             return redirect()->route('admin.tagihan.index')->with('warning', 'Pembayaran berhasil. Tagihan belum lunas.');
-        }        
+        }   
     }
 
     public function print($id_tagihan)

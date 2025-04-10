@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Guru;
 use App\Models\ProfilSekolah;
 use App\Models\Siswa;
+use App\Models\Tagihan;
 use App\Models\Pembayaran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -23,6 +24,7 @@ class DashboardController extends Controller
     {
         $bulanNow= Carbon::now()->translatedFormat('F'); 
         $bulanIni = Carbon::now()->month;
+        $bulanSekarang = Carbon::now()->translatedFormat('F'); // hasil: "April"
         $tahunIni = Carbon::now()->year;
 
         // Dashboard Nama sekolah
@@ -38,39 +40,29 @@ class DashboardController extends Controller
 
 
         // Border Progress
-        $totalTagihan = DB::table('tagihan')
-            ->whereMonth('created_at', $bulanIni)
-            ->whereYear('created_at', $tahunIni)
-            ->count();
+        $totalSiswa = Siswa::whereIn('status', ['AKTIF', 'PINDAHAN'])->count();
+        $sudahBayar = Pembayaran::where('jenis', 'SPP')
+            ->where('bulan', $bulanSekarang)
+            ->distinct('id_siswa')
+            ->count('id_siswa');
+        $progress = $totalSiswa > 0 ? round(($sudahBayar / $totalSiswa) * 100, 2) : 0;
 
-        $totalLunas = DB::table('tagihan')
-            ->where('status', 'SUDAH DIBAYAR')
-            ->whereMonth('created_at', $bulanIni)
-            ->whereYear('created_at', $tahunIni)
-            ->count();
-
-        $progress = $totalTagihan > 0
-            ? round(($totalLunas / $totalTagihan) * 100, 2)
-            : 0;
         
-
         // Border Jumlah Pemasukan 
-        $totalPemasukan = DB::table('pembayaran')->sum('dibayar');
+        $totalPemasukan = Pembayaran::sum('dibayar');
 
 
         // Bars Charts
-        $pembayaranSPP = DB::table('pembayaran')
-            ->select(DB::raw("MONTH(tanggal_bayar) as bulan"), DB::raw("SUM(dibayar) as total"))
+        $pembayaranSPP = Pembayaran::selectRaw('MONTH(tanggal_bayar) as bulan, SUM(dibayar) as total')
             ->where('jenis', 'SPP')
             ->whereYear('tanggal_bayar', date('Y'))
-            ->groupBy(DB::raw("MONTH(tanggal_bayar)"))
+            ->groupByRaw('MONTH(tanggal_bayar)')
             ->get();
 
-        $pembayaranNonSPP = DB::table('pembayaran')
-            ->select(DB::raw("MONTH(tanggal_bayar) as bulan"), DB::raw("SUM(dibayar) as total"))
+        $pembayaranNonSPP = Pembayaran::selectRaw('MONTH(tanggal_bayar) as bulan, SUM(dibayar) as total')
             ->where('jenis', 'NON-SPP')
             ->whereYear('tanggal_bayar', date('Y'))
-            ->groupBy(DB::raw("MONTH(tanggal_bayar)"))
+            ->groupByRaw('MONTH(tanggal_bayar)')
             ->get();
 
         $labels = [];
@@ -89,25 +81,25 @@ class DashboardController extends Controller
 
 
         // Pie Charts
-            $tagihanKelas = DB::table('tagihan')
-                ->select('kelas')
-                ->selectRaw("COUNT(*) as total")
-                ->selectRaw("SUM(CASE WHEN status = 'BELUM DIBAYAR' THEN 1 ELSE 0 END) as belum_bayar")
-                ->where('jenis', 'SPP')
-                ->whereMonth('created_at', $bulanIni)
-                ->whereYear('created_at', $tahunIni)
-                ->groupBy('kelas')
-                ->get();
+        $tagihanKelas = Tagihan::select('kelas')
+            ->selectRaw("COUNT(*) as total")
+            ->selectRaw("SUM(CASE WHEN status = 'BELUM DIBAYAR' THEN 1 ELSE 0 END) as belum_bayar")
+            ->where('jenis', 'SPP')
+            ->whereMonth('created_at', $bulanIni)
+            ->whereYear('created_at', $tahunIni)
+            ->groupBy('kelas')
+            ->get();
+        
+        $dataPie = $tagihanKelas->map(function ($item) {
+            return [
+                'kelas' => $item->kelas ?? 'Tanpa Kelas',
+                'belum_bayar' => (int) $item->belum_bayar
+            ];
+        });
+    
 
-            $dataPie = $tagihanKelas->map(function ($item) {
-                return [
-                    'kelas' => $item->kelas ?? 'Tanpa Kelas',
-                    'belum_bayar' => (int) $item->belum_bayar
-                ];
-            });
-
-            $kelasData = $dataPie->pluck('kelas'); // label
-            $jumlahBelumBayar = $dataPie->pluck('belum');
+        $kelasData = $dataPie->pluck('kelas'); // label
+        $jumlahBelumBayar = $dataPie->pluck('belum');
 
         return view('admin.dashboard', [
             // Border
