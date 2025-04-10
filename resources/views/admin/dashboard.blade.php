@@ -114,8 +114,8 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                             aria-labelledby="dropdownMenuLink">
-                            <div class="dropdown-header">Option:</div>
-                            <a class="dropdown-item" href="#" id="fullscreenChart">Full Screen</a>
+                            <div class="dropdown-header">Opsi:</div>
+                            <a class="dropdown-item" href="#" id="fullscreenBar">Full Screen</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#" id="downloadPNG">Download PNG</a>
                             <a class="dropdown-item" href="#" id="downloadJPEG">Download JPEG</a>
@@ -147,17 +147,14 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                             aria-labelledby="dropdownMenuLink">
-                            <div class="dropdown-header">Dropdown Header:</div>
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
+                            <div class="dropdown-header">Opsi:</div>
+                            <a class="dropdown-item" href="#" id="fullscreenPie">Full Screen</a>
                         </div>
                     </div>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-                    <div class="chart-pie pt-4 pb-2">
+                    <div class="chart-pie pt-4 pb-2" id="chartPieContainer">
                         <canvas id="myPieChart"></canvas>
                     </div>
                     <div class="mt-4 text-center small" id="pieLabels">

@@ -66,3 +66,24 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+
+
+// Full Screen Pie Chart
+document.getElementById("fullscreenPie").addEventListener("click", function () {
+    const chartContainer = document.getElementById("chartPieContainer");
+
+    // Tambahkan background putih agar tampil bagus saat fullscreen
+    chartContainer.style.backgroundColor = "#ffffff";
+
+    if (chartContainer.requestFullscreen) {
+        chartContainer.requestFullscreen();
+    } else if (chartContainer.webkitRequestFullscreen) {
+        // Safari
+        chartContainer.webkitRequestFullscreen();
+    } else if (chartContainer.msRequestFullscreen) {
+        // IE11
+        chartContainer.msRequestFullscreen();
+    }
+});
+
+

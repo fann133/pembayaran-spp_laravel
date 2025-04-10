@@ -128,7 +128,7 @@ var myBarChart = new Chart(ctx, {
 
 // Bar Full Screen
 document
-    .getElementById("fullscreenChart")
+    .getElementById("fullscreenBar")
     .addEventListener("click", function () {
         const chartContainer = document.getElementById("chartBarContainer");
 
