@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 
-@section('title', 'Pembayaran SPP | Data Guru')
+@section('title', 'Data Guru')
 @section('content')
 <div class="container-fluid">
 

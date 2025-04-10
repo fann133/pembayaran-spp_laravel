@@ -1,5 +1,6 @@
 @extends('admin.layouts.master')
 
+@section('title', 'Bayar Tagihan')
 @section('content')
 <div class="container">
     <h2>Pembayaran Tagihan</h2>

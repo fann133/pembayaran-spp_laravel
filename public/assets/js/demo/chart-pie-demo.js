@@ -16,8 +16,10 @@ document.addEventListener("DOMContentLoaded", function () {
             datasets: [
                 {
                     data: data,
-                    backgroundColor: ["#4e73df", "#1cc88a", "#36b9cc"],
-                    hoverBackgroundColor: ["#2e59d9", "#17a673", "#2c9faf"],
+                    backgroundColor: ["#4e73df", "#1cc88a", "#36b9cc", "#f6c23e", "#858796", "#fd7e14", "#e74a3b", 
+                    "#20c9a6", "#6f42c1", "#f97316", "#f43f5e", "#0dcaf0", "#b089ec", "#64748b", "#38bdf8"],
+                    hoverBackgroundColor: ["#2e59d9", "#17a673", "#2c9faf", "#dda20a", "#6c6f7c", "#e46300", "#c43b2f",
+                    "#17a689", "#5a32a3", "#ea580c", "#be123c", "#0aa2c0", "#8b5cf6", "#475569", "#0ea5e9"],
                     hoverBorderColor: "rgba(234, 236, 244, 1)",
                 },
             ],
@@ -53,7 +55,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Label bawah pie
     const legendDiv = document.getElementById("pieLabels");
     if (legendDiv) {
-        const colors = ["#4e73df", "#1cc88a", "#36b9cc"];
+        const colors = ["#4e73df", "#1cc88a", "#36b9cc", "#f6c23e", "#858796", "#fd7e14", "#e74a3b",
+                        "#20c9a6", "#6f42c1", "#f97316", "#f43f5e", "#0dcaf0", "#b089ec", "#64748b", "#38bdf8"];
         legendDiv.innerHTML = "";
         pieData.forEach((item, index) => {
             legendDiv.innerHTML += `

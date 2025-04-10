@@ -1,5 +1,6 @@
 @extends('admin.layouts.master')
 
+@section('title', 'Aplikasi')
 @section('content')
 <div class="container-fluid">
     <h1 class="mb-4">Backup Database</h1>

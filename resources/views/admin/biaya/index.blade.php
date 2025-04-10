@@ -25,7 +25,9 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between">
             <h6 class="m-0 font-weight-bold text-primary">Data Biaya</h6>
-            <a href="{{ route('admin.biaya.create') }}" class="btn btn-primary">Tambah Biaya</a>
+            <a href="{{ route('admin.biaya.create') }}" class="btn btn-primary btn-sm">
+                <i class="fas fa-plus"> Tambah Data</i>
+            </a>
         </div>
 
 
