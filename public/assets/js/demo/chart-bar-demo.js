@@ -125,3 +125,79 @@ var myBarChart = new Chart(ctx, {
         },
     },
 });
+
+
+
+// Bar Full Screen
+document.getElementById("fullscreenChart").addEventListener("click", function () {
+    const chartContainer = document.getElementById("chartBarContainer");
+
+    // Tambahkan background putih
+    chartContainer.style.backgroundColor = "#ffffff";
+
+    if (chartContainer.requestFullscreen) {
+      chartContainer.requestFullscreen();
+    } else if (chartContainer.webkitRequestFullscreen) { // Safari
+      chartContainer.webkitRequestFullscreen();
+    } else if (chartContainer.msRequestFullscreen) { // IE11
+      chartContainer.msRequestFullscreen();
+    }
+  });
+
+
+
+// Download Bar Charts via PNG
+document.getElementById("downloadPNG").addEventListener("click", function () {
+    const canvas = document.getElementById("myBarChart");
+    const ctx = canvas.getContext("2d");
+
+    // Buat canvas baru
+    const newCanvas = document.createElement("canvas");
+    const newCtx = newCanvas.getContext("2d");
+
+    // Set ukuran sama dengan canvas asli
+    newCanvas.width = canvas.width;
+    newCanvas.height = canvas.height;
+
+    // Gambar latar belakang putih
+    newCtx.fillStyle = "#ffffff";
+    newCtx.fillRect(0, 0, newCanvas.width, newCanvas.height);
+
+    // Gambar chart di atas background putih
+    newCtx.drawImage(canvas, 0, 0);
+
+    // Generate URL dari canvas baru
+    const url = newCanvas.toDataURL("image/png");
+
+    // Buat link untuk download
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "chart-bar.png";
+    a.click();
+  });
+
+
+// Download Bar Charts via JPEG
+  document.getElementById("downloadJPEG").addEventListener("click", function () {
+    var canvas = document.getElementById("myBarChart");
+
+    // Buat canvas baru dengan background putih
+    var whiteCanvas = document.createElement('canvas');
+    whiteCanvas.width = canvas.width;
+    whiteCanvas.height = canvas.height;
+    var ctx = whiteCanvas.getContext('2d');
+
+    // Isi background dengan putih
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, whiteCanvas.width, whiteCanvas.height);
+
+    // Gambar chart asli ke canvas baru
+    ctx.drawImage(canvas, 0, 0);
+
+    // Unduh sebagai JPEG
+    var jpegUrl = whiteCanvas.toDataURL("image/jpeg", 1.0);
+    var link = document.createElement("a");
+    link.download = "bar-chart.jpeg";
+    link.href = jpegUrl;
+    link.click();
+  });

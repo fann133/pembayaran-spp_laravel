@@ -115,8 +115,10 @@
                         <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                             aria-labelledby="dropdownMenuLink">
                             <div class="dropdown-header">Dropdown Header:</div>
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#" id="fullscreenChart">Full Screen</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#" id="downloadPNG">Download PNG</a>
+                            <a class="dropdown-item" href="#" id="downloadJPEG">Download JPEG</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">Something else here</a>
                         </div>
@@ -124,7 +126,7 @@
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-                    <div class="chart-bar">
+                    <div class="chart-bar" id="chartBarContainer">
                         <canvas id="myBarChart"></canvas>
                     </div>
                 </div>
