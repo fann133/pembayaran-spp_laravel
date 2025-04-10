@@ -126,25 +126,25 @@ var myBarChart = new Chart(ctx, {
     },
 });
 
-
-
 // Bar Full Screen
-document.getElementById("fullscreenChart").addEventListener("click", function () {
-    const chartContainer = document.getElementById("chartBarContainer");
+document
+    .getElementById("fullscreenChart")
+    .addEventListener("click", function () {
+        const chartContainer = document.getElementById("chartBarContainer");
 
-    // Tambahkan background putih
-    chartContainer.style.backgroundColor = "#ffffff";
+        // Tambahkan background putih
+        chartContainer.style.backgroundColor = "#ffffff";
 
-    if (chartContainer.requestFullscreen) {
-      chartContainer.requestFullscreen();
-    } else if (chartContainer.webkitRequestFullscreen) { // Safari
-      chartContainer.webkitRequestFullscreen();
-    } else if (chartContainer.msRequestFullscreen) { // IE11
-      chartContainer.msRequestFullscreen();
-    }
-  });
-
-
+        if (chartContainer.requestFullscreen) {
+            chartContainer.requestFullscreen();
+        } else if (chartContainer.webkitRequestFullscreen) {
+            // Safari
+            chartContainer.webkitRequestFullscreen();
+        } else if (chartContainer.msRequestFullscreen) {
+            // IE11
+            chartContainer.msRequestFullscreen();
+        }
+    });
 
 // Download Bar Charts via PNG
 document.getElementById("downloadPNG").addEventListener("click", function () {
@@ -174,18 +174,17 @@ document.getElementById("downloadPNG").addEventListener("click", function () {
     a.href = url;
     a.download = "chart-bar.png";
     a.click();
-  });
-
+});
 
 // Download Bar Charts via JPEG
-  document.getElementById("downloadJPEG").addEventListener("click", function () {
+document.getElementById("downloadJPEG").addEventListener("click", function () {
     var canvas = document.getElementById("myBarChart");
 
     // Buat canvas baru dengan background putih
-    var whiteCanvas = document.createElement('canvas');
+    var whiteCanvas = document.createElement("canvas");
     whiteCanvas.width = canvas.width;
     whiteCanvas.height = canvas.height;
-    var ctx = whiteCanvas.getContext('2d');
+    var ctx = whiteCanvas.getContext("2d");
 
     // Isi background dengan putih
     ctx.fillStyle = "#ffffff";
@@ -200,4 +199,56 @@ document.getElementById("downloadPNG").addEventListener("click", function () {
     link.download = "bar-chart.jpeg";
     link.href = jpegUrl;
     link.click();
-  });
+});
+
+// Download Bars Charts via PDF
+document.getElementById("downloadPDF").addEventListener("click", function () {
+    const canvas = document.getElementById("myBarChart");
+
+    // Buat canvas baru untuk latar putih + border
+    const tempCanvas = document.createElement("canvas");
+    const ctx = tempCanvas.getContext("2d");
+
+    const originalWidth = canvas.width;
+    const originalHeight = canvas.height;
+
+    tempCanvas.width = originalWidth;
+    tempCanvas.height = originalHeight;
+
+    // Tambahkan latar putih
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+
+    // Tambahkan border
+    ctx.strokeStyle = "#000000";
+    ctx.lineWidth = 2;
+    ctx.strokeRect(0, 0, tempCanvas.width, tempCanvas.height);
+
+    // Gambar chart di atas latar
+    ctx.drawImage(canvas, 0, 0);
+
+    const imageData = tempCanvas.toDataURL("image/jpeg", 1.0);
+
+    const { jsPDF } = window.jspdf;
+
+    // A4 Landscape
+    const pdf = new jsPDF({
+        orientation: "landscape",
+        unit: "mm",
+        format: "a4",
+    });
+
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+
+    // Hitung rasio ukuran gambar terhadap ukuran halaman PDF
+    const imgProps = pdf.getImageProperties(imageData);
+    const imgWidth = pageWidth - 20; // margin 10mm
+    const imgHeight = (imgProps.height * imgWidth) / imgProps.width;
+
+    const x = (pageWidth - imgWidth) / 2;
+    const y = 20; // jarak dari atas halaman
+
+    pdf.addImage(imageData, "JPEG", x, y, imgWidth, imgHeight);
+    pdf.save("Bar-Chart.pdf");
+});

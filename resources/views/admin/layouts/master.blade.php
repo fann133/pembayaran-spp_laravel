@@ -25,7 +25,6 @@
      <!-- Custom styles for this page -->
      <link href="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
      <link href="{{ asset('assets/css/select2.min.css') }}" rel="stylesheet">
-
 </head>
 @stack('scripts')
 @php
@@ -93,7 +92,6 @@
             </div>
         </div>
     </div>
-    
 
     <script src="{{ asset('assets/main/script.js') }}"></script>
 
@@ -106,6 +104,9 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('assets/js/sb-admin-2.min.js') }}"></script>
+
+    <!-- Tambahkan ini di bawah -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <!-- Page level plugins -->
     <script src="{{ asset('assets/vendor/chart.js/Chart.min.js') }}"></script>

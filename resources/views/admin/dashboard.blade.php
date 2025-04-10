@@ -114,13 +114,13 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                             aria-labelledby="dropdownMenuLink">
-                            <div class="dropdown-header">Dropdown Header:</div>
+                            <div class="dropdown-header">Option:</div>
                             <a class="dropdown-item" href="#" id="fullscreenChart">Full Screen</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#" id="downloadPNG">Download PNG</a>
                             <a class="dropdown-item" href="#" id="downloadJPEG">Download JPEG</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
+                            <a class="dropdown-item" href="#" id="downloadPDF">Download PDF</a>
                         </div>
                     </div>
                 </div>
@@ -168,6 +168,26 @@
     </div>
 </div>
 
+<!-- Modal Pilih Warna -->
+<div class="modal fade" id="colorPickerModal" tabindex="-1" role="dialog" aria-labelledby="colorPickerLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="colorPickerLabel">Pilih Warna Bar</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Tutup">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body text-center">
+          <input type="color" id="barColorPicker" value="#4e73df" class="form-control">
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button type="button" class="btn btn-primary" id="applyColor">Terapkan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
 <script>
     // Bar Chart
     var chartLabels = {!! json_encode($labels) !!};
