@@ -49,8 +49,8 @@
                                     <label class="form-check-label" for="checkAll"></label>
                                 </div>
                             </th>                                                        
-                            <th>Nama</th>
                             <th>Tanggal</th>
+                            <th>Nama</th>
                             <th>Pembayaran</th>
                             <th>Jenis</th>
                             <th>Kode</th>
@@ -68,7 +68,7 @@
                                         <label class="form-check-label" for="tagihan_{{ $key }}" style="margin-left: 30px;">{{ $key + 1 }}</label>
                                     </div>
                                 </td>
-                                <td>{{ $item->tanggal_tagihan }}</td>                      
+                                <td>{{ \Carbon\Carbon::parse($item->tanggal_tagihan)->translatedFormat('d F Y') }}</td>                      
                                 <td>{{ $item->nama }} <br><span class="font-weight-bold">{{ $item->nis }}</span> [{{ $item->kelas }}]</td>
                                 <td>{{ $item->nama_pembayaran }} <br><span class="font-weight-bold">{{ $item->bulan }}</span></td>
                                 <td>{{ $item->jenis }}</td>
