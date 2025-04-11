@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Pembayaran SPP | Dashboard')
+@section('title', '404 Page Not Found')
 @section('content')
 <div class="container-fluid">
 

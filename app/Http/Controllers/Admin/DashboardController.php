@@ -24,7 +24,6 @@ class DashboardController extends Controller
     {
         $bulanNow= Carbon::now()->translatedFormat('F'); 
         $bulanIni = Carbon::now()->month;
-        $bulanSekarang = Carbon::now()->translatedFormat('F'); // hasil: "April"
         $tahunIni = Carbon::now()->year;
 
         // Dashboard Nama sekolah
@@ -35,21 +34,42 @@ class DashboardController extends Controller
         $jumlahSiswaAktif = Siswa::whereIn('status', ['AKTIF', 'PINDAHAN'])->count();
 
 
-        // Border Guru
+        // Borders Guru
         $jumlahGuru = Guru::count();
 
+        // Ambil semua bulan & tahun dari tanggal_bayar
+        $daftarBulan = Pembayaran::select(DB::raw('DISTINCT MONTH(tanggal_bayar) as bulan'))
+        ->whereNotNull('tanggal_bayar')
+        ->orderBy('bulan', 'asc')
+        ->pluck('bulan');
 
-        // Border Progress
+        $daftarTahun = Pembayaran::select(DB::raw('DISTINCT YEAR(tanggal_bayar) as tahun'))
+        ->whereNotNull('tanggal_bayar')
+        ->orderBy('tahun', 'desc')
+        ->pluck('tahun');
+
+        // Ambil bulan dan tahun yang dipilih (atau default ke sekarang)
+        $bulanDipilih = request('bulan') ?? now()->format('m');
+        $tahunDipilih = request('tahun') ?? now()->format('Y');
+
+
+
+        // Borders Progress
         $totalSiswa = Siswa::whereIn('status', ['AKTIF', 'PINDAHAN'])->count();
-        $sudahBayar = Pembayaran::where('jenis', 'SPP')
-            ->where('bulan', $bulanSekarang)
-            ->distinct('id_siswa')
-            ->count('id_siswa');
+        $sudahBayar = Pembayaran::whereIn('jenis', ['SPP', 'NON-SPP'])
+        ->whereMonth('tanggal_bayar', $bulanDipilih)
+        ->whereYear('tanggal_bayar', $tahunDipilih)
+        ->distinct('id_siswa')
+        ->count('id_siswa');
+
         $progress = $totalSiswa > 0 ? round(($sudahBayar / $totalSiswa) * 100, 2) : 0;
 
-        
-        // Border Jumlah Pemasukan 
-        $totalPemasukan = Pembayaran::sum('dibayar');
+        // Borders Jumlah pemasukan
+        $totalPemasukanBulanIni = Pembayaran::whereIn('status', ['LUNAS', 'BELUM LUNAS'])
+        ->whereIn('jenis', ['SPP', 'NON-SPP'])
+        ->whereMonth('tanggal_bayar', $bulanDipilih)
+        ->whereYear('tanggal_bayar', $tahunDipilih)
+        ->sum('dibayar');
 
 
         // Bars Charts
@@ -85,8 +105,8 @@ class DashboardController extends Controller
             ->selectRaw("COUNT(*) as total")
             ->selectRaw("SUM(CASE WHEN status = 'BELUM DIBAYAR' THEN 1 ELSE 0 END) as belum_bayar")
             ->where('jenis', 'SPP')
-            ->whereMonth('created_at', $bulanIni)
-            ->whereYear('created_at', $tahunIni)
+            ->whereMonth('tanggal_tagihan', $bulanDipilih)
+            ->whereYear('tanggal_tagihan', $tahunDipilih)
             ->groupBy('kelas')
             ->get();
         
@@ -108,7 +128,11 @@ class DashboardController extends Controller
             'jumlahGuru'       => $jumlahGuru,
             'progress'         => $progress,
             'bulanNow'         => $bulanNow,
-            'totalPemasukan'   => $totalPemasukan,
+            'totalPemasukanBulanIni' => $totalPemasukanBulanIni,
+            'daftarBulan'      => $daftarBulan,
+            'bulanDipilih'     => $bulanDipilih,
+            'daftarTahun'      => $daftarTahun,
+            'tahunDipilih'     => $tahunDipilih,
 
             // Bars Charts
             'labels'           => $labels,

@@ -2,54 +2,75 @@
 <html lang="en">
 
 <head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <link rel="icon" type="image/png" href="{{ asset($pengaturan->logo ?? 'assets/img/logo-login/logo.png') }}?v={{ time() }}">
     <title>@yield('title', 'SB Admin 2')</title>
 
     {{-- Custom CSS --}}
     <link rel="stylesheet" href="{{ asset('assets/main/style.css') }}">
 
-    <!-- Custom fonts for this template -->
+    <!-- Custom fonts for this template-->
     <link href="{{ asset('assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('assets/css/font.css') }}" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
+    <!-- Custom styles for this template-->
     <link href="{{ asset('assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
 
-    <!-- Custom styles for this page -->
-    <link href="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+     <!-- Custom styles for this page -->
+     <link href="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+     <link href="{{ asset('assets/css/select2.min.css') }}" rel="stylesheet">
 </head>
-
-<body id="page-top">
+@stack('scripts')
+@php
+    $isMobile = preg_match('/(android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini)/i', request()->header('User-Agent'));
+@endphp
+<body id="page-top" class="{{ $isMobile ? 'sidebar-toggled' : '' }}">
     <!-- Preloader -->
     <div class="preloader">
-        <div class="spinner-border text-primary preloader-spinner" role="status"></div>
-    </div>
-
-    <!-- Page Wrapper -->
-    <div id="wrapper">
-        <x-sidebar />
-
-        <div id="content-wrapper" class="d-flex flex-column">
-            <div id="content">
-                <x-topbar />
-                @yield('content')
-            </div>
-
-            <x-footer />
+        <div class="spinner-border text-primary preloader-spinner" role="status">
         </div>
     </div>
 
-    <!-- Scroll to Top Button -->
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+    @include('admin.components.sidebar')
+
+
+
+
+        <div id="content-wrapper" class="d-flex flex-column">
+
+
+            <div id="content">
+            @include('admin.components.topbar')
+
+                @yield('content')
+            </div>
+
+            @include('admin.components.footer')
+
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
-    </a> 
+    </a>
 
-    <!-- Logout Modal -->
+    <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -74,26 +95,43 @@
 
     <script src="{{ asset('assets/main/script.js') }}"></script>
 
-    <!-- Bootstrap core JavaScript -->
+    <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
-    <!-- Core plugin JavaScript -->
+    <!-- Core plugin JavaScript-->
     <script src="{{ asset('assets/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 
-    <!-- Custom scripts for all pages -->
+    <!-- Custom scripts for all pages-->
     <script src="{{ asset('assets/js/sb-admin-2.min.js') }}"></script>
+
+    <!-- Tambahkan ini di bawah -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <!-- Page level plugins -->
     <script src="{{ asset('assets/vendor/chart.js/Chart.min.js') }}"></script>
 
     <!-- Page level custom scripts -->
-    <script src="{{ asset('assets/js/demo/chart-area-demo.js') }}"></script>
+    <script src="{{ asset('assets/js/demo/chart-bar-demo.js') }}"></script>
     <script src="{{ asset('assets/js/demo/chart-pie-demo.js') }}"></script>
 
-    <!-- DataTables -->
     <script src="{{ asset('assets/vendor/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+    <!-- Page level custom scripts -->
     <script src="{{ asset('assets/js/demo/datatables-demo.js') }}"></script>
-</body>
-</html>
+    
+    <script src="{{ asset('assets/vendor/npm/bootstrap.bundle.min.js') }}"></script>
+
+    {{-- JS Select2 --}}
+    <script src="{{ asset('assets/js/select2.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2();
+        });
+        
+    </script>
+
+    </body>
+
+    </html>
