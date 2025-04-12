@@ -22,7 +22,7 @@
             <div class="form-group mr-2">
                 <label for="tahun" class="mr-2">Tahun</label>
                 <select name="tahun" id="tahun" class="form-control select2" onchange="this.form.submit()">
-                    @foreach ($daftarTahun as $tahun)
+                    @foreach ($tahunList as $tahun)
                         <option value="{{ $tahun }}" {{ $tahun == $tahunDipilih ? 'selected' : '' }}>
                             {{ $tahun }}
                         </option>
@@ -128,9 +128,9 @@
         <div class="col-xl-8 col-lg-7">
             <div class="card shadow mb-4 border-bottom-primary">
                 <!-- Card Header - Dropdown -->
-                <div
-                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Table Pembayaran</h6>
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Tabel Pembayaran {{ request('tahun') ?? date('Y') }}</h6>
+            
                     <div class="dropdown no-arrow">
                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

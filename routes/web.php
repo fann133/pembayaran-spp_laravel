@@ -51,6 +51,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware('role:admin')->prefix('admin')->group(function () {
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
+
         // Manajemen Profil
         Route::get('/profil-sekolah', [ProfilController::class, 'index'])->name('admin.profil.index');
         Route::post('/profil-sekolah', [ProfilController::class, 'update'])->name('admin.profil.update');
