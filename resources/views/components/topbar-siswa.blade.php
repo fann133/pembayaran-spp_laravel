@@ -13,9 +13,35 @@
         <li class="nav-item dropdown no-arrow mx-1">
             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}
+                <i class="fas fa-bell fa-fw"></i>
+                <span class="badge badge-danger badge-counter">{{ $tagihanCount }}</span>
             </a>
+            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                aria-labelledby="alertsDropdown">
+                <h6 class="dropdown-header">
+                    Tagihan Terbaru
+                </h6>
+
+                @forelse ($tagihan as $item)
+                <a class="dropdown-item d-flex align-items-center" href="">
+                    <div class="mr-3">
+                        <div class="icon-circle bg-warning">
+                            <i class="fas fa-money-bill text-white"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="small text-gray-500">{{ \Carbon\Carbon::parse($item->created_at)->format('d M Y') }}</div>
+                        <span class="font-weight-bold">{{ $item->nama_pembayaran }} {{ $item->bulan ?? ' ' }} - Rp{{ number_format($item->jumlah, 0, ',', '.') }}</span>
+                    </div>
+                </a>
+                @empty
+                <div class="text-center small text-gray-500">Tidak ada tagihan baru</div>
+                @endforelse
+
+                <a class="dropdown-item text-center small text-gray-500" href="">Lihat Semua Tagihan</a>
+            </div>
         </li>
+
 
         <div class="topbar-divider d-none d-sm-block"></div>
 

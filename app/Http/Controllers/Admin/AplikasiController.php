@@ -21,7 +21,7 @@ class AplikasiController extends Controller
         $request->validate([
             'nama_aplikasi' => 'required',
             'ikon_sidebar' => 'required',
-            'warna_sidebar' => 'required',
+            'tema' => 'required',
             'footer' => 'required',
             'logo' => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
         ]);
@@ -35,7 +35,7 @@ class AplikasiController extends Controller
 
         $setting->nama_aplikasi = $request->nama_aplikasi;
         $setting->ikon_sidebar = $request->ikon_sidebar;
-        $setting->warna_sidebar = $request->warna_sidebar;
+        $setting->tema = $request->tema;
         $setting->footer = $request->footer;
         $setting->save();
 

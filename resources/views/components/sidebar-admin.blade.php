@@ -3,7 +3,7 @@
     $pengaturan = Setting::first();
 @endphp
 
-<ul class="navbar-nav {{ $pengaturan->warna_sidebar }} sidebar sidebar-dark accordion {{ $isMobile ? 'toggled' : '' }}" id="accordionSidebar">
+<ul class="navbar-nav bg-gradient-{{ $pengaturan->tema }} sidebar sidebar-dark accordion {{ $isMobile ? 'toggled' : '' }}" id="accordionSidebar">
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('admin.dashboard') }}">
         <div class="sidebar-brand-icon">
             <i class="fas {{ $pengaturan->ikon_sidebar }}"></i>

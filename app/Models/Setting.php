@@ -18,7 +18,7 @@ class Setting extends Model
     protected $fillable = [
         'nama_aplikasi',
         'ikon_sidebar',
-        'warna_sidebar',
+        'tema',
         'footer',
         'logo',
     ];

@@ -1,4 +1,4 @@
-@extends('siswa.layouts.master')
+@extends('layouts.master')
 
 @section('title', 'Pembayaran SPP | Dashboard')
 @section('content')

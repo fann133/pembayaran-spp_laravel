@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+@extends('layouts.master')
 @section('title', 'Pengaturan')
 
 @section('content')
@@ -31,7 +31,7 @@
 
                 <div class="mt-2">
                     <label>Warna Sidebar</label>
-                    <input type="text" name="warna_sidebar" class="form-control" value="{{ $pengaturan->warna_sidebar }}">
+                    <input type="text" name="tema" class="form-control" value="{{ $pengaturan->tema }}">
                 </div>
 
                 <div class="mt-2">

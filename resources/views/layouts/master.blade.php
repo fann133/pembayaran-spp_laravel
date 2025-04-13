@@ -41,7 +41,7 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-    @include('admin.components.sidebar')
+    @include('components.sidebar')
 
 
 
@@ -50,12 +50,12 @@
 
 
             <div id="content">
-            @include('admin.components.topbar')
+            @include('components.topbar')
 
                 @yield('content')
             </div>
 
-            @include('admin.components.footer')
+            @include('components.footer')
 
 
 
