@@ -124,10 +124,13 @@ class TagihanController extends Controller
         // Ambil ID user dari Auth atau session
         $id_users = Auth::check() ? Auth::user()->id_users : session('id_users');
 
-        // Jumlah yang dibayar sekarang
-        $dibayarSekarang = $request->dibayar;
+        // Ambil input dibayar dan bersihkan formatnya
+        $dibayarSekarang = str_replace(['Rp', '.', ' '], '', $request->dibayar);
 
-        // Pastikan jumlah yang dibayar tidak lebih dari jumlah tagihan saat ini
+        // Konversi ke integer
+        $dibayarSekarang = (int) $dibayarSekarang;
+
+        // Validasi jumlah pembayaran
         if ($dibayarSekarang > $tagihan->jumlah) {
             return redirect()->route('admin.tagihan.index')->with('error', 'Jumlah pembayaran melebihi sisa tagihan.');
         }
@@ -157,14 +160,26 @@ class TagihanController extends Controller
         ]);
 
         if ($status == 'LUNAS') {
-            $tagihan->delete();
+            // Ambil jumlah awal dari relasi biaya
+            $jumlah_awal = $tagihan->biaya->jumlah ?? $tagihan->jumlah; // fallback jika relasi tidak ada
+        
+            $tagihan->update([
+                'status' => 'SUDAH DIBAYAR',
+                'jumlah' => $jumlah_awal
+            ]);
+        
             return redirect()->route('admin.tagihan.index')->with('success', 'Pembayaran berhasil. Tagihan sudah lunas.');
         } else {
-            // Jika masih ada sisa hutang, update tagihan dengan jumlah piutang yang tersisa
-            $tagihan->update(['jumlah' => $piutang]);
+            // Jika masih ada sisa hutang, update jumlah agar menampilkan sisa tagihan
+            $tagihan->update([
+                'jumlah' => $piutang
+            ]);
+        
             return redirect()->route('admin.tagihan.index')->with('warning', 'Pembayaran berhasil. Tagihan belum lunas.');
-        }   
+        }                
     }
+
+
 
     public function print($id_tagihan)
     {

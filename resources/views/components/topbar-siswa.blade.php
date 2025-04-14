@@ -23,7 +23,7 @@
                 </h6>
 
                 @forelse ($tagihan as $item)
-                <a class="dropdown-item d-flex align-items-center" href="">
+                <a class="dropdown-item d-flex align-items-center" href="{{ route('siswa.tagihan.show', $item->id_tagihan) }}">
                     <div class="mr-3">
                         <div class="icon-circle bg-warning">
                             <i class="fas fa-money-bill text-white"></i>
@@ -38,7 +38,7 @@
                 <div class="text-center small text-gray-500">Tidak ada tagihan baru</div>
                 @endforelse
 
-                <a class="dropdown-item text-center small text-gray-500" href="">Lihat Semua Tagihan</a>
+                <a class="dropdown-item text-center small text-gray-500" href="{{ route('siswa.tagihan.index') }}">Lihat Semua Tagihan</a>
             </div>
         </li>
 

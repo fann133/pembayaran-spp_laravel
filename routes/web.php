@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Siswa\DashboardController as SiswaDashboardController;
+use App\Http\Controllers\Siswa\TagihanController as SiswaTagihanController;
 use App\Http\Controllers\Guru\DashboardController as GuruDashboardController;
 use App\Http\Controllers\Bendahara\DashboardController as BendaharaDashboardController;
 use App\Http\Controllers\Kepsek\DashboardController as KepsekDashboardController;
@@ -139,6 +140,9 @@ Route::middleware(['auth'])->group(function () {
     // **SISWA ROUTES**
     Route::middleware('role:siswa')->prefix('siswa')->group(function () {
         Route::get('/dashboard', [SiswaDashboardController::class, 'index'])->name('siswa.dashboard');
+
+        Route::get('/tagihan', [SiswaTagihanController::class, 'index'])->name('siswa.tagihan.index');
+        Route::get('/tagihan/{id}', [SiswaTagihanController::class, 'show'])->name('siswa.tagihan.show');
     });
 
     // // **GURU ROUTES**

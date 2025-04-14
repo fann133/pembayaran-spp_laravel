@@ -77,20 +77,22 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Progress {{ \Carbon\Carbon::create()->month($bulanDipilih)->translatedFormat('F') }} - {{ $tahunDipilih }}
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Progress {{ \Carbon\Carbon::create()->month($bulanDipilih)->translatedFormat('F') }} - {{ $tahunDipilih }}
                             </div>
-                            <div class="row no-gutters align-items-center">
+                            <div class="row no-gutters align-items-center mb-1">
                                 <div class="col-auto">
                                     <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ $progress }}%</div>
                                 </div>
                                 <div class="col">
                                     <div class="progress progress-sm mr-2">
                                         <div class="progress-bar bg-info" role="progressbar"
-                                            style="width: {{ $progress }}%" aria-valuenow="{{ $progress }}%" aria-valuemin="0"
+                                            style="width: {{ $progress }}%" aria-valuenow="{{ $progress }}" aria-valuemin="0"
                                             aria-valuemax="100"></div>
                                     </div>
                                 </div>
                             </div>
+                            <small class="text-muted">{{ $sudahBayarTagihan }} dari {{ $totalTagihan }} siswa sudah membayar tagihan</small>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
@@ -99,6 +101,7 @@
                 </div>
             </div>
         </div>
+
 
         <!-- Pending Requests Card Example -->
         <div class="col-xl-3 col-md-6 mb-4">
@@ -163,7 +166,7 @@
                 <!-- Card Header - Dropdown -->
                 <div
                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Diagram Tagihan {{ \Carbon\Carbon::create()->month($bulanDipilih)->translatedFormat('F') }} - {{ $tahunDipilih }}
+                    <h6 class="m-0 font-weight-bold text-primary">Diagram Tagihan SPP {{ \Carbon\Carbon::create()->month($bulanDipilih)->translatedFormat('F') }} - {{ $tahunDipilih }}
                     </h6>
                     <div class="dropdown no-arrow">
                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"

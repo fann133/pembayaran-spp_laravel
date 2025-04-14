@@ -30,16 +30,16 @@
     </div>
 
     <!-- Nav Item - Charts -->
-    <li class="nav-item">
-        <a class="nav-link" href="charts.html">
-            <i class="fas fa-fw fa-chart-area"></i>
+    <li class="nav-item {{ request()->routeIs('siswa.tagihan.index', 'siswa.tagihan.show') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('siswa.tagihan.index') }}">
+            <i class="fas fa-fw fa-hand-holding-usd"></i>
             <span>Tagihan</span></a>
     </li>
     
 
     <li class="nav-item">
         <a class="nav-link" href="charts.html">
-            <i class="fas fa-fw fa-chart-area"></i>
+            <i class="fas fa-shopping-cart"></i>
             <span>Pembayaran</span></a>
     </li>
 

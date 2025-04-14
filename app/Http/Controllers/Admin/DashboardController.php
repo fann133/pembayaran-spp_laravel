@@ -22,53 +22,52 @@ class DashboardController extends Controller
     
     public function index(Request $request)
     {
-        // Ambil bulan sekarang dalam format nama (contoh: April)
         $bulanNow = Carbon::now()->translatedFormat('F'); 
+        $namaSekolah = ProfilSekolah::first()->nama_sekolah ?? 'Nama Sekolah';
 
-        // Dashboard Nama Sekolah
-        $namaSekolah = ProfilSekolah::first()->nama_sekolah;
-
-        // Ambil bulan dan tahun yang dipilih dari request, jika tidak ada default ke sekarang
         $bulanDipilih = $request->input('bulan', now()->format('m'));
         $tahunDipilih = $request->input('tahun', now()->format('Y'));
+        $tanggal = Carbon::now()->format('Y-m-d');
 
-        // Ambil jumlah siswa dengan status AKTIF atau PINDAHAN
         $totalSiswa = Siswa::whereIn('status', ['AKTIF', 'PINDAHAN'])->count();
         $jumlahSiswaAktif = $totalSiswa;
-
-        // Ambil jumlah guru
         $jumlahGuru = Guru::count();
 
-        // Ambil daftar bulan yang ada di data pembayaran
         $daftarBulan = Pembayaran::select(DB::raw('DISTINCT MONTH(tanggal_bayar) as bulan'))
             ->whereNotNull('tanggal_bayar')
             ->orderBy('bulan', 'asc')
             ->pluck('bulan');
 
-        // Ambil daftar tahun dari pembayaran (untuk dropdown tahun)
         $tahunList = Pembayaran::selectRaw('YEAR(tanggal_bayar) as tahun')
             ->distinct()
             ->orderBy('tahun', 'desc')
             ->pluck('tahun');
 
-        // Hitung jumlah siswa yang sudah membayar (SPP atau NON-SPP) di bulan & tahun dipilih
-        $sudahBayar = Pembayaran::whereIn('jenis', ['SPP', 'NON-SPP'])
-            ->whereMonth('tanggal_bayar', $bulanDipilih)
-            ->whereYear('tanggal_bayar', $tahunDipilih)
-            ->distinct('id_siswa')
-            ->count('id_siswa');
+        // Ini data dari pembayaran (jumlah siswa yang bayar)
+        // $sudahBayarPembayaran = Pembayaran::whereIn('jenis', ['SPP', 'NON-SPP'])
+        //     ->whereMonth('tanggal_bayar', $bulanDipilih)
+        //     ->whereYear('tanggal_bayar', $tahunDipilih)
+        //     ->distinct('id_siswa')
+        //     ->count('id_siswa');
 
-        // Hitung progress pembayaran dalam bentuk persentase
-        $progress = $totalSiswa > 0 ? round(($sudahBayar / $totalSiswa) * 100, 2) : 0;
+        // Ini data tagihan untuk progress
+        $totalTagihan = Tagihan::whereMonth('tanggal_tagihan', $bulanDipilih)
+            ->whereYear('tanggal_tagihan', $tahunDipilih)
+            ->count();
 
-        // Hitung total pemasukan dari pembayaran bulan ini (LUNAS dan BELUM LUNAS)
+        $sudahBayarTagihan = Tagihan::whereMonth('tanggal_tagihan', $bulanDipilih)
+            ->whereYear('tanggal_tagihan', $tahunDipilih)
+            ->where('status', 'SUDAH DIBAYAR')
+            ->count();
+
+        $progress = $totalTagihan > 0 ? round(($sudahBayarTagihan / $totalTagihan) * 100, 2) : 0;
+
         $totalPemasukanBulanIni = Pembayaran::whereIn('status', ['LUNAS', 'BELUM LUNAS'])
             ->whereIn('jenis', ['SPP', 'NON-SPP'])
             ->whereMonth('tanggal_bayar', $bulanDipilih)
             ->whereYear('tanggal_bayar', $tahunDipilih)
             ->sum('dibayar');
 
-        // Barchart: Data Pembayaran SPP dan NON-SPP per bulan (berdasarkan tahun yang dipilih)
         $pembayaranSPP = Pembayaran::selectRaw('MONTH(tanggal_bayar) as bulan, SUM(dibayar) as total')
             ->where('jenis', 'SPP')
             ->whereYear('tanggal_bayar', $tahunDipilih)
@@ -95,7 +94,6 @@ class DashboardController extends Controller
             $dataNonSPP[] = $foundNonSPP ? $foundNonSPP->total : 0;
         }
 
-        // Pie Chart: Data tagihan SPP berdasarkan kelas (jumlah belum bayar)
         $tagihanKelas = Tagihan::select('kelas')
             ->selectRaw("COUNT(*) as total")
             ->selectRaw("SUM(CASE WHEN status = 'BELUM DIBAYAR' THEN 1 ELSE 0 END) as belum_bayar")
@@ -116,28 +114,24 @@ class DashboardController extends Controller
         $jumlahBelumBayar = $dataPie->pluck('belum_bayar');
 
         return view('admin.dashboard', [
-            // Border Cards
-            'namaSekolah' => $namaSekolah,
-            'jumlahSiswaAktif' => $jumlahSiswaAktif,
-            'jumlahGuru' => $jumlahGuru,
-            'progress' => $progress,
-            'bulanNow' => $bulanNow,
-            'totalPemasukanBulanIni' => $totalPemasukanBulanIni,
-            'daftarBulan' => $daftarBulan,
-            'bulanDipilih' => $bulanDipilih,
-            'tahunDipilih' => $tahunDipilih,
-
-            // Bar Charts
-            'labels' => $labels,
-            'dataSPP' => $dataSPP,
-            'dataNonSPP' => $dataNonSPP,
-            'tahunList' => $tahunList,
-
-            // Pie Charts
-            'dataPie' => $dataPie,
-            'kelasData' => $kelasData,
-            'jumlahBelumBayar' => $jumlahBelumBayar
+            'namaSekolah'               => $namaSekolah,
+            'jumlahSiswaAktif'          => $jumlahSiswaAktif,
+            'jumlahGuru'                => $jumlahGuru,
+            'progress'                  => $progress,
+            'bulanNow'                  => $bulanNow,
+            'totalPemasukanBulanIni'    => $totalPemasukanBulanIni,
+            'daftarBulan'               => $daftarBulan,
+            'bulanDipilih'              => $bulanDipilih,
+            'tahunDipilih'              => $tahunDipilih,
+            'sudahBayarTagihan'         => $sudahBayarTagihan,
+            'totalTagihan'              => $totalTagihan,
+            'labels'                    => $labels,
+            'dataSPP'                   => $dataSPP,
+            'dataNonSPP'                => $dataNonSPP,
+            'tahunList'                 => $tahunList,
+            'dataPie'                   => $dataPie,
+            'kelasData'                 => $kelasData,
+            'jumlahBelumBayar'          => $jumlahBelumBayar
         ]);
     }
-
 }
