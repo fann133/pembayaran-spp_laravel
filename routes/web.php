@@ -151,20 +151,20 @@ Route::middleware(['auth'])->group(function () {
 
     });
 
-    // // **GURU ROUTES**
-    // Route::middleware('role:guru')->prefix('guru')->group(function () {
-    //     Route::get('/dashboard', [GuruDashboardController::class, 'index'])->name('guru.dashboard');
-    // });
+    // **GURU ROUTES**
+    Route::middleware('role:guru')->prefix('guru')->group(function () {
+        Route::get('/dashboard', [GuruDashboardController::class, 'index'])->name('guru.dashboard');
+    });
 
-    // // **BENDAHARA ROUTES**
-    // Route::middleware('role:bendahara')->prefix('bendahara')->group(function () {
-    //     Route::get('/dashboard', [BendaharaDashboardController::class, 'index'])->name('bendahara.dashboard');
-    // });
+    // **BENDAHARA ROUTES**
+    Route::middleware('role:bendahara')->prefix('bendahara')->group(function () {
+        Route::get('/dashboard', [BendaharaDashboardController::class, 'index'])->name('bendahara.dashboard');
+    });
 
-    // // **KEPSEK ROUTES**
-    // Route::middleware('role:kepsek')->prefix('kepsek')->group(function () {
-    //     Route::get('/dashboard', [KepsekDashboardController::class, 'index'])->name('kepsek.dashboard');
-    // });
+    // **KEPSEK ROUTES**
+    Route::middleware('role:kepsek')->prefix('kepsek')->group(function () {
+        Route::get('/dashboard', [KepsekDashboardController::class, 'index'])->name('kepsek.dashboard');
+    });
 });
 
 // **LOGOUT ROUTE**

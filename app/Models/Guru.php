@@ -48,4 +48,6 @@ class Guru extends Model
     {
         return $this->belongsTo(User::class, 'users_id', 'id_users');
     }
+    
+
 }

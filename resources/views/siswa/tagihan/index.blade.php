@@ -22,6 +22,7 @@
                                 <th>No</th>
                                 <th>Tanggal</th>
                                 <th>Nama Pembayaran</th>
+                                <th>Kode</th>
                                 <th>Jumlah</th>
                                 <th>Status</th>
                                 <th>Detail</th>
@@ -32,7 +33,8 @@
                                 <tr>
                                     <td>{{ $item + 1 }}</td>
                                     <td>{{ $i->tanggal_tagihan}}</td>
-                                    <td>{{ $i->nama_pembayaran }} <br><span class="font-weight-bold">{{ $i->bulan ?? '-' }}</span></td>
+                                    <td>{{ $i->nama_pembayaran }} [<span class="font-weight-bold">{{ $i->bulan ?? '-' }}</span>]</td>
+                                    <td>Rp{{ ($i->kode) }}</td>
                                     <td>Rp{{ number_format($i->jumlah, 0, ',', '.') }}</td>
                                     <td>
                                         @if($i->status == 'BELUM DIBAYAR')
@@ -47,11 +49,7 @@
                                         </a>
                                     </td>
                                 </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="5">Tidak ada data tagihan.</td>
-                                </tr>
-                            @endforelse
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

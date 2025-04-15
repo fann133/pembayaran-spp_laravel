@@ -71,7 +71,7 @@ class LoginController extends Controller
             case 3:
             case 4:
             case 5:
-                $guru = Guru::where('id_users', (string) $userId)->first();
+                $guru = Guru::where('users_id', (string) $userId)->first();
                 if ($guru) {
                     $redirectRoute = $this->getRoleRoute($role_id) . '.dashboard';
                     $userData = $guru;
