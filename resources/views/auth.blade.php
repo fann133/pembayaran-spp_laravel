@@ -68,7 +68,7 @@
                                     <form class="user" action="{{ route('login.authenticate') }}" method="POST">
                                         @csrf
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-user" name="username"
+                                            <input type="text" class="form-control form-control-user" value="{{ old('username') }}" name="username"
                                                 id="username" placeholder="Username">
                                         </div>
                                         <div class="form-group">
@@ -81,6 +81,9 @@
                                                 <label class="custom-control-label" for="customCheck">Tampilkan</label>
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITEKEY') }}"></div>
+                                        </div>                                        
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Login
                                         </button>
@@ -110,6 +113,8 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('assets/js/sb-admin-2.min.js') }} "></script>
+
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
     <script>
         function togglePassword() {

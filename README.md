@@ -65,3 +65,6 @@ git push origin main
 # 1. Ambil update terbaru dari GitHub
 git pull origin main
 ```
+
+RECAPTCHA_SITEKEY=6LdCTRkrAAAAAEuTTR7phHJcje77KXG3zd1s6uF3
+RECAPTCHA_SECRETKEY=6LdCTRkrAAAAAFYtdH6bl3Zv4Atwn80IcnJhaPMJ

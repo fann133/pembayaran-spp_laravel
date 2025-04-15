@@ -46,6 +46,8 @@ Route::middleware(['auth', 'session.timeout'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
 
+Route::post('/login', [LoginController::class, 'authenticate'])->middleware('throttle:10,1');
+
 
 // Middleware Authentication dan Role Protection
 Route::middleware(['auth'])->group(function () {

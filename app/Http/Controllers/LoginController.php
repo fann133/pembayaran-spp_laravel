@@ -11,47 +11,97 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Http;
 
 class LoginController extends Controller
 {
     public function authenticate(Request $request)
     {
-        // Validasi input login
+        // Validasi input login (username & password wajib diisi)
         $credentials = $request->validate([
             'username' => 'required',
             'password' => 'required',
+            'g-recaptcha-response' => 'required',
+        ], [
+            'username.required' => 'Username harus diisi',
+            'password.required' => 'Password harus diisi',
+            'g-recaptcha-response.required' => 'Tolong verifikasi bahwa Anda bukan robot',
         ]);
 
-        // Cek apakah username ada
+        // Ambil user berdasarkan username
         $user = User::where('username', $credentials['username'])->first();
 
+        // Cek apakah user ditemukan
         if (!$user) {
-            // Username tidak ditemukan
-            return back()->withErrors(['username' => 'Username tidak ditemukan']);
+            return back()->withErrors(['username' => 'Username tidak ditemukan'])->withInput();
         }
 
         // Cek apakah password cocok
         if (!Hash::check($credentials['password'], $user->password)) {
-            // Password salah
-            return back()->withErrors(['password' => 'Password salah']);
+            return back()->withErrors(['password' => 'Password salah'])->withInput();
+        }
+
+        // Cek apakah reCAPTCHA valid
+        $recaptchaResponse = $request->input('g-recaptcha-response');
+        
+        // Cek apakah kunci reCAPTCHA sudah terpasang
+        $secretKey = env('RECAPTCHA_SECRETKEY');
+        if (empty($secretKey)) {
+            return back()->withErrors(['recaptcha' => 'Konfigurasi reCAPTCHA belum disetting.'])->withInput();
+        }
+
+        // Kirim request ke Google reCAPTCHA untuk verifikasi
+        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret' => $secretKey,
+            'response' => $recaptchaResponse,
+        ]);
+
+        // Pastikan response dari Google berhasil
+        if (!$response->successful()) {
+            return back()->withErrors(['recaptcha' => 'Verifikasi reCAPTCHA gagal. Coba lagi.'])->withInput();
+        }
+
+        $result = $response->json();
+        
+        // Cek hasil verifikasi reCAPTCHA
+        if (!$result['success']) {
+            return back()->withErrors(['recaptcha' => 'Verifikasi reCAPTCHA gagal'])->withInput();
         }
 
         // Login user
         Auth::login($user);
 
+        // Cek apakah ini login pertama atau bukan (sebelum update)
+        if (is_null($user->login_times)) {
+            session()->flash('success', 'Login berhasil! Selamat datang.');
+        } else {
+            session()->flash('success', 'Login berhasil! Selamat datang.');
+        }
+
+        // Update login_times ke waktu sekarang
+        $user->login_times = now();
+        $user->save();
+
+        // Ambil role_id dan id_users
         $role_id = $user->role_id ?? null;
         $userId = $user->id_users ?? null;
 
+        // Jika id_users tidak ditemukan
         if (!$userId) {
             Log::error('ID User tidak ditemukan saat login', ['user' => $user]);
             return redirect()->route('login')->withErrors(['error' => 'Terjadi kesalahan saat login, coba lagi.']);
         }
 
+        // Simpan id_users ke session
         session(['id_users' => $userId]);
+
+        // Log aktivitas login
+        Log::info("User login: {$user->username} dengan role {$role_id}", ['id_users' => $userId]);
 
         $redirectRoute = null;
         $userData = null;
 
+        // Arahkan berdasarkan role_id
         switch ($role_id) {
             case 1:
                 $redirectRoute = 'admin.dashboard';
@@ -81,10 +131,15 @@ class LoginController extends Controller
                 break;
 
             default:
-                return redirect()->route('login')->withErrors(['error' => 'Role tidak ditemukan']);
+                return redirect()->route('login')->withErrors(['error' => 'Role tidak ditemukan.']);
         }
 
-        session()->put('userData', $userData);
+        // Simpan data user ke session (hanya data penting)
+        session()->put('userData', [
+            'id' => $userData->id,
+            'nama' => $userData->nama ?? $userData->name,
+            'role' => $role_id,
+        ]);
 
         return redirect()->route($redirectRoute);
     }
@@ -92,7 +147,7 @@ class LoginController extends Controller
     public function authenticated(Request $request, $user)
     {
         // Simpan waktu login ke session
-        Session::put('login_time', now());
+        Session::put('login_times', now());
 
         // Redirect sesuai role atau kebutuhanmu
         return redirect()->intended('dashboard');
