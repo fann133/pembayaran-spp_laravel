@@ -21,11 +21,11 @@ class LoginController extends Controller
         $credentials = $request->validate([
             'username' => 'required',
             'password' => 'required',
-            'g-recaptcha-response' => 'nullable',
+            'g-recaptcha-response' => 'required',
         ], [
             'username.required' => 'Username tidak boleh kosong',
             'password.required' => 'Password tidak boleh kosong',
-            'g-recaptcha-response.nullable' => 'Tolong verifikasi bahwa Anda bukan robot',
+            'g-recaptcha-response.required' => 'Tolong verifikasi bahwa Anda bukan robot',
         ]);
 
         // Ambil user berdasarkan username
