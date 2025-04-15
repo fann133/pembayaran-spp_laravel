@@ -21,11 +21,11 @@ class LoginController extends Controller
         $credentials = $request->validate([
             'username' => 'required',
             'password' => 'required',
-            'g-recaptcha-response' => 'required',
+            'g-recaptcha-response' => 'nullable',
         ], [
-            'username.required' => 'Username harus diisi',
-            'password.required' => 'Password harus diisi',
-            'g-recaptcha-response.required' => 'Tolong verifikasi bahwa Anda bukan robot',
+            'username.required' => 'Username tidak boleh kosong',
+            'password.required' => 'Password tidak boleh kosong',
+            'g-recaptcha-response.nullable' => 'Tolong verifikasi bahwa Anda bukan robot',
         ]);
 
         // Ambil user berdasarkan username
@@ -134,7 +134,6 @@ class LoginController extends Controller
                 return redirect()->route('login')->withErrors(['error' => 'Role tidak ditemukan.']);
         }
 
-        // Simpan data user ke session (hanya data penting)
         session()->put('userData', [
             'id' => $userData->id,
             'nama' => $userData->nama ?? $userData->name,
@@ -146,10 +145,8 @@ class LoginController extends Controller
 
     public function authenticated(Request $request, $user)
     {
-        // Simpan waktu login ke session
         Session::put('login_times', now());
 
-        // Redirect sesuai role atau kebutuhanmu
         return redirect()->intended('dashboard');
     }
 
@@ -171,10 +168,10 @@ class LoginController extends Controller
      */
     public function logout(Request $request)
     {
-        Auth::logout(); // Logout user
-        $request->session()->invalidate(); // Hapus session
-        $request->session()->regenerateToken(); // Regenerasi token CSRF
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-        return redirect()->route('login'); // Redirect ke halaman login
+        return redirect()->route('login');
     }
 }

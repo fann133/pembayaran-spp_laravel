@@ -81,9 +81,11 @@
                                                 <label class="custom-control-label" for="customCheck">Tampilkan</label>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITEKEY') }}"></div>
-                                        </div>                                        
+                                        <div class="form-group" style="display: flex; justify-content: center;">
+                                            <div style="transform: scale(0.85); transform-origin: 0 0;">
+                                                <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITEKEY') }}"></div>
+                                            </div>
+                                        </div>     
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Login
                                         </button>
@@ -125,6 +127,10 @@
                 passwordField.type = "password";
             }
         }
+
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
     </script>
 
 </body>
