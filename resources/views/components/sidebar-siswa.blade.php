@@ -37,11 +37,13 @@
     </li>
     
 
-    <li class="nav-item">
-        <a class="nav-link" href="charts.html">
+    <li class="nav-item {{ request()->routeIs('siswa.pembayaran.index') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('siswa.pembayaran.index') }}">
             <i class="fas fa-shopping-cart"></i>
-            <span>Pembayaran</span></a>
+            <span>Pembayaran</span>
+        </a>
     </li>
+
 
 
     <!-- Divider -->

@@ -4,6 +4,7 @@
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Siswa\DashboardController as SiswaDashboardController;
 use App\Http\Controllers\Siswa\TagihanController as SiswaTagihanController;
+use App\Http\Controllers\Siswa\PembayaranController as SiswaPembayaranController;
 use App\Http\Controllers\Guru\DashboardController as GuruDashboardController;
 use App\Http\Controllers\Bendahara\DashboardController as BendaharaDashboardController;
 use App\Http\Controllers\Kepsek\DashboardController as KepsekDashboardController;
@@ -143,6 +144,11 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/tagihan', [SiswaTagihanController::class, 'index'])->name('siswa.tagihan.index');
         Route::get('/tagihan/{id}', [SiswaTagihanController::class, 'show'])->name('siswa.tagihan.show');
+
+        // Route siswa untuk halaman pembayaran
+        Route::get('/pembayaran', [SiswaPembayaranController::class, 'index'])->name('siswa.pembayaran.index');
+        Route::get('/pembayaran/{id}', [SiswaPembayaranController::class, 'show'])->name('siswa.pembayaran.show');
+
     });
 
     // // **GURU ROUTES**
