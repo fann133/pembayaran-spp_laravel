@@ -12,7 +12,7 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
     <div class="card shadow mb-4 border-bottom-primary">
-        <div class="card-header py-3 d-flex justify-content-center">
+        <div class="card-header py-3 d-flex justify-content-between">
             <h6 class="m-0 font-weight-bold text-primary">Data Aplikasi</h6>
         </div>
 

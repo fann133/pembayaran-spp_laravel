@@ -18,7 +18,7 @@
             <!-- Form Utama -->
             <div class="col-xl-8 col-lg-7">
                 <div class="card shadow mb-4 border-bottom-primary">
-                    <div class="card-header py-3 d-flex justify-content-center">
+                    <div class="card-header py-3 d-flex justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">Profil Sekolah</h6>
                     </div>
                     <div class="card-body">
@@ -81,7 +81,7 @@
             <!-- Form Logo -->
             <div class="col-xl-4 col-lg-5">
                 <div class="card shadow mb-4 border-bottom-primary">
-                    <div class="card-header py-3 d-flex justify-content-center">
+                    <div class="card-header py-3 d-flex justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">Logo Sekolah</h6>
                     </div>
                     <div class="card-body text-center">
@@ -89,10 +89,11 @@
                             <img src="{{ asset('assets/img/profil-sekolah/' . $profil->logo) }}" alt="Logo Sekolah" class="img-fluid mb-3" width="150">
                         @endif
 
-                        <div class="form-group">
+                        <div class="form-group text-center">
                             <label for="logo" class="d-block">Upload Logo Baru</label>
-                            <input type="file" name="logo" id="logo" class="form-control-file mt-2">
+                            <input type="file" name="logo" id="logo" class="form-control-file mt-2 d-block mx-auto" style="max-width: 250px;">
                         </div>
+                                               
                     </div>
                 </div>
             </div>

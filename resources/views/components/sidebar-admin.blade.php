@@ -84,7 +84,7 @@
 
     <li class="nav-item {{ request()->routeIs('admin.pembayaran.index') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('admin.pembayaran.index') }}">
-            <i class="fas fa-shopping-cart"></i>
+            <i class="fas fa-fw fa-shopping-cart"></i>
             <span>Pembayaran</span></a>
     </li>
 

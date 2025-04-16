@@ -12,8 +12,8 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Daftar Siswa di Kelas {{ $kelas->nama }}</h6>
-            <a href="{{ route('admin.kelas.index') }}" class="btn btn-secondary btn-sm">&larr; Kembali</a>
+            <h6 class="m-0 font-weight-bold text-primary">Data Siswa</h6>
+            {{-- <a href="{{ route('admin.kelas.index') }}" class="btn btn-secondary btn-sm">&larr; Kembali</a> --}}
         </div>
 
         <div class="card-body border-bottom-primary">

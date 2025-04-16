@@ -55,6 +55,10 @@ class Siswa extends Model
         return $this->belongsTo(Kelas::class, 'kelas', 'id_kelas');
     }
 
+    public function kelasRelasi()
+    {
+        return $this->belongsTo(Kelas::class, 'kelas', 'id_kelas');
+    }
 
 }
 

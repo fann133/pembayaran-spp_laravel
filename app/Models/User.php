@@ -25,4 +25,12 @@ class User extends Authenticatable
         static::creating(function ($model) { 
         });
     }
+
+    // app/Models/User.php
+    public function guru()
+    {
+        return $this->hasOne(Guru::class, 'users_id', 'id_users');
+    }
+
+
 }

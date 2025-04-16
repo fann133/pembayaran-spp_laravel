@@ -10,7 +10,9 @@
     @endif
 
     <div class="card">
-        <div class="card-header">Pilih Opsi Backup</div>
+        <div class="card-header py-3 d-flex justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Database</h6>
+        </div>
         <div class="card-body">
             <!-- Backup Seluruh Database -->
             <form action="{{ route('admin.database.backup') }}" method="POST">

@@ -51,7 +51,7 @@ class KelasController extends Controller
         $kelas = Kelas::with('guruPengampu')->findOrFail($id_kelas);
         
         // Ambil semua siswa yang ada di kelas ini
-        $siswa = Siswa::where('kelas', $kelas->id_kelas)->get();
+        $siswa = Siswa::where('id_kelas', $kelas->id_kelas)->get();
 
         return view('admin.kelas.show', compact('kelas', 'siswa'));
     }

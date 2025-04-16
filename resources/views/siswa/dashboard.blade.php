@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Pembayaran SPP | Dashboard')
+@section('title', 'Dashboard')
 @section('content')
 <div class="container-fluid">
     @if(session('success'))

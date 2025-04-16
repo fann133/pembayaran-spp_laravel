@@ -50,4 +50,9 @@ class Guru extends Model
     }
     
 
+    public function kelas()
+    {
+        return $this->hasMany(Kelas::class, 'pengampu_kelas', 'id_guru');
+    }
+
 }

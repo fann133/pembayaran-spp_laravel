@@ -24,18 +24,32 @@
     <!-- Divider -->
     <hr class="sidebar-divider">
 
+    <li class="nav-item {{ request()->routeIs('guru.siswa.index') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('guru.siswa.index') }}">
+            <i class="fas fa-fw fa-user"></i>
+            <span>Data Siswa</span></a>
+    </li>
+    
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+    
     <!-- Heading -->
     <div class="sidebar-heading">
         Transaksi
     </div>
-
-    <li class="nav-item {{ request()->routeIs('guru.dashboard') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('guru.dashboard') }}">
-            <i class="fas fa-fw fa-chart-line"></i>
-            <span>Guru</span></a>
+    
+    <li class="nav-item {{ request()->routeIs('guru.tagihan.index') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('guru.tagihan.index') }}">
+            <i class="fas fa-fw fa-hand-holding-usd"></i>
+            <span>Tagihan</span></a>
     </li>
+    
 
-
+    <li class="nav-item {{ request()->routeIs('guru.pembayaran.index') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('guru.pembayaran.index') }}">
+            <i class="fas fa-fw fa-shopping-cart"></i>
+            <span>Pembayaran</span></a>
+    </li>
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">

@@ -37,17 +37,12 @@
         </div>
     </div>
 
-
     <!-- Page Wrapper -->
     <div id="wrapper">
 
     @include('components.sidebar')
 
-
-
-
         <div id="content-wrapper" class="d-flex flex-column">
-
 
             <div id="content">
             @include('components.topbar')
@@ -57,18 +52,61 @@
 
             @include('components.footer')
 
-
-
         </div>
 
     </div>
-
-
 
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
+
+    <!-- Profile Modal -->
+    <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="profileModalLabel">Profil</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+            <div class="modal-body text-center">
+                <img src="{{ asset('assets/img/no-avatar.png') }}" class="rounded-circle mb-3" width="100" height="100" alt="User Avatar">
+                @php
+                    $user = auth()->user();
+                    $nama = 'Administrator';
+                    $kode = 'AA-01';
+
+                    if ($user->role_id == '2') {
+                        $siswa = \App\Models\Siswa::where('users_id', $user->id_users)->first();
+                        if ($siswa) {
+                            $nama = $siswa->nama;
+                            $kode = 'NIS: ' . $siswa->nis;
+                        }
+                    } elseif (in_array($user->role_id, ['3', '4', '5'])) {
+                        $guru = \App\Models\Guru::where('users_id', $user->id_users)->first();
+                        if ($guru) {
+                            $nama = $guru->nama;
+                            $kode = 'NIP: ' . $guru->nip;
+                        }
+                    }
+                @endphp
+
+                <h5>{{ $nama }}</h5>
+                <p>{{ $kode }}</p>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Tutup</button>
+            </div>
+
+        </div>
+    </div>
+    </div>
 
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -129,9 +167,11 @@
         $(document).ready(function() {
             $('.select2').select2();
         });
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-        });
+
+        // Tidak bisa klik kanan
+        // document.addEventListener('contextmenu', function(e) {
+        //     e.preventDefault();
+        // });
     </script>
 
     </body>
