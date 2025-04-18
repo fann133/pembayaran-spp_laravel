@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Guru;
 use App\Http\Controllers\Controller;
 use App\Models\Pembayaran;
 use App\Models\Siswa;
+use App\Models\Kelas;
 
 class PembayaranController extends Controller
 {
@@ -16,9 +17,9 @@ class PembayaranController extends Controller
             return back()->with('error', 'Data guru tidak ditemukan.');
         }
 
-        $kelasIds = \App\Models\Kelas::where('pengampu_kelas', $guru->id_guru)->pluck('id_kelas');
+        $kelasIds = Kelas::where('pengampu_kelas', $guru->id_guru)->pluck('id_kelas');
 
-        $siswaIds = \App\Models\Siswa::whereIn('kelas', $kelasIds)->pluck('id_siswa');
+        $siswaIds = Siswa::whereIn('id_kelas', $kelasIds)->pluck('id_siswa');
 
         $pembayarans = Pembayaran::whereIn('id_siswa', $siswaIds)->get();
 

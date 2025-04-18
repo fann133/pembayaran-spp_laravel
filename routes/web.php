@@ -161,7 +161,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard', [GuruDashboardController::class, 'index'])->name('guru.dashboard');
 
         Route::get('/siswa', [GuruSiswaController::class, 'index'])->name('guru.siswa.index');
+
+
         Route::get('/tagihan', [GuruTagihanController::class, 'index'])->name('guru.tagihan.index');
+        Route::get('/tagihan/payment/{id}', [GuruTagihanController::class, 'payment'])->name('guru.tagihan.payment');
+        Route::post('/tagihan/payment/{id}', [GuruTagihanController::class, 'processPayment'])->name('guru.tagihan.processPayment');
+
+
         Route::get('/pembayaran', [GuruPembayaranController::class, 'index'])->name('guru.pembayaran.index');
 
     });

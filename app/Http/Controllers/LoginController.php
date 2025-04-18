@@ -25,7 +25,7 @@ class LoginController extends Controller
         ], [
             'username.required' => 'Username tidak boleh kosong',
             'password.required' => 'Password tidak boleh kosong',
-            'g-recaptcha-response.required' => 'Tolong verifikasi bahwa Anda bukan robot',
+            'g-recaptcha-response.required' => 'Centang dan selesaikan reCAPTCHA',
         ]);
 
         // Ambil user berdasarkan username
@@ -51,7 +51,7 @@ class LoginController extends Controller
         }
 
         // Kirim request ke Google reCAPTCHA untuk verifikasi
-        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+        $response = Http::timeout(20)->asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
             'secret' => $secretKey,
             'response' => $recaptchaResponse,
         ]);
