@@ -115,15 +115,15 @@ Route::middleware(['auth'])->group(function () {
         });
         Route::get('/tagihan/payment/{id}', [TagihanController::class, 'payment'])->name('admin.tagihan.payment');
         Route::post('/tagihan/payment/{id}', [TagihanController::class, 'processPayment'])->name('admin.tagihan.processPayment');
-        Route::get('/tagihan/print/{id_tagihan}', [TagihanController::class, 'print'])->name('tagihan.print');
-        Route::post('/tagihan/printAll', [TagihanController::class, 'printAll'])->name('tagihan.printAll');
+        Route::get('/tagihan/print/{id_tagihan}', [TagihanController::class, 'print'])->name('admin.tagihan.print');
+        Route::post('/tagihan/printAll', [TagihanController::class, 'printAll'])->name('admin.tagihan.printAll');
         Route::delete('/tagihan/{id}', [TagihanController::class, 'destroy'])->name('tagihan.destroy');
 
         // Manajemen Pembayaran
         Route::get('/pembayaran', [PembayaranController::class, 'index'])->name('admin.pembayaran.index');
-        Route::get('/pembayaran/print/{id}', [PembayaranController::class, 'print'])->name('pembayaran.print');
-        Route::post('/pembayaran/printAll', [PembayaranController::class, 'printAll'])->name('pembayaran.printAll');
-        Route::post('/pembayaran/export-excel', [PembayaranController::class, 'exportExcel'])->name('pembayaran.exportExcel');
+        Route::get('/pembayaran/print/{id}', [PembayaranController::class, 'print'])->name('admin.pembayaran.print');
+        Route::post('/pembayaran/printAll', [PembayaranController::class, 'printAll'])->name('admin.pembayaran.printAll');
+        Route::post('/pembayaran/export-excel', [PembayaranController::class, 'exportExcel'])->name('admin.pembayaran.exportExcel');
         Route::delete('/pembayaran/{id}', [PembayaranController::class, 'destroy'])->name('pembayaran.destroy');
 
         
@@ -166,9 +166,16 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/tagihan', [GuruTagihanController::class, 'index'])->name('guru.tagihan.index');
         Route::get('/tagihan/payment/{id}', [GuruTagihanController::class, 'payment'])->name('guru.tagihan.payment');
         Route::post('/tagihan/payment/{id}', [GuruTagihanController::class, 'processPayment'])->name('guru.tagihan.processPayment');
+        Route::get('/tagihan/print/{id_tagihan}', [GuruTagihanController::class, 'print'])->name('guru.tagihan.print');
+        Route::post('/tagihan/printAll', [GuruTagihanController::class, 'printAll'])->name('guru.tagihan.printAll');
+        Route::delete('/tagihan/{id}', [GuruTagihanController::class, 'destroy'])->name('tagihan.destroy');
 
 
         Route::get('/pembayaran', [GuruPembayaranController::class, 'index'])->name('guru.pembayaran.index');
+        Route::get('/pembayaran/print/{id}', [GuruPembayaranController::class, 'print'])->name('guru.pembayaran.print');
+        Route::post('/pembayaran/printAll', [GuruPembayaranController::class, 'printAll'])->name('guru.pembayaran.printAll');
+        Route::post('/pembayaran/export-excel', [GuruPembayaranController::class, 'exportExcel'])->name('guru.pembayaran.exportExcel');
+        Route::delete('/pembayaran/{id}', [PembayaranController::class, 'destroy'])->name('pembayaran.destroy');
 
     });
 

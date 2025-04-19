@@ -48,13 +48,13 @@
             </div>
             
             <div class="card-body border-bottom-primary">
-              <form id="excelForm" method="POST" action="{{ route('pembayaran.exportExcel') }}" style="display: none;">
+              <form id="excelForm" method="POST" action="{{ route('admin.pembayaran.exportExcel') }}" style="display: none;">
                 @csrf
                   @foreach ($pembayaran as $p)
                       <input type="checkbox" name="pembayaran_id[]" class="pembayaran-checkbox" value="{{ $p->id_pembayaran }}">
                   @endforeach
               </form>
-              <form id="printForm" method="POST" action="{{ route('pembayaran.printAll') }}" target="_blank">
+              <form id="printForm" method="POST" action="{{ route('admin.pembayaran.printAll') }}" target="_blank">
                 @csrf
                 <div class="table-responsive pt-2">
                     <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
@@ -101,7 +101,7 @@
                                 </td>
                                 <td>{{ $item->user->name }}</td>
                                 <td>
-                                    <a href="{{ route('pembayaran.print', $item->id_pembayaran) }}" target="_blank" class="btn btn-secondary btn-circle btn-sm">
+                                    <a href="{{ route('admin.pembayaran.print', $item->id_pembayaran) }}" target="_blank" class="btn btn-secondary btn-circle btn-sm">
                                         <i class="fas fa-print"></i>
                                     </a> 
                                     

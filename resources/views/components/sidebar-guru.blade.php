@@ -38,7 +38,7 @@
         Transaksi
     </div>
     
-    <li class="nav-item {{ request()->routeIs('guru.tagihan.index') ? 'active' : '' }}">
+    <li class="nav-item {{ request()->routeIs('guru.tagihan.index', 'guru.tagihan.payment') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('guru.tagihan.index') }}">
             <i class="fas fa-fw fa-hand-holding-usd"></i>
             <span>Tagihan</span></a>

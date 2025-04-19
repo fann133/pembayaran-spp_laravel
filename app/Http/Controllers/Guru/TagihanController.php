@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use App\Models\Pembayaran;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Mpdf\Mpdf;
 use Illuminate\Support\Facades\Log;
 
 class TagihanController extends Controller
@@ -101,6 +103,46 @@ class TagihanController extends Controller
         
             return redirect()->route('guru.tagihan.index')->with('warning', 'Pembayaran berhasil. Tagihan belum lunas.');
         }                
+    }
+
+    public function print($id_tagihan)
+    {
+        $tagihan = DB::table('tagihan')->where('id_tagihan', $id_tagihan)->first();
+
+        if (!$tagihan) {
+            abort(404, 'Tagihan tidak ditemukan');
+        }
+
+        $html = view('guru.tagihan.print', compact('tagihan'))->render();
+
+        $mpdf = new Mpdf();
+        $mpdf->WriteHTML($html);
+        return $mpdf->Output('tagihan-' . $tagihan->nama . '.pdf', 'I');
+    }
+
+    public function printAll(Request $request)
+    {
+        $ids = $request->input('tagihan_id');
+
+        if (empty($ids)) {
+            return redirect()->back()->with('error', 'Centang dulu data tagihan siswa!');
+        }
+
+        $tagihan = Tagihan::whereIn('id_tagihan', $ids)->get();
+
+        $html = view('guru.tagihan.print-pdf', compact('tagihan'))->render();
+
+        $mpdf = new Mpdf();
+        $mpdf->WriteHTML($html);
+        $mpdf->Output('Data-Tagihan.pdf', 'I'); // I = inline di browser
+    }
+
+    public function destroy($id)
+    {
+            $tagihan = Tagihan::findOrFail($id);
+            $tagihan->delete();
+
+            return redirect()->back()->with('success', 'Tagihan berhasil dihapus.');
     }
     
 

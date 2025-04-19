@@ -37,7 +37,7 @@
             </div>
             
             <div class="card-body border-bottom-primary">
-                <form id="printForm" method="POST" action="{{ route('tagihan.printAll') }}" target="_blank">
+                <form id="printForm" method="POST" action="{{ route('admin.tagihan.printAll') }}" target="_blank">
                     @csrf
                 <div class="table-responsive pt-2">
                     <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
@@ -86,7 +86,7 @@
                                             <i class="fas fa-shopping-cart"></i>
                                         </a>
 
-                                        <a href="{{ route('tagihan.print', $item->id_tagihan) }}" target="_blank" class="btn btn-secondary btn-circle btn-sm">
+                                        <a href="{{ route('admin.tagihan.print', $item->id_tagihan) }}" target="_blank" class="btn btn-secondary btn-circle btn-sm">
                                             <i class="fas fa-print"></i>
                                         </a>
 

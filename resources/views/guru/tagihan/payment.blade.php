@@ -3,16 +3,9 @@
 @section('title', 'Pembayaran Tagihan')
 
 @section('content')
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
-
     * {
         font-family: 'Montserrat', sans-serif;
-    }
-
-    body {
-        background-color: #f8f9fc;
     }
 
     .container-payment {
@@ -131,7 +124,7 @@
                 <h5 class="mb-4 text-primary"><i class="fas fa-wallet"></i> Form Pembayaran</h5>
 
                 @if($tagihan->status == 'BELUM DIBAYAR')
-                <form action="{{ route('guru.tagihan.processPayment', $tagihan->id_tagihan) }}" method="POST">
+                <form action="{{ route('admin.tagihan.processPayment', $tagihan->id_tagihan) }}" method="POST">
                     @csrf
                     <div class="mb-3 inputWithIcon">
                         <label for="dibayar" class="form-label">Jumlah yang Dibayar</label>
@@ -149,8 +142,8 @@
                 </div>
                 @endif
 
-                <a href="{{ route('guru.tagihan.index') }}" class="btn btn-secondary w-100 mt-3">
-                    <i class="fas fa-arrow-left"></i> Kembali ke Daftar Tagihan
+                <a href="{{ route('admin.tagihan.index') }}" class="btn btn-secondary w-100 mt-3">
+                    <i class="fas fa-arrow-left"></i> Kembali
                 </a>
             </div>
         </div>

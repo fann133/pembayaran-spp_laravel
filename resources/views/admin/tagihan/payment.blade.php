@@ -3,16 +3,9 @@
 @section('title', 'Pembayaran Tagihan')
 
 @section('content')
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
-
     * {
         font-family: 'Montserrat', sans-serif;
-    }
-
-    body {
-        background-color: #f8f9fc;
     }
 
     .container-payment {
@@ -150,7 +143,7 @@
                 @endif
 
                 <a href="{{ route('admin.tagihan.index') }}" class="btn btn-secondary w-100 mt-3">
-                    <i class="fas fa-arrow-left"></i> Kembali ke Daftar Tagihan
+                    <i class="fas fa-arrow-left"></i> Kembali
                 </a>
             </div>
         </div>
