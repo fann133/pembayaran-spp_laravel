@@ -9,30 +9,47 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
+use Jenssegers\Agent\Agent;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
 
     public function index()
     {
-        // Ambil semua user dari database
         $users = User::orderBy('created_at', 'asc')->get();
 
-        // Tambahkan status online & data device ke masing-masing user
         $users = $users->map(function ($user) {
             $user->is_online   = Cache::has("user-is-online-{$user->id_users}");
             $user->online_ip   = Cache::get("user-ip-{$user->id_users}", $user->last_ip);
             $user->user_agent  = Cache::get("user-agent-{$user->id_users}", $user->user_agent);
+
+            // Last seen text
+            $user->last_seen_text = $user->last_seen
+                ? Carbon::parse($user->last_seen)->diffForHumans()
+                : ' - ';
+
+            // Device info
+            if (!empty($user->user_agent)) {
+                $agent = new Agent();
+                $agent->setUserAgent($user->user_agent);
+
+                if ($agent->isMobile() || $agent->isTablet()) {
+                    $user->device_info = $agent->device() . ' - ' . $agent->browser();
+                } else {
+                    $user->device_info = $agent->platform() . ' - ' . $agent->browser();
+                }
+            } else {
+                $user->device_info = ' - ';
+            }
+
             return $user;
         });
 
-        // Urutkan: online dulu, lalu berdasarkan created_at (paling baru)
+        // Urutkan: online dulu
         $users = $users->sort(function ($a, $b) {
-            // Jika status online beda
             if ($a->is_online && !$b->is_online) return -1;
             if (!$a->is_online && $b->is_online) return 1;
-
-            // Jika sama-sama online atau offline, urut berdasarkan created_at desc
             return $b->created_at <=> $a->created_at;
         });
 
