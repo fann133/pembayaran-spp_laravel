@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Cache;
 
 class LoginController extends Controller
 {
@@ -51,7 +52,7 @@ class LoginController extends Controller
         }
 
         // Kirim request ke Google reCAPTCHA untuk verifikasi
-        $response = Http::timeout(20)->asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+        $response = Http::timeout(30)->asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
             'secret' => $secretKey,
             'response' => $recaptchaResponse,
         ]);
@@ -89,7 +90,7 @@ class LoginController extends Controller
         // Jika id_users tidak ditemukan
         if (!$userId) {
             Log::error('ID User tidak ditemukan saat login', ['user' => $user]);
-            return redirect()->route('login')->withErrors(['error' => 'Terjadi kesalahan saat login, coba lagi.']);
+            return redirect()->route('auth')->withErrors(['error' => 'Terjadi kesalahan saat login, coba lagi.']);
         }
 
         // Simpan id_users ke session
@@ -114,7 +115,7 @@ class LoginController extends Controller
                     $redirectRoute = 'siswa.dashboard';
                     $userData = $siswa;
                 } else {
-                    return redirect()->route('login')->withErrors(['error' => 'Data siswa tidak ditemukan.']);
+                    return redirect()->route('auth')->withErrors(['error' => 'Data siswa tidak ditemukan.']);
                 }
                 break;
 
@@ -126,12 +127,12 @@ class LoginController extends Controller
                     $redirectRoute = $this->getRoleRoute($role_id) . '.dashboard';
                     $userData = $guru;
                 } else {
-                    return redirect()->route('login')->withErrors(['error' => 'Data guru tidak ditemukan.']);
+                    return redirect()->route('auth')->withErrors(['error' => 'Data guru tidak ditemukan.']);
                 }
                 break;
 
             default:
-                return redirect()->route('login')->withErrors(['error' => 'Role tidak ditemukan.']);
+                return redirect()->route('auth')->withErrors(['error' => 'Role tidak ditemukan.']);
         }
 
         session()->put('userData', [
@@ -168,10 +169,20 @@ class LoginController extends Controller
      */
     public function logout(Request $request)
     {
+        if (Auth::check()) {
+            $userId = Auth::user()->id_users;
+
+            // Hapus cache status online
+            Cache::forget("user-is-online-{$userId}");
+            Cache::forget("user-ip-{$userId}");
+            Cache::forget("user-agent-{$userId}");
+        }
+
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login');
+        return redirect()->route('auth'); // arahkan ke halaman login kamu
     }
+
 }

@@ -31,6 +31,7 @@
                             <th>Nama</th>
                             <th>Username</th>
                             <th>Password</th>
+                            <th>Status</th>
                             <th>Kategori</th>
                             <th>Aksi</th>
                         </tr>
@@ -39,9 +40,25 @@
                         @foreach ($users as $key => $user)
                         <tr>
                             <td>{{ $key + 1 }}</td>
-                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->name }} </td>
                             <td>{{ $user->username }}</td>
                             <td>{{ $user->bypass }}</td>
+                            <td>
+                                @if(Cache::has('user-is-online-' . $user->id_users))
+                                    <span class="badge bg-success text-light"><i class="fas fa-circle" style="color: #ffffff;"></i> ONLINE</span><br>
+                                @else
+                                    <br><small class="badge bg-secondary text-light">
+                                        Terakhir aktif: 
+                                        @if($user->last_seen)
+                                            {{ \Carbon\Carbon::parse($user->last_seen)->diffForHumans() }}
+                                        @else
+                                            Tidak diketahui
+                                        @endif
+                                    </small><br>
+                                @endif
+                                <small>{{ $user->last_ip }} | <span title="{{ $user->user_agent }}">{{ Str::limit($user->user_agent, 25) }}</span></small>
+                            </td>
+
                             @php
                                 $roles = [
                                     1 => 'Admin',
