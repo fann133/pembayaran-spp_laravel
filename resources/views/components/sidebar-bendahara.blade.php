@@ -23,19 +23,39 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider">
+    <div class="sidebar-heading">
+        Data Akademik
+    </div>
 
-    <!-- Heading -->
+    <li class="nav-item {{ request()->routeIs('bendahara.siswa.index') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('bendahara.siswa.index') }}">
+            <i class="fas fa-fw fa-chart-line"></i>
+            <span>Siswa</span></a>
+    </li>
+
+    <hr class="sidebar-divider">
+        <!-- Heading -->
     <div class="sidebar-heading">
         Transaksi
     </div>
 
-    <li class="nav-item {{ request()->routeIs('bendahara.dashboard') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('bendahara.dashboard') }}">
-            <i class="fas fa-fw fa-chart-line"></i>
+    <li class="nav-item {{ request()->routeIs('bendahara.tagihan.index') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('bendahara.tagihan.index') }}">
+            <i class="fas fa-fw fa-hand-holding-usd"></i>
+            <span>Tagihan</span></a>
+    </li>
+    
+    <li class="nav-item {{ request()->routeIs('bendahara.pembayaran.index') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('bendahara.pembayaran.index') }}">
+            <i class="fas fa-fw fa-shopping-cart"></i>
+            <span>Pembayaran</span></a>
+    </li>
+    
+    <li class="nav-item {{ request()->routeIs('bendahara.pembayaran.index') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('bendahara.pembayaran.index') }}">
+            <i class="fas fa-fw fa-shopping-cart"></i>
             <span>Bendahara</span></a>
     </li>
-
-
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
 

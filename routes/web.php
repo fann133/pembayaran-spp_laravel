@@ -1,34 +1,45 @@
 <?php
 
-
-use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
-use App\Http\Controllers\Siswa\DashboardController as SiswaDashboardController;
-use App\Http\Controllers\Siswa\TagihanController as SiswaTagihanController;
-use App\Http\Controllers\Siswa\PembayaranController as SiswaPembayaranController;
-use App\Http\Controllers\Guru\DashboardController as GuruDashboardController;
-use App\Http\Controllers\Guru\SiswaController as GuruSiswaController;
-use App\Http\Controllers\Guru\TagihanController as GuruTagihanController;
-use App\Http\Controllers\Guru\PembayaranController as GuruPembayaranController;
-use App\Http\Controllers\Bendahara\DashboardController as BendaharaDashboardController;
-use App\Http\Controllers\Kepsek\DashboardController as KepsekDashboardController;
-
 use Illuminate\Http\Request;
 use App\Models\Biaya;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\SiswaController;
-use App\Http\Controllers\Admin\ProfilController;
-use App\Http\Controllers\Admin\GuruController;
-use App\Http\Controllers\Admin\KelasController;
-use App\Http\Controllers\Admin\BiayaController;
-use App\Http\Controllers\Admin\TagihanController;
+
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\ProfilController as AdminProfilController; 
+use App\Http\Controllers\Admin\SiswaController as AdminSiswaController;
+use App\Http\Controllers\Admin\GuruController as AdminGuruController;
+use App\Http\Controllers\Admin\KelasController as AdminKelasController;
+use App\Http\Controllers\Admin\BiayaController as AdminBiayaController;
+use App\Http\Controllers\Admin\TagihanController as AdminTagihanController;
+
+use App\Http\Controllers\Siswa\DashboardController as SiswaDashboardController;
+use App\Http\Controllers\Siswa\TagihanController as SiswaTagihanController;
+use App\Http\Controllers\Siswa\PembayaranController as SiswaPembayaranController;
+
+use App\Http\Controllers\Guru\DashboardController as GuruDashboardController;
+use App\Http\Controllers\Guru\SiswaController as GuruSiswaController;
+use App\Http\Controllers\Guru\TagihanController as GuruTagihanController;
+use App\Http\Controllers\Guru\PembayaranController as GuruPembayaranController;
+
+use App\Http\Controllers\Bendahara\DashboardController as BendaharaDashboardController;
+use App\Http\Controllers\Bendahara\SiswaController as BendaharaSiswaController;
+use App\Http\Controllers\Bendahara\TagihanController as BendaharaTagihanController;
+use App\Http\Controllers\Bendahara\PembayaranController as BendaharaPembayaranController;
+
+use App\Http\Controllers\Kepsek\DashboardController as KepsekDashboardController;
+
+
+
+
+
+
+
 use App\Http\Controllers\Admin\PembayaranController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AplikasiController;
 use App\Http\Controllers\Admin\DatabaseController;
-use Mpdf\Mpdf;
 
 
 Route::fallback(function () {
@@ -46,7 +57,9 @@ Route::get('/auth', function () {
 Route::post('/login/authenticate', [LoginController::class, 'authenticate'])->name('login.authenticate');
 
 Route::middleware(['auth', 'session.timeout'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [SiswaDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [GuruDashboardController::class, 'index'])->name('dashboard');
 });
 
 Route::post('/login', [LoginController::class, 'authenticate'])->middleware('throttle:10,1');
@@ -58,50 +71,49 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware('role:admin')->prefix('admin')->group(function () {
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
-
         // Manajemen Profil
-        Route::get('/profil-sekolah', [ProfilController::class, 'index'])->name('admin.profil.index');
-        Route::post('/profil-sekolah', [ProfilController::class, 'update'])->name('admin.profil.update');
+        Route::get('/profil-sekolah', [AdminProfilController::class, 'index'])->name('admin.profil.index');
+        Route::post('/profil-sekolah', [AdminProfilController::class, 'update'])->name('admin.profil.update');
 
         // Manajemen Siswa
-        Route::get('/siswa', [SiswaController::class, 'index'])->name('admin.siswa.index');
-        Route::get('/siswa/create', [SiswaController::class, 'create'])->name('admin.siswa.create');
-        Route::post('/siswa/store', [SiswaController::class, 'store'])->name('admin.siswa.store');
-        Route::get('/siswa/edit/{id}', [SiswaController::class, 'edit'])->name('admin.siswa.edit');
-        Route::post('/siswa/{id}/update', [SiswaController::class, 'update'])->name('admin.siswa.update');
-        Route::delete('/siswa/{id}', [SiswaController::class, 'destroy'])->name('admin.siswa.destroy');
-        Route::get('/siswa/create-account/{id_siswa}', [SiswaController::class, 'createAccount'])->name('admin.siswa.createAccount');
+        Route::get('/siswa', [AdminSiswaController::class, 'index'])->name('admin.siswa.index');
+        Route::get('/siswa/create', [AdminSiswaController::class, 'create'])->name('admin.siswa.create');
+        Route::post('/siswa/store', [AdminSiswaController::class, 'store'])->name('admin.siswa.store');
+        Route::get('/siswa/{id_siswa}', [AdminSiswaController::class, 'createAccount'])->name('admin.siswa.createAccount');
+        Route::get('/siswa/edit/{id}', [AdminSiswaController::class, 'edit'])->name('admin.siswa.edit');
+        Route::post('/siswa/{id}/update', [AdminSiswaController::class, 'update'])->name('admin.siswa.update');
+        Route::delete('/siswa/{id}', [AdminSiswaController::class, 'destroy'])->name('admin.siswa.destroy');
 
         // Manajemen Guru
-        Route::get('/guru', [GuruController::class, 'index'])->name('admin.guru.index');
-        Route::get('/guru/create', [GuruController::class, 'create'])->name('admin.guru.create');
-        Route::post('/guru/store', [GuruController::class, 'store'])->name('admin.guru.store');
-        Route::get('/guru/edit/{id}', [GuruController::class, 'edit'])->name('admin.guru.edit');
-        Route::put('/guru/{id}', [GuruController::class, 'update'])->name('admin.guru.update');
-        Route::get('/guru/createAccount/{id_guru}', [GuruController::class, 'createAccount'])->name('admin.guru.createAccount');
-        Route::delete('/guru/{id_guru}', [GuruController::class, 'destroy'])->name('admin.guru.destroy');
+        Route::get('/guru', [AdminGuruController::class, 'index'])->name('admin.guru.index');
+        Route::get('/guru/create', [AdminGuruController::class, 'create'])->name('admin.guru.create');
+        Route::post('/guru/store', [AdminGuruController::class, 'store'])->name('admin.guru.store');
+        Route::get('/guru/{id_guru}', [AdminGuruController::class, 'createAccount'])->name('admin.guru.createAccount');
+        Route::get('/guru/edit/{id}', [AdminGuruController::class, 'edit'])->name('admin.guru.edit');
+        Route::put('/guru/{id}', [AdminGuruController::class, 'update'])->name('admin.guru.update');
+        Route::delete('/guru/{id_guru}', [AdminGuruController::class, 'destroy'])->name('admin.guru.destroy');
 
         // Manajemen Kelas
-        Route::get('/kelas', [KelasController::class, 'index'])->name('admin.kelas.index');
-        Route::get('/kelas/create', [KelasController::class, 'create'])->name('admin.kelas.create');
-        Route::post('/kelas/store', [KelasController::class, 'store'])->name('admin.kelas.store');
-        Route::get('/kelas/{id_kelas}', [KelasController::class, 'show'])->name('admin.kelas.show');
-        Route::get('/kelas/edit/{id_kelas}', [KelasController::class, 'edit'])->name('admin.kelas.edit');
-        Route::put('/kelas/{id_kelas}', [KelasController::class, 'update'])->name('admin.kelas.update');
-        Route::delete('/kelas/{id_kelas}', [KelasController::class, 'destroy'])->name('admin.kelas.destroy');
+        Route::get('/kelas', [AdminKelasController::class, 'index'])->name('admin.kelas.index');
+        Route::get('/kelas/create', [AdminKelasController::class, 'create'])->name('admin.kelas.create');
+        Route::post('/kelas/store', [AdminKelasController::class, 'store'])->name('admin.kelas.store');
+        Route::get('/kelas/{id_kelas}', [AdminKelasController::class, 'show'])->name('admin.kelas.show');
+        Route::get('/kelas/edit/{id_kelas}', [AdminKelasController::class, 'edit'])->name('admin.kelas.edit');
+        Route::put('/kelas/{id_kelas}', [AdminKelasController::class, 'update'])->name('admin.kelas.update');
+        Route::delete('/kelas/{id_kelas}', [AdminKelasController::class, 'destroy'])->name('admin.kelas.destroy');
 
         // Manajemen Biaya
-        Route::get('/biaya', [BiayaController::class, 'index'])->name('admin.biaya.index');
-        Route::get('/biaya/create', [BiayaController::class, 'create'])->name('admin.biaya.create');
-        Route::post('/biaya', [BiayaController::class, 'store'])->name('admin.biaya.store');        
-        Route::get('/biaya/edit/{id}', [BiayaController::class, 'edit'])->name('admin.biaya.edit');
-        Route::put('/biaya/{id}', [BiayaController::class, 'update'])->name('admin.biaya.update');
-        Route::delete('/biaya/{id_biaya}', [BiayaController::class, 'destroy'])->name('admin.biaya.destroy');
+        Route::get('/biaya', [AdminBiayaController::class, 'index'])->name('admin.biaya.index');
+        Route::get('/biaya/create', [AdminBiayaController::class, 'create'])->name('admin.biaya.create');
+        Route::post('/biaya', [AdminBiayaController::class, 'store'])->name('admin.biaya.store');
+        Route::get('/biaya/edit/{id}', [AdminBiayaController::class, 'edit'])->name('admin.biaya.edit');
+        Route::put('/biaya/{id}', [AdminBiayaController::class, 'update'])->name('admin.biaya.update');
+        Route::delete('/biaya/{id_biaya}', [AdminBiayaController::class, 'destroy'])->name('admin.biaya.destroy');
 
         // Manajemen Tagihan
-        Route::get('/tagihan', [TagihanController::class, 'index'])->name('admin.tagihan.index');
-        Route::get('/tagihan/create', [TagihanController::class, 'create'])->name('admin.tagihan.create');
-        Route::post('/tagihan', [TagihanController::class, 'store'])->name('admin.tagihan.store');  
+        Route::get('/tagihan', [AdminTagihanController::class, 'index'])->name('admin.tagihan.index');
+        Route::get('/tagihan/create', [AdminTagihanController::class, 'create'])->name('admin.tagihan.create');
+        Route::post('/tagihan', [AdminTagihanController::class, 'store'])->name('admin.tagihan.store');  
         Route::get('/get-biaya', function (Request $request) {
             $spp = $request->query('spp');
             $kategori = $request->query('kategori');
@@ -113,11 +125,11 @@ Route::middleware(['auth'])->group(function () {
                 return response()->json($query->where('jenis', 'NON-SPP')->get());
             }
         });
-        Route::get('/tagihan/payment/{id}', [TagihanController::class, 'payment'])->name('admin.tagihan.payment');
-        Route::post('/tagihan/payment/{id}', [TagihanController::class, 'processPayment'])->name('admin.tagihan.processPayment');
-        Route::get('/tagihan/print/{id_tagihan}', [TagihanController::class, 'print'])->name('admin.tagihan.print');
-        Route::post('/tagihan/printAll', [TagihanController::class, 'printAll'])->name('admin.tagihan.printAll');
-        Route::delete('/tagihan/{id}', [TagihanController::class, 'destroy'])->name('tagihan.destroy');
+        Route::get('/tagihan/payment/{id}', [AdminTagihanController::class, 'payment'])->name('admin.tagihan.payment');
+        Route::post('/tagihan/payment/{id}', [AdminTagihanController::class, 'processPayment'])->name('admin.tagihan.processPayment');
+        Route::get('/tagihan/print/{id_tagihan}', [AdminTagihanController::class, 'print'])->name('admin.tagihan.print');
+        Route::post('/tagihan/printAll', [AdminTagihanController::class, 'printAll'])->name('admin.tagihan.printAll');
+        Route::delete('/tagihan/{id}', [AdminTagihanController::class, 'destroy'])->name('admin.tagihan.destroy');
 
         // Manajemen Pembayaran
         Route::get('/pembayaran', [PembayaranController::class, 'index'])->name('admin.pembayaran.index');
@@ -144,7 +156,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // **SISWA ROUTES**
-    Route::middleware('role:siswa')->prefix('siswa')->group(function () {
+        Route::middleware('role:siswa')->prefix('siswa')->group(function () {
         Route::get('/dashboard', [SiswaDashboardController::class, 'index'])->name('siswa.dashboard');
 
         Route::get('/tagihan', [SiswaTagihanController::class, 'index'])->name('siswa.tagihan.index');
@@ -175,13 +187,42 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/pembayaran/print/{id}', [GuruPembayaranController::class, 'print'])->name('guru.pembayaran.print');
         Route::post('/pembayaran/printAll', [GuruPembayaranController::class, 'printAll'])->name('guru.pembayaran.printAll');
         Route::post('/pembayaran/export-excel', [GuruPembayaranController::class, 'exportExcel'])->name('guru.pembayaran.exportExcel');
-        Route::delete('/pembayaran/{id}', [PembayaranController::class, 'destroy'])->name('pembayaran.destroy');
+        Route::delete('/pembayaran/{id}', [GuruPembayaranController::class, 'destroy'])->name('pembayaran.destroy');
 
     });
 
     // **BENDAHARA ROUTES**
     Route::middleware('role:bendahara')->prefix('bendahara')->group(function () {
         Route::get('/dashboard', [BendaharaDashboardController::class, 'index'])->name('bendahara.dashboard');
+
+        Route::get('/siswa', [BendaharaSiswaController::class, 'index'])->name('bendahara.siswa.index');
+        Route::get('/siswa/{id_siswa}', [BendaharaSiswaController::class, 'show'])->name('bendahara.siswa.show');
+
+        Route::get('/tagihan', [BendaharaTagihanController::class, 'index'])->name('bendahara.tagihan.index');
+        Route::get('/tagihan/create', [BendaharaTagihanController::class, 'create'])->name('bendahara.tagihan.create');
+        Route::post('/tagihan', [BendaharaTagihanController::class, 'store'])->name('bendahara.tagihan.store');  
+        Route::get('/get-biaya', function (Request $request) {
+            $spp = $request->query('spp');
+            $kategori = $request->query('kategori');
+        
+            $query = Biaya::where('kategori', $kategori)->where('status', 'AKTIF');
+            if ($spp == 1) {
+                return response()->json($query->where('jenis', 'SPP')->first());
+            } else {
+                return response()->json($query->where('jenis', 'NON-SPP')->get());
+            }
+        });
+        Route::get('/tagihan/payment/{id}', [BendaharaTagihanController::class, 'payment'])->name('bendahara.tagihan.payment');
+        Route::post('/tagihan/payment/{id}', [BendaharaTagihanController::class, 'processPayment'])->name('bendahara.tagihan.processPayment');
+        Route::get('/tagihan/print/{id_tagihan}', [BendaharaTagihanController::class, 'print'])->name('bendahara.tagihan.print');
+        Route::post('/tagihan/printAll', [BendaharaTagihanController::class, 'printAll'])->name('bendahara.tagihan.printAll');
+        Route::delete('/tagihan/{id}', [BendaharaTagihanController::class, 'destroy'])->name('bendahara.tagihan.destroy');
+
+        Route::get('/pembayaran', [BendaharaPembayaranController::class, 'index'])->name('bendahara.pembayaran.index');
+        Route::get('/pembayaran/print/{id}', [BendaharaPembayaranController::class, 'print'])->name('bendahara.pembayaran.print');
+        Route::post('/pembayaran/printAll', [BendaharaPembayaranController::class, 'printAll'])->name('bendahara.pembayaran.printAll');
+        Route::post('/pembayaran/export-excel', [BendaharaPembayaranController::class, 'exportExcel'])->name('bendahara.pembayaran.exportExcel');
+        Route::delete('/pembayaran/{id}', [BendaharaPembayaranController::class, 'destroy'])->name('bendahara.pembayaran.destroy');
     });
 
     // **KEPSEK ROUTES**

@@ -151,6 +151,4 @@ class SiswaController extends Controller
 
         return redirect()->back()->with('success', 'Akun berhasil dibuat! Password: ' . $randomPassword);
     }
-
-
 }

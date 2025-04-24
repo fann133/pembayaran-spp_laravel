@@ -17,14 +17,14 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::orderBy('created_at', 'asc')->get();
+        $users = User::all();
 
         $users = $users->map(function ($user) {
             $user->is_online   = Cache::has("user-is-online-{$user->id_users}");
             $user->online_ip   = Cache::get("user-ip-{$user->id_users}", $user->last_ip);
             $user->user_agent  = Cache::get("user-agent-{$user->id_users}", $user->user_agent);
 
-            // Last seen text
+            // Last seen display
             $user->last_seen_text = $user->last_seen
                 ? Carbon::parse($user->last_seen)->diffForHumans()
                 : ' - ';
@@ -46,12 +46,16 @@ class UserController extends Controller
             return $user;
         });
 
-        // Urutkan: online dulu
-        $users = $users->sort(function ($a, $b) {
-            if ($a->is_online && !$b->is_online) return -1;
-            if (!$a->is_online && $b->is_online) return 1;
-            return $b->created_at <=> $a->created_at;
+        // Sort: online (0), offline (1), lalu last_seen ascending
+        $users = $users->sortBy(function ($user) {
+            return [
+                // Online (true) diutamakan di urutan pertama
+                $user->is_online ? 0 : 1,
+                // Sorting berdasarkan last_seen
+                $user->last_seen ? strtotime($user->last_seen) : PHP_INT_MAX,
+            ];
         });
+        
 
         return view('admin.user.index', compact('users'));
     }
