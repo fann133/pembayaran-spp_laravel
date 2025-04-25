@@ -13,6 +13,10 @@ use App\Http\Controllers\Admin\GuruController as AdminGuruController;
 use App\Http\Controllers\Admin\KelasController as AdminKelasController;
 use App\Http\Controllers\Admin\BiayaController as AdminBiayaController;
 use App\Http\Controllers\Admin\TagihanController as AdminTagihanController;
+use App\Http\Controllers\Admin\PembayaranController as AdminPembayaranController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\AplikasiController as AdminAplikasiController;
+use App\Http\Controllers\Admin\DatabaseController as AdminDatabaseController;
 
 use App\Http\Controllers\Siswa\DashboardController as SiswaDashboardController;
 use App\Http\Controllers\Siswa\TagihanController as SiswaTagihanController;
@@ -30,16 +34,6 @@ use App\Http\Controllers\Bendahara\PembayaranController as BendaharaPembayaranCo
 
 use App\Http\Controllers\Kepsek\DashboardController as KepsekDashboardController;
 
-
-
-
-
-
-
-use App\Http\Controllers\Admin\PembayaranController;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\AplikasiController;
-use App\Http\Controllers\Admin\DatabaseController;
 
 
 Route::fallback(function () {
@@ -60,10 +54,11 @@ Route::middleware(['auth', 'session.timeout'])->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard', [SiswaDashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard', [GuruDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [BendaharaDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [KepsekDashboardController::class, 'index'])->name('dashboard');
 });
 
 Route::post('/login', [LoginController::class, 'authenticate'])->middleware('throttle:10,1');
-
 
 // Middleware Authentication dan Role Protection
 Route::middleware(['auth'])->group(function () {
@@ -132,27 +127,25 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/tagihan/{id}', [AdminTagihanController::class, 'destroy'])->name('admin.tagihan.destroy');
 
         // Manajemen Pembayaran
-        Route::get('/pembayaran', [PembayaranController::class, 'index'])->name('admin.pembayaran.index');
-        Route::get('/pembayaran/print/{id}', [PembayaranController::class, 'print'])->name('admin.pembayaran.print');
-        Route::post('/pembayaran/printAll', [PembayaranController::class, 'printAll'])->name('admin.pembayaran.printAll');
-        Route::post('/pembayaran/export-excel', [PembayaranController::class, 'exportExcel'])->name('admin.pembayaran.exportExcel');
-        Route::delete('/pembayaran/{id}', [PembayaranController::class, 'destroy'])->name('pembayaran.destroy');
+        Route::get('/pembayaran', [AdminPembayaranController::class, 'index'])->name('admin.pembayaran.index');
+        Route::get('/pembayaran/print/{id}', [AdminPembayaranController::class, 'print'])->name('admin.pembayaran.print');
+        Route::post('/pembayaran/printAll', [AdminPembayaranController::class, 'printAll'])->name('admin.pembayaran.printAll');
+        Route::post('/pembayaran/export-excel', [AdminPembayaranController::class, 'exportExcel'])->name('admin.pembayaran.exportExcel');
+        Route::delete('/pembayaran/{id}', [AdminPembayaranController::class, 'destroy'])->name('admin.pembayaran.destroy');
 
-        
         // Manajemen User
-        Route::get('/user', [UserController::class, 'index'])->name('admin.user.index');
-        Route::get('/users/edit/{id}', [UserController::class, 'edit'])->name('admin.user.edit');
-        Route::put('/users/{id}', [UserController::class, 'update'])->name('admin.user.update');
+        Route::get('/user', [AdminUserController::class, 'index'])->name('admin.user.index');
+        Route::get('/users/edit/{id}', [AdminUserController::class, 'edit'])->name('admin.user.edit');
+        Route::put('/users/{id}', [AdminUserController::class, 'update'])->name('admin.user.update');
 
         // Manajemen Settings
-        Route::get('/pengaturan', [AplikasiController::class, 'index'])->name('admin.pengaturan');
-        Route::post('/pengaturan/update', [AplikasiController::class, 'update'])->name('admin.pengaturan.update');
-
+        Route::get('/pengaturan', [AdminAplikasiController::class, 'index'])->name('admin.pengaturan');
+        Route::post('/pengaturan/update', [AdminAplikasiController::class, 'update'])->name('admin.pengaturan.update');
 
         // Database Management
-        Route::get('/database', [DatabaseController::class, 'index'])->name('admin.database');
-        Route::post('/database/backup', [DatabaseController::class, 'backup'])->name('admin.database.backup');
-        Route::get('/database/download', [DatabaseController::class, 'download'])->name('admin.database.download');
+        Route::get('/database', [AdminDatabaseController::class, 'index'])->name('admin.database');
+        Route::post('/database/backup', [AdminDatabaseController::class, 'backup'])->name('admin.database.backup');
+        Route::get('/database/download', [AdminDatabaseController::class, 'download'])->name('admin.database.download');
     });
 
     // **SISWA ROUTES**
@@ -165,7 +158,6 @@ Route::middleware(['auth'])->group(function () {
         // Route siswa untuk halaman pembayaran
         Route::get('/pembayaran', [SiswaPembayaranController::class, 'index'])->name('siswa.pembayaran.index');
         Route::get('/pembayaran/{id}', [SiswaPembayaranController::class, 'show'])->name('siswa.pembayaran.show');
-
     });
 
     // **GURU ROUTES**
@@ -173,7 +165,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard', [GuruDashboardController::class, 'index'])->name('guru.dashboard');
 
         Route::get('/siswa', [GuruSiswaController::class, 'index'])->name('guru.siswa.index');
-
 
         Route::get('/tagihan', [GuruTagihanController::class, 'index'])->name('guru.tagihan.index');
         Route::get('/tagihan/payment/{id}', [GuruTagihanController::class, 'payment'])->name('guru.tagihan.payment');
