@@ -23,7 +23,7 @@ if (!function_exists('getDashboardRoute')) {
             case 5:
                 return route('kepsek.dashboard');
             default:
-                return route('home'); // Default jika role_id tidak dikenali
+                return route('auth'); // Default jika role_id tidak dikenali
         }
     }
 }
