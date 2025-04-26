@@ -27,7 +27,7 @@
         Data Akademik
     </div>
 
-    <li class="nav-item {{ request()->routeIs('bendahara.siswa.index') ? 'active' : '' }}">
+    <li class="nav-item {{ request()->routeIs('bendahara.siswa.index', 'bendahara.siswa.show') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('bendahara.siswa.index') }}">
             <i class="fas fa-fw fa-chart-line"></i>
             <span>Siswa</span></a>
@@ -39,7 +39,13 @@
         Transaksi
     </div>
 
-    <li class="nav-item {{ request()->routeIs('bendahara.tagihan.index') ? 'active' : '' }}">
+    <li class="nav-item {{ request()->routeIs('bendahara.biaya.index', 'bendahara.biaya.create', 'bendahara.biaya.edit') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('bendahara.biaya.index') }}">
+            <i class="fas fa-fw fa-shopping-cart"></i>
+            <span>Biaya</span></a>
+    </li>
+
+    <li class="nav-item {{ request()->routeIs('bendahara.tagihan.index', 'bendahara.tagihan.payment') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('bendahara.tagihan.index') }}">
             <i class="fas fa-fw fa-hand-holding-usd"></i>
             <span>Tagihan</span></a>
@@ -51,11 +57,6 @@
             <span>Pembayaran</span></a>
     </li>
     
-    <li class="nav-item {{ request()->routeIs('bendahara.pembayaran.index') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('bendahara.pembayaran.index') }}">
-            <i class="fas fa-fw fa-shopping-cart"></i>
-            <span>Bendahara</span></a>
-    </li>
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
 

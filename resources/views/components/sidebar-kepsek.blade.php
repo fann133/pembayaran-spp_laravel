@@ -20,22 +20,61 @@
             <i class="fas fa-fw fa-chart-line"></i>
             <span>Dashboard</span></a>
     </li>
+    
+    <li class="nav-item {{ request()->routeIs('kepsek.profil.index') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('kepsek.profil.index') }}">
+            <i class="fas fa-fw fa-school"></i>
+            <span>Profil</span></a>
+    </li>
 
     <!-- Divider -->
     <hr class="sidebar-divider">
+    <div class="sidebar-heading">
+        Data Akademik
+    </div>
 
-    <!-- Heading -->
+    <li class="nav-item {{ request()->routeIs('kepsek.siswa.index', 'kepsek.siswa.show') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('kepsek.siswa.index') }}">
+            <i class="fas fa-fw fa-user"></i>
+            <span>Siswa</span></a>
+    </li>
+    
+    <li class="nav-item {{ request()->routeIs('kepsek.guru.index', 'kepsek.guru.show') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('kepsek.guru.index') }}">
+            <i class="fas fa-fw fa-user-graduate"></i>
+            <span>Guru</span></a>
+    </li>
+    
+    <li class="nav-item {{ request()->routeIs('kepsek.kelas.index', 'kepsek.kelas.show') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('kepsek.kelas.index') }}">
+            <i class="fas fa-fw fa-chalkboard-teacher"></i>
+            <span>Kelas</span></a>
+    </li>
+
+    <hr class="sidebar-divider">
+        <!-- Heading -->
     <div class="sidebar-heading">
         Transaksi
     </div>
 
-    <li class="nav-item {{ request()->routeIs('kepsek.dashboard') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('kepsek.dashboard') }}">
-            <i class="fas fa-fw fa-chart-line"></i>
-            <span>Kepsek</span></a>
+    <li class="nav-item {{ request()->routeIs('kepsek.biaya.index', 'kepsek.biaya.create', 'kepsek.biaya.edit') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('kepsek.biaya.index') }}">
+            <i class="fas fa-fw fa-money-bill-alt"></i>
+            <span>Biaya</span></a>
     </li>
 
-
+    <li class="nav-item {{ request()->routeIs('kepsek.tagihan.index', 'kepsek.tagihan.payment') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('kepsek.tagihan.index') }}">
+            <i class="fas fa-fw fa-hand-holding-usd"></i>
+            <span>Tagihan</span></a>
+    </li>
+    
+    <li class="nav-item {{ request()->routeIs('kepsek.pembayaran.index') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('kepsek.pembayaran.index') }}">
+            <i class="fas fa-fw fa-shopping-cart"></i>
+            <span>Pembayaran</span></a>
+    </li>
+    
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
 

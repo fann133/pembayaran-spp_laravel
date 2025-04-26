@@ -31,8 +31,16 @@ use App\Http\Controllers\Bendahara\DashboardController as BendaharaDashboardCont
 use App\Http\Controllers\Bendahara\SiswaController as BendaharaSiswaController;
 use App\Http\Controllers\Bendahara\TagihanController as BendaharaTagihanController;
 use App\Http\Controllers\Bendahara\PembayaranController as BendaharaPembayaranController;
+use App\Http\Controllers\Bendahara\BiayaController as BendaharaBiayaController;
 
 use App\Http\Controllers\Kepsek\DashboardController as KepsekDashboardController;
+use App\Http\Controllers\Kepsek\ProfilController as KepsekProfilController;
+use App\Http\Controllers\Kepsek\SiswaController as KepsekSiswaController;
+use App\Http\Controllers\Kepsek\GuruController as KepsekGuruController;
+use App\Http\Controllers\Kepsek\KelasController as KepsekKelasController;
+use App\Http\Controllers\Kepsek\TagihanController as KepsekTagihanController;
+use App\Http\Controllers\Kepsek\PembayaranController as KepsekPembayaranController;
+use App\Http\Controllers\Kepsek\BiayaController as KepsekBiayaController;
 
 
 
@@ -189,6 +197,14 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/siswa', [BendaharaSiswaController::class, 'index'])->name('bendahara.siswa.index');
         Route::get('/siswa/{id_siswa}', [BendaharaSiswaController::class, 'show'])->name('bendahara.siswa.show');
 
+        // Manajemen Biaya
+        Route::get('/biaya', [BendaharaBiayaController::class, 'index'])->name('bendahara.biaya.index');
+        Route::get('/biaya/create', [BendaharaBiayaController::class, 'create'])->name('bendahara.biaya.create');
+        Route::post('/biaya', [BendaharaBiayaController::class, 'store'])->name('bendahara.biaya.store');
+        Route::get('/biaya/edit/{id}', [BendaharaBiayaController::class, 'edit'])->name('bendahara.biaya.edit');
+        Route::put('/biaya/{id}', [BendaharaBiayaController::class, 'update'])->name('bendahara.biaya.update');
+        Route::delete('/biaya/{id_biaya}', [BendaharaBiayaController::class, 'destroy'])->name('bendahara.biaya.destroy');
+
         Route::get('/tagihan', [BendaharaTagihanController::class, 'index'])->name('bendahara.tagihan.index');
         Route::get('/tagihan/create', [BendaharaTagihanController::class, 'create'])->name('bendahara.tagihan.create');
         Route::post('/tagihan', [BendaharaTagihanController::class, 'store'])->name('bendahara.tagihan.store');  
@@ -219,6 +235,65 @@ Route::middleware(['auth'])->group(function () {
     // **KEPSEK ROUTES**
     Route::middleware('role:kepsek')->prefix('kepsek')->group(function () {
         Route::get('/dashboard', [KepsekDashboardController::class, 'index'])->name('kepsek.dashboard');
+
+        // Manajemen Profil
+        Route::get('/profil-sekolah', [KepsekProfilController::class, 'index'])->name('kepsek.profil.index');
+        Route::post('/profil-sekolah', [KepsekProfilController::class, 'update'])->name('kepsek.profil.update');
+
+        Route::get('/siswa', [KepsekSiswaController::class, 'index'])->name('kepsek.siswa.index');
+        Route::get('/siswa/{id_siswa}', [KepsekSiswaController::class, 'show'])->name('kepsek.siswa.show');
+
+        // Manajemen Guru
+        Route::get('/guru', [KepsekGuruController::class, 'index'])->name('kepsek.guru.index');
+        Route::get('/guru/create', [KepsekGuruController::class, 'create'])->name('kepsek.guru.create');
+        Route::post('/guru/store', [KepsekGuruController::class, 'store'])->name('kepsek.guru.store');
+        Route::get('/guru/{id_guru}', [KepsekGuruController::class, 'createAccount'])->name('kepsek.guru.createAccount');
+        Route::get('/guru/edit/{id}', [KepsekGuruController::class, 'edit'])->name('kepsek.guru.edit');
+        Route::put('/guru/{id}', [KepsekGuruController::class, 'update'])->name('kepsek.guru.update');
+        Route::delete('/guru/{id_guru}', [KepsekGuruController::class, 'destroy'])->name('kepsek.guru.destroy');
+
+        // Manajemen Kelas
+        Route::get('/kelas', [KepsekKelasController::class, 'index'])->name('kepsek.kelas.index');
+        Route::get('/kelas/create', [KepsekKelasController::class, 'create'])->name('kepsek.kelas.create');
+        Route::post('/kelas/store', [KepsekKelasController::class, 'store'])->name('kepsek.kelas.store');
+        Route::get('/kelas/{id_kelas}', [KepsekKelasController::class, 'show'])->name('kepsek.kelas.show');
+        Route::get('/kelas/edit/{id_kelas}', [KepsekKelasController::class, 'edit'])->name('kepsek.kelas.edit');
+        Route::put('/kelas/{id_kelas}', [KepsekKelasController::class, 'update'])->name('kepsek.kelas.update');
+        Route::delete('/kelas/{id_kelas}', [KepsekKelasController::class, 'destroy'])->name('kepsek.kelas.destroy');
+
+        // Manajemen Biaya
+        Route::get('/biaya', [KepsekBiayaController::class, 'index'])->name('kepsek.biaya.index');
+        Route::get('/biaya/create', [KepsekBiayaController::class, 'create'])->name('kepsek.biaya.create');
+        Route::post('/biaya', [KepsekBiayaController::class, 'store'])->name('kepsek.biaya.store');
+        Route::get('/biaya/edit/{id}', [KepsekBiayaController::class, 'edit'])->name('kepsek.biaya.edit');
+        Route::put('/biaya/{id}', [KepsekBiayaController::class, 'update'])->name('kepsek.biaya.update');
+        Route::delete('/biaya/{id_biaya}', [KepsekBiayaController::class, 'destroy'])->name('kepsek.biaya.destroy');
+
+        Route::get('/tagihan', [KepsekTagihanController::class, 'index'])->name('kepsek.tagihan.index');
+        Route::get('/tagihan/create', [KepsekTagihanController::class, 'create'])->name('kepsek.tagihan.create');
+        Route::post('/tagihan', [KepsekTagihanController::class, 'store'])->name('kepsek.tagihan.store');  
+        Route::get('/get-biaya', function (Request $request) {
+            $spp = $request->query('spp');
+            $kategori = $request->query('kategori');
+        
+            $query = Biaya::where('kategori', $kategori)->where('status', 'AKTIF');
+            if ($spp == 1) {
+                return response()->json($query->where('jenis', 'SPP')->first());
+            } else {
+                return response()->json($query->where('jenis', 'NON-SPP')->get());
+            }
+        });
+        Route::get('/tagihan/payment/{id}', [KepsekTagihanController::class, 'payment'])->name('kepsek.tagihan.payment');
+        Route::post('/tagihan/payment/{id}', [KepsekTagihanController::class, 'processPayment'])->name('kepsek.tagihan.processPayment');
+        Route::get('/tagihan/print/{id_tagihan}', [KepsekTagihanController::class, 'print'])->name('kepsek.tagihan.print');
+        Route::post('/tagihan/printAll', [KepsekTagihanController::class, 'printAll'])->name('kepsek.tagihan.printAll');
+        Route::delete('/tagihan/{id}', [KepsekTagihanController::class, 'destroy'])->name('kepsek.tagihan.destroy');
+
+        Route::get('/pembayaran', [KepsekPembayaranController::class, 'index'])->name('kepsek.pembayaran.index');
+        Route::get('/pembayaran/print/{id}', [KepsekPembayaranController::class, 'print'])->name('kepsek.pembayaran.print');
+        Route::post('/pembayaran/printAll', [KepsekPembayaranController::class, 'printAll'])->name('kepsek.pembayaran.printAll');
+        Route::post('/pembayaran/export-excel', [KepsekPembayaranController::class, 'exportExcel'])->name('kepsek.pembayaran.exportExcel');
+        Route::delete('/pembayaran/{id}', [KepsekPembayaranController::class, 'destroy'])->name('kepsek.pembayaran.destroy');
     });
 });
 

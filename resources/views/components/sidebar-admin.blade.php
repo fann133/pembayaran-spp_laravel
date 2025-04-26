@@ -68,11 +68,10 @@
     {{-- Tampilan User --}}
     <li class="nav-item {{ request()->routeIs('admin.biaya.index', 'admin.biaya.create', 'admin.biaya.edit') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('admin.biaya.index') }}">
-            <i class="fas fa-money-bill-alt"></i>
+            <i class="fas fa-fw fa-money-bill-alt"></i>
             <span>Biaya</span></a>
     </li>
     
-
     
     <li class="nav-item {{ request()->routeIs('admin.tagihan.index', 'admin.tagihan.edit') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('admin.tagihan.index') }}">
