@@ -139,6 +139,9 @@
                 @else
                 <div class="alert alert-success">
                     <i class="fas fa-check-circle"></i> Tagihan ini sudah dibayar.
+                    <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 @endif
 
