@@ -16,7 +16,7 @@ class User extends Authenticatable
     protected $keyType = 'string';
 
     protected $fillable = [
-        'id_users', 'username', 'name', 'bypass', 'password', 'role_id', 'login_times', 'last_ip', 'user_agent', 'last_seen'
+        'id_users', 'username', 'name', 'bypass', 'password', 'role_id', 'login_times', 'last_ip', 'user_agent', 'last_seen', 'gambar'
     ];
 
     protected static function boot()

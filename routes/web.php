@@ -5,6 +5,7 @@ use App\Models\Biaya;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProfileController;
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ProfilController as AdminProfilController; 
@@ -65,6 +66,10 @@ Route::middleware(['auth', 'session.timeout'])->group(function () {
     Route::get('/dashboard', [BendaharaDashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard', [KepsekDashboardController::class, 'index'])->name('dashboard');
 });
+
+Route::post('/profile/upload', [ProfileController::class, 'upload'])->name('profile.upload');
+Route::post('/profile/delete-image', [ProfileController::class, 'deleteImage'])->name('profile.deleteImage');
+
 
 Route::post('/login', [LoginController::class, 'authenticate'])->middleware('throttle:10,1');
 

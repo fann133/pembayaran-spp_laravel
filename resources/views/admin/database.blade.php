@@ -3,11 +3,27 @@
 @section('title', 'Aplikasi')
 @section('content')
 <div class="container-fluid">
-    <h1 class="mb-4">Backup Database</h1>
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
 
     @if(session('error'))
-        <div class="alert alert-danger">{{ session('error') }}</div>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
     @endif
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Backup Database</h1>
+    </div>
 
     <div class="card">
         <div class="card-header py-3 d-flex justify-content-between">
@@ -19,7 +35,6 @@
                 @csrf
                 <button type="submit" class="btn btn-primary">Backup Seluruh Database</button>
             </form>
-
             <hr>
 
             <!-- Backup Per Tabel -->

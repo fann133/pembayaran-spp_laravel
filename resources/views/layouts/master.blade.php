@@ -66,50 +66,94 @@
 
     <!-- Profile Modal -->
     <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
 
-            <div class="modal-header">
-                <h5 class="modal-title" id="profileModalLabel">Profil</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
+                <div class="modal-header position-relative">
+                    <h5 class="modal-title" id="profileModalLabel">Profil</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                
+                <div class="modal-body text-center">
+                    <!-- Tombol Hapus Gambar -->
+                    <form action="{{ route('profile.deleteImage') }}" method="POST" class="d-inline position-absolute" style="top: 10px; right: 10px;">
+                        @csrf
+                        <button type="submit" class="btn btn-danger btn-sm btn-circle">
+                            <i class="fas fa-trash-alt mr-1"></i>
+                        </button>
+                    </form>
 
-            <div class="modal-body text-center">
-                <img src="{{ asset('assets/img/no-avatar.png') }}" class="rounded-circle mb-3" width="100" height="100" alt="User Avatar">
-                @php
-                    $user = auth()->user();
-                    $nama = 'Administrator';
-                    $kode = 'AA-01';
+                    @php
+                        $user = auth()->user();
+                        $nama = 'Administrator';
+                        $kode = 'AA-01';
 
-                    if ($user->role_id == '2') {
-                        $siswa = \App\Models\Siswa::where('users_id', $user->id_users)->first();
-                        if ($siswa) {
-                            $nama = $siswa->nama;
-                            $kode = 'NIS: ' . $siswa->nis;
+                        if ($user->role_id == '2') {
+                            $siswa = \App\Models\Siswa::where('users_id', $user->id_users)->first();
+                            if ($siswa) {
+                                $nama = $siswa->nama;
+                                $kode = 'NIS: ' . $siswa->nis;
+                            }
+                        } elseif (in_array($user->role_id, ['3', '4', '5'])) {
+                            $guru = \App\Models\Guru::where('users_id', $user->id_users)->first();
+                            if ($guru) {
+                                $nama = $guru->nama;
+                                $kode = 'NIP: ' . $guru->nip;
+                            }
                         }
-                    } elseif (in_array($user->role_id, ['3', '4', '5'])) {
-                        $guru = \App\Models\Guru::where('users_id', $user->id_users)->first();
-                        if ($guru) {
-                            $nama = $guru->nama;
-                            $kode = 'NIP: ' . $guru->nip;
-                        }
-                    }
-                @endphp
+                    @endphp
 
-                <h5>{{ $nama }}</h5>
-                <p>{{ $kode }}</p>
+                    <!-- Foto Profil -->
+                    <img id="avatarPreview"
+                        src="{{ $user->gambar ? asset('assets/img/profil/' . $user->gambar) : asset('assets/img/no-avatar.png') }}"
+                        class="rounded-circle mb-3 border border-secondary"
+                        width="100" height="100"
+                        alt="{{ $user->name }}">
+
+                    <h5>{{ $nama }}</h5>
+                    <p>{{ $kode }}</p>
+                    @php
+                        $roles = [
+                            1 => 'Admin',
+                            2 => 'Siswa',
+                            3 => 'Guru',
+                            4 => 'Bendahara',
+                            5 => 'Kepala Sekolah'
+                        ];
+                    @endphp
+                    <p>Status: {{ $roles[$user->role_id] }}</p>
+
+                    <!-- Form Upload Gambar -->
+                    <form action="{{ route('profile.upload') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-outline-primary btn-sm rounded-pill shadow-sm px-4"
+                                    onclick="document.getElementById('avatar').click();">
+                                <i class="fas fa-camera mr-2"></i> Ubah Foto Profil
+                            </button>
+                            <input type="file" name="avatar" id="avatar" class="d-none"
+                                accept="image/*" onchange="previewAvatar(this)">
+
+                            <input type="hidden" name="gambar_lama" value="{{ Auth::user()->gambar ?? '' }}">
+
+                            <small class="text-muted d-block mt-2">
+                                Format: jpg, png. Maks 2MB<span class="text-danger">*</span>
+                            </small>                            
+                        </div>
+                    
+                        <div class="form-group text-right">
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+
             </div>
-
-            <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Tutup</button>
-            </div>
-
         </div>
     </div>
-    </div>
+
 
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"

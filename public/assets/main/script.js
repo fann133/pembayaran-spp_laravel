@@ -25,3 +25,16 @@ rupiah.addEventListener('input', function (e) {
     value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     this.value = value;
 });
+
+
+function previewAvatar(input) {
+    const preview = document.getElementById('avatarPreview');
+    const file = input.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+}

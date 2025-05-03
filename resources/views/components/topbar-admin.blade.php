@@ -23,16 +23,21 @@
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::check() ? Auth::user()->name : 'Guest' }}</span>
-                <img class="img-profile rounded-circle"
-                    src="{{ asset('assets/img/no-avatar.png') }}">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Str::limit(Auth::check() ? Auth::user()->name : 'Guest', 20) }}</span>
+                @php
+                    $gambar = Auth::user()->gambar ?? null;
+                    $pathGambar = $gambar && file_exists(public_path('assets/img/profil/' . $gambar))
+                        ? asset('assets/img/profil/' . $gambar)
+                        : asset('assets/img/no-avatar.png');
+                @endphp
+                <img class="img-profile rounded-circle border border-secondary" src="{{ $pathGambar }}">
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                 aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#profileModal">
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Profile
+                    Profil
                 </a>                               
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
