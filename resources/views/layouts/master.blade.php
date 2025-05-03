@@ -82,7 +82,7 @@
                     <form action="{{ route('profile.deleteImage') }}" method="POST" class="d-inline position-absolute" style="top: 10px; right: 10px;">
                         @csrf
                         <button type="submit" class="btn btn-danger btn-sm btn-circle">
-                            <i class="fas fa-trash-alt mr-1"></i>
+                            <i class="fas fa-trash-alt"></i>
                         </button>
                     </form>
 
