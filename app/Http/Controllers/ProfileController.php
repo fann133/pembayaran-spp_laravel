@@ -29,6 +29,11 @@ class ProfileController extends Controller
             return back()->with('error', 'Ukuran gambar melebihi batas maksimal 2MB.');
         }
 
+        list($width, $height) = getimagesize($file);
+        if ($width < 100 || $height < 100) {
+            return back()->with('error', 'Gambar terlalu kecil. Harap unggah gambar dengan resolusi yang lebih baik.');
+        }
+
         $name = strtolower(str_replace(' ', '-', $user->name));
         $username = strtolower($user->username);
         $filename = $name . '_' . $username . '-' . time() . '.' . $extension;
