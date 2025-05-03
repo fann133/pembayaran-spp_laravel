@@ -79,7 +79,7 @@
                 
                 <div class="modal-body text-center">
                     <!-- Tombol Hapus Gambar -->
-                    <form action="{{ route('profile.deleteImage') }}" method="POST" class="d-inline position-absolute" style="top: 10px; right: 10px;">
+                    <form action="{{ route('profile.deleteImage') }}" method="POST" class="d-inline position-absolute" style="top: 10px; right: 18px;">
                         @csrf
                         <button type="submit" class="btn btn-danger btn-sm btn-circle">
                             <i class="fas fa-trash-alt"></i>
@@ -88,16 +88,22 @@
 
                     @php
                         $user = auth()->user();
-                        $nama = 'Administrator';
-                        $kode = 'AA-01';
+                        $nama = $user->name;
+                        $kode = '';
 
-                        if ($user->role_id == '2') {
+                        if ($user->role_id == '1') {
+                            $nama = $user->name;
+                        }
+
+                        elseif ($user->role_id == '2') {
                             $siswa = \App\Models\Siswa::where('users_id', $user->id_users)->first();
                             if ($siswa) {
                                 $nama = $siswa->nama;
                                 $kode = 'NIS: ' . $siswa->nis;
                             }
-                        } elseif (in_array($user->role_id, ['3', '4', '5'])) {
+                        }
+
+                        elseif (in_array($user->role_id, ['3', '4', '5'])) {
                             $guru = \App\Models\Guru::where('users_id', $user->id_users)->first();
                             if ($guru) {
                                 $nama = $guru->nama;
@@ -143,7 +149,6 @@
                                 Format: jpg, png. Maks 2MB<span class="text-danger">*</span>
                             </small>                            
                         </div>
-                    
                         <div class="form-group text-right">
                             <button type="submit" class="btn btn-primary">Simpan</button>
                         </div>
