@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Siswa;
 use App\Models\Guru;
 use App\Models\Kelas;
+use App\Models\Setting;
 use Illuminate\Support\Str;
 
 class KelasController extends Controller
@@ -15,31 +16,49 @@ class KelasController extends Controller
     {
         $gurus = Guru::all();
         $kelas = Kelas::all();
-        return view('admin.kelas.index', compact('kelas', 'gurus'));
+        $pengaturan = Setting::first();
+        return view('admin.kelas.index', compact('kelas', 'gurus', 'pengaturan'));
     }
 
     public function create()
     {
         $gurus = Guru::all();
-        return view('admin.kelas.create', compact('gurus'));
+        $pengaturan = Setting::first();
+        return view('admin.kelas.create', compact('gurus', 'pengaturan'));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'kode_kelas' => 'required|string|max:255|unique:kelas,kode_kelas',
-            'deskripsi' => 'nullable|string',
+        $validator = \Validator::make($request->all(), [
+            'nama'           => 'required|string|max:255',
+            'kode_kelas'     => 'required|string|max:255|unique:kelas,kode_kelas',
+            'deskripsi'      => 'nullable|string',
             'pengampu_kelas' => 'nullable|exists:gurus,id_guru|unique:kelas,pengampu_kelas',
         ], [
-            'pengampu_kelas.unique' => 'Guru ini sudah mengampu kelas lain!',
+            'nama.required'           => 'Nama kelas wajib diisi.',
+            'nama.string'             => 'Nama kelas harus berupa teks.',
+            'nama.max'                => 'Nama kelas maksimal 255 karakter.',
+            'kode_kelas.required'     => 'Kode kelas wajib diisi.',
+            'kode_kelas.string'       => 'Kode kelas harus berupa teks.',
+            'kode_kelas.max'          => 'Kode kelas maksimal 255 karakter.',
+            'kode_kelas.unique'       => 'Kode kelas sudah digunakan.',
+            'deskripsi.string'        => 'Deskripsi harus berupa teks.',
+            'pengampu_kelas.exists'   => 'Guru pengampu tidak ditemukan.',
+            'pengampu_kelas.unique'   => 'Guru ini sudah mengampu kelas lain!',
         ]);
 
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('error', $validator->errors()->first()); // tampilkan error flash
+        }
+
         Kelas::create([
-            'id_kelas' => Str::uuid(),
-            'nama' => $request->nama,
-            'kode_kelas' => $request->kode_kelas,
-            'deskripsi' => $request->deskripsi,
+            'id_kelas'       => Str::uuid(),
+            'nama'           => $request->nama,
+            'kode_kelas'     => $request->kode_kelas,
+            'deskripsi'      => $request->deskripsi,
             'pengampu_kelas' => $request->pengampu_kelas,
         ]);
 
@@ -49,11 +68,9 @@ class KelasController extends Controller
     public function show($id_kelas)
     {
         $kelas = Kelas::with('guruPengampu')->findOrFail($id_kelas);
-        
-        // Ambil semua siswa yang ada di kelas ini
+        $pengaturan = Setting::first();
         $siswa = Siswa::where('id_kelas', $kelas->id_kelas)->get();
-
-        return view('admin.kelas.show', compact('kelas', 'siswa'));
+        return view('admin.kelas.show', compact('kelas', 'siswa', 'pengaturan'));
     }
 
 
@@ -61,30 +78,46 @@ class KelasController extends Controller
     {
         $kelas = Kelas::findOrFail($id_kelas);
         $gurus = Guru::all(); // Ambil semua guru untuk dropdown pengampu kelas
-
-        return view('admin.kelas.edit', compact('kelas', 'gurus'));
+        $pengaturan = Setting::first();
+        return view('admin.kelas.edit', compact('kelas', 'gurus', 'pengaturan'));
     }
 
     public function update(Request $request, $id_kelas)
     {
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'kode_kelas' => 'required|string|max:50',
+        $validator = \Validator::make($request->all(), [
+            'nama'           => 'required|string|max:255',
+            'kode_kelas'     => 'required|string|max:255|unique:kelas,kode_kelas,' . $id_kelas . ',id_kelas',
             'pengampu_kelas' => 'nullable|exists:gurus,id_guru',
-            'deskripsi' => 'nullable|string',
+            'deskripsi'      => 'nullable|string',
+        ], [
+            'nama.required'           => 'Nama kelas wajib diisi.',
+            'nama.string'             => 'Nama kelas harus berupa teks.',
+            'nama.max'                => 'Nama kelas maksimal 255 karakter.',
+            'kode_kelas.required'     => 'Kode kelas wajib diisi.',
+            'kode_kelas.string'       => 'Kode kelas harus berupa teks.',
+            'kode_kelas.max'          => 'Kode kelas maksimal 50 karakter.',
+            'kode_kelas.unique'       => 'Kode kelas sudah digunakan.',
+            'pengampu_kelas.exists'   => 'Guru pengampu tidak ditemukan.',
+            'deskripsi.string'        => 'Deskripsi harus berupa teks.',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('error', $validator->errors()->first()); // tampilkan error flash
+        }
 
         $kelas = Kelas::findOrFail($id_kelas);
         $kelas->update([
-            'nama' => $request->nama,
-            'kode_kelas' => $request->kode_kelas,
+            'nama'           => $request->nama,
+            'kode_kelas'     => $request->kode_kelas,
             'pengampu_kelas' => $request->pengampu_kelas,
-            'deskripsi' => $request->deskripsi,
+            'deskripsi'      => $request->deskripsi,
         ]);
 
         return redirect()->route('admin.kelas.index')->with('success', 'Kelas berhasil diperbarui');
     }
-
 
     public function destroy($id_kelas)
     {

@@ -24,3 +24,11 @@
     background: url('/assets/img/background.jpeg') no-repeat center center;
     background-size: cover;
 }
+
+/* Select 2 responsive */
+.select2-container {
+    width: 100% !important;
+}
+.select2-selection {
+    width: 100% !important;
+}

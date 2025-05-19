@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Guru;
 use App\Models\User;
-
+use App\Models\Setting;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -15,70 +15,112 @@ class GuruController extends Controller
     // Table Guru
     public function index()
     {
+        $pengaturan = Setting::first();
         $guru = Guru::orderBy('created_at', 'desc')->orderBy('updated_at', 'desc')->get();
-        return view('admin.guru.index', compact('guru'));
+        return view('admin.guru.index', compact('guru', 'pengaturan'));
     }
 
     // Halaman Tambah Guru
     public function create()
     {
-        return view('admin.guru.create');
+        $pengaturan = Setting::first();
+        return view('admin.guru.create', compact('pengaturan'));
     }
 
     // Sistem Tambah Guru
     public function store(Request $request)
     {
-        $request->validate([
-            'nip' => 'required|string|max:255|unique:gurus',
-            'nama' => 'required|string|max:255',
+        $validator = \Validator::make($request->all(), [
+            'nama'          => 'required|string|max:255',
+            'nip'           => 'required|string|max:255|unique:gurus',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
-            'tempat_lahir' => 'required|string|max:255',
+            'tempat_lahir'  => 'required|string|max:255',
             'tanggal_lahir' => 'required|date',
-            'agama' => 'required|string|max:50',
-            'status' => 'required|in:TETAP,HONOR,MAGANG',
-            'role_id' => 'required|in:3,4,5',
+            'agama'         => 'required|string|max:50',
+            'status'        => 'required|in:TETAP,HONOR,MAGANG',
+            'role_id'       => 'required|in:3,4,5',
+        ], [
+            'nama.required'          => 'Nama wajib diisi.',
+            'nip.required'           => 'NIP wajib diisi.',
+            'nip.unique'             => 'NIP sudah digunakan.',
+            'jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',
+            'jenis_kelamin.in'       => 'Jenis kelamin tidak valid.',
+            'tempat_lahir.required'  => 'Tempat lahir wajib diisi.',
+            'tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
+            'tanggal_lahir.date'     => 'Format tanggal lahir tidak valid.',
+            'agama.required'         => 'Agama wajib diisi.',
+            'status.required'        => 'Status wajib dipilih.',
+            'status.in'              => 'Status tidak valid.',
+            'role_id.required'       => 'Role wajib dipilih.',
+            'role_id.in'             => 'Role tidak valid.',
         ]);
 
+         if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('error', $validator->errors()->first()); // tampilkan error flash
+        }
         Guru::create([
-            'id_guru' => Str::uuid(), // Generate UUID untuk id_guru
-            'nip' => $request->nip,
-            'nama' => $request->nama,
+            'id_guru'       => Str::uuid(), // Generate UUID untuk id_guru
+            'nip'           => $request->nip,
+            'nama'          => $request->nama,
             'jenis_kelamin' => $request->jenis_kelamin,
-            'tempat_lahir' => $request->tempat_lahir,
+            'tempat_lahir'  => $request->tempat_lahir,
             'tanggal_lahir' => $request->tanggal_lahir,
-            'agama' => $request->agama,
-            'status' => $request->status,
-            'role_id' => $request->role_id,
+            'agama'         => $request->agama,
+            'status'        => $request->status,
+            'role_id'       => $request->role_id,
         ]);
 
         return redirect()->route('admin.guru.index')->with('success', 'Data Guru berhasil ditambahkan.');
     }
 
-
     // Halaman Ubah Guru
     public function edit($id)
     {
+        $pengaturan = Setting::first();
         $guru = Guru::findOrFail($id);
-        return view('admin.guru.edit', compact('guru'));
+        return view('admin.guru.edit', compact('guru', 'pengaturan'));
     }
 
     // Sistem Ubah Guru
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'nip' => 'required|unique:gurus,nip,' . $id . ',id_guru',
-            'nama' => 'required|string|max:255',
+        $validator = \Validator::make($request->all(), [
+            'nama'          => 'required|string|max:255',
+            'nip'           => 'required|unique:gurus,nip,' . $id . ',id_guru',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
-            'tempat_lahir' => 'required|string|max:255',
+            'tempat_lahir'  => 'required|string|max:255',
             'tanggal_lahir' => 'required|date',
-            'agama' => 'required|string|max:255',
-            'status' => 'required|in:TETAP,HONOR,MAGANG',
-            'role_id' => 'required|in:3,4,5',
+            'agama'         => 'required|string|max:255',
+            'status'        => 'required|in:TETAP,HONOR,MAGANG',
+            'role_id'       => 'required|in:3,4,5',
+        ], [
+            'nama.required'          => 'Nama wajib diisi.',
+            'nip.required'           => 'NIP wajib diisi.',
+            'nip.unique'             => 'NIP sudah digunakan.',
+            'jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',
+            'jenis_kelamin.in'       => 'Jenis kelamin tidak valid.',
+            'tempat_lahir.required'  => 'Tempat lahir wajib diisi.',
+            'tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
+            'tanggal_lahir.date'     => 'Format tanggal lahir tidak valid.',
+            'agama.required'         => 'Agama wajib diisi.',
+            'status.required'        => 'Status wajib dipilih.',
+            'status.in'              => 'Status tidak valid.',
+            'role_id.required'       => 'Role wajib dipilih.',
+            'role_id.in'             => 'Role tidak valid.',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('error', $validator->errors()->first()); // tampilkan error flash
+        }
 
         $guru = Guru::findOrFail($id);
         $guru->update($request->all());
-
         return redirect()->route('admin.guru.index')->with('success', 'Data guru berhasil diperbarui.');
     }
 
@@ -92,17 +134,17 @@ class GuruController extends Controller
             return redirect()->back()->with('error', 'Akun sudah dibuat sebelumnya!');
         }
 
-        // Generate password random (8 karakter)
+        // Generate password random (5 karakter)
         $randomPassword = mt_rand(10000, 99999);
 
         // Buat akun di tabel users
         $user = User::create([
-            'id_users' => Str::uuid(), // UUID untuk primary key
-            'name' => $guru->nama,
-            'username' => $guru->nip, // Username diambil dari NIP
-            'password' => Hash::make($randomPassword),
-            'bypass' => $randomPassword, // Simpan password asli (opsional)
-            'role_id' => $guru->role_id, // Role ID untuk guru
+            'id_users'  => Str::uuid(), // UUID untuk primary key
+            'name'      => $guru->nama,
+            'username'  => $guru->nip, // Username diambil dari NIP
+            'password'  => Hash::make($randomPassword),
+            'bypass'    => $randomPassword, // Simpan password asli (opsional)
+            'role_id'   => $guru->role_id, // Role ID untuk guru
         ]);
 
         // Update `users_id` di tabel gurus
@@ -111,13 +153,11 @@ class GuruController extends Controller
         return redirect()->back()->with('success', 'Akun berhasil dibuat! Password: ' . $randomPassword);
     }
 
-
     // Hapus Siswa
     public function destroy($id)
     {
         $siswa = Guru::findOrFail($id);
         $siswa->delete(); // Ini otomatis akan menghapus user karena foreign key CASCADE
-
         return redirect()->route('admin.guru.index')->with('success', 'Guru dan User terkait berhasil dihapus.');
     }
 

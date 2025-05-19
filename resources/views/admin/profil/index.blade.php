@@ -32,7 +32,7 @@
         <div class="row">
             <!-- Form Utama -->
             <div class="col-xl-8 col-lg-7">
-                <div class="card shadow mb-4 border-bottom-primary">
+                <div class="card shadow mb-4 border-bottom-{{ $pengaturan->tema }}">
                     <div class="card-header py-3 d-flex justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">Profil Sekolah</h6>
                     </div>
@@ -95,7 +95,7 @@
 
             <!-- Form Logo -->
             <div class="col-xl-4 col-lg-5">
-                <div class="card shadow mb-4 border-bottom-primary">
+                <div class="card shadow mb-4 border-bottom-{{ $pengaturan->tema }}">
                     <div class="card-header py-3 d-flex justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">Logo Sekolah</h6>
                     </div>

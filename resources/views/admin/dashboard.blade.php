@@ -147,10 +147,10 @@
 
         <!-- Area Chart -->
         <div class="col-xl-8 col-lg-7">
-            <div class="card shadow mb-4 border-bottom-primary">
+            <div class="card shadow mb-4 border-bottom-{{ $pengaturan->tema }}">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Tabel Pembayaran {{ request('tahun') ?? date('Y') }}</h6>
+                <h6 class="m-0 font-weight-bold text-{{ $pengaturan->tema }}">Tabel Pembayaran {{ request('tahun') ?? date('Y') }}</h6>
             
                     <div class="dropdown no-arrow">
                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -180,11 +180,11 @@
 
         <!-- Pie Chart -->
         <div class="col-xl-4 col-lg-5">
-            <div class="card shadow mb-4 border-bottom-primary">
+            <div class="card shadow mb-4 border-bottom-{{ $pengaturan->tema }}">
                 <!-- Card Header - Dropdown -->
                 <div
                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Diagram Tagihan SPP {{ \Carbon\Carbon::create()->month($bulanDipilih)->translatedFormat('F') }} - {{ $tahunDipilih }}
+                    <h6 class="m-0 font-weight-bold text-{{ $pengaturan->tema }}">Diagram Tagihan SPP {{ \Carbon\Carbon::create()->month($bulanDipilih)->translatedFormat('F') }} - {{ $tahunDipilih }}
                     </h6>
                     <div class="dropdown no-arrow">
                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -210,26 +210,6 @@
         </div>
     </div>
 </div>
-
-<!-- Modal Pilih Warna -->
-<div class="modal fade" id="colorPickerModal" tabindex="-1" role="dialog" aria-labelledby="colorPickerLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="colorPickerLabel">Pilih Warna Bar</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Tutup">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body text-center">
-          <input type="color" id="barColorPicker" value="#4e73df" class="form-control">
-        </div>
-        <div class="modal-footer justify-content-center">
-          <button type="button" class="btn btn-primary" id="applyColor">Terapkan</button>
-        </div>
-      </div>
-    </div>
-  </div>
   
 <script>
     // Bar Chart

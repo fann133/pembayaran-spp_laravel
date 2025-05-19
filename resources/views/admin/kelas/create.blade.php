@@ -29,7 +29,7 @@
     </div>
 
 
-        <div class="card shadow mb-4 border-bottom-primary">
+        <div class="card shadow mb-4 border-bottom-{{ $pengaturan->tema }}">
             <div class="card-header py-3 d-flex justify-content-center">
                 <h6 class="m-0 font-weight-bold text-primary">Data Kelas</h6>
             </div>
@@ -39,13 +39,13 @@
                         <div class="container d-flex flex-column col-12 col-md-5 justify-content-center">
                             <div class="mt-2">
                                 <label for="nama" class="form-label">Nama Kelas</label>
-                                <input type="text" id="nama" name="nama" class="form-control" required>
+                                <input type="text" id="nama" name="nama" class="form-control">
                             </div>
 
 
                             <div class="mt-2">
                                 <label for="kode_kelas" class="form-label">Kode Kelas</label>
-                                <input type="text" name="kode_kelas" class="form-control" required>
+                                <input type="text" name="kode_kelas" class="form-control">
                             </div>
 
 

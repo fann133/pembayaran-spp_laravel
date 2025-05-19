@@ -52,7 +52,7 @@
                 </div>
             </div>
             
-            <div class="card-body border-bottom-primary">
+            <div class="card-body border-bottom-{{ $pengaturan->tema }}">
               <form id="excelForm" method="POST" action="{{ route('admin.pembayaran.exportExcel') }}" style="display: none;">
                 @csrf
                   @foreach ($pembayaran as $p)
@@ -106,19 +106,20 @@
                                 </td>
                                 <td>{{ $item->user->name }}</td>
                                 <td>
-                                    <a href="{{ route('admin.pembayaran.print', $item->id_pembayaran) }}" target="_blank" class="btn btn-secondary btn-circle btn-sm">
-                                        <i class="fas fa-print"></i>
-                                    </a> 
-                                    
-                                    <a href="#" class="btn btn-danger btn-circle btn-sm delete-btn"
-                                      data-bs-toggle="modal"
-                                      data-bs-target="#deleteModal"
-                                      data-id="{{ $item->id_pembayaran }}"
-                                      data-nama="{{ $item->nama_pembayaran }}"
-                                      data-kode="{{ $item->kode }}"
-                                      data-siswa="{{ $item->nama }}">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
+                                    <div class="d-flex justify-content-center align-items-center">
+                                      <a href="{{ route('admin.pembayaran.print', $item->id_pembayaran) }}" target="_blank" class="btn btn-secondary btn-circle btn-sm mr-1">
+                                         <i class="fas fa-print"></i>
+                                      </a> 
+                                      <a href="#" class="btn btn-danger btn-circle btn-sm delete-btn"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal"
+                                        data-id="{{ $item->id_pembayaran }}"
+                                        data-nama="{{ $item->nama_pembayaran }}"
+                                        data-kode="{{ $item->kode }}"
+                                        data-siswa="{{ $item->nama }}">
+                                          <i class="fas fa-trash"></i>
+                                      </a>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach

@@ -9,6 +9,7 @@ use App\Models\Siswa; // Pastikan model Siswa diimpor
 use App\Models\User; // Pastikan model User diimpor
 use App\Models\Kelas; // Pastikan model User diimpor
 use App\Models\Biaya; // Pastikan model User diimpor
+use App\Models\Setting; // Pastikan model User diimpor
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -16,49 +17,71 @@ class SiswaController extends Controller
 {
     public function index()
     {
+        $pengaturan = Setting::first();
         $siswas = Siswa::with('kelasData')->get();
         $siswa = Siswa::orderBy('created_at', 'desc')->orderBy('updated_at', 'desc')->get();
-        return view('admin.siswa.index', compact('siswa', 'siswas'));
+        return view('admin.siswa.index', compact('siswa', 'siswas', 'pengaturan'));
     }
 
     // Tambah Siswa
     public function create()
     {
+        $pengaturan = Setting::first();
         $categories = Biaya::select('kategori')->distinct()->get();
         $kelas = Kelas::all(); // Ambil semua kelas
-        return view('admin.siswa.create', compact('kelas', 'categories'));
+        return view('admin.siswa.create', compact('kelas', 'categories', 'pengaturan'));
     }
 
     // Simpan data siswa baru
     public function store(Request $request)
     {
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'nis' => 'required|string|unique:siswas,nis',
-            'tempat_lahir' => 'required|string|max:255',
+        $validator = \Validator::make($request->all(), [
+            'nama'          => 'required|string|max:255',
+            'nis'           => 'required|string|unique:siswas,nis',
+            'tempat_lahir'  => 'required|string|max:255',
             'tanggal_lahir' => 'required|date',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
-            'id_kelas' => 'required|exists:kelas,id_kelas',
-            'category' => 'required|in:Atas,Menengah,Bawah',
-            'status' => 'required|in:AKTIF,LULUS,PINDAHAN,KELUAR',
+            'id_kelas'      => 'required|exists:kelas,id_kelas',
+            'category'      => 'required|in:Atas,Menengah,Bawah',
+            'status'        => 'required|in:AKTIF,LULUS,PINDAHAN,KELUAR',
+        ], [
+            'nama.required'           => 'Nama tidak boleh kosong.',
+            'nis.required'            => 'NIS wajib diisi.',
+            'nis.unique'              => 'NIS telah digunakan.',
+            'tempat_lahir.required'   => 'Tempat lahir wajib diisi.',
+            'tanggal_lahir.required'  => 'Tanggal lahir wajib diisi.',
+            'tanggal_lahir.date'      => 'Format tanggal lahir tidak valid.',
+            'jenis_kelamin.required'  => 'Jenis kelamin wajib dipilih.',
+            'jenis_kelamin.in'        => 'Jenis kelamin tidak valid.',
+            'id_kelas.required'       => 'Kelas wajib dipilih.',
+            'id_kelas.exists'         => 'Kelas tidak ditemukan.',
+            'category.required'       => 'Kategori wajib dipilih.',
+            'category.in'             => 'Kategori tidak valid.',
+            'status.required'         => 'Status wajib dipilih.',
+            'status.in'               => 'Status tidak valid.'
         ]);
 
-        // Ambil nama kelas berdasarkan id_kelas
-        $kelas = Kelas::where('id_kelas', $request->id_kelas)->first();
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('error', $validator->errors()->first()); // tampilkan error flash
+        }
 
+        $kelas = Kelas::where('id_kelas', $request->id_kelas)->first();
         $category = Biaya::where('kategori', $request->category)->first();
 
         // Simpan ke tabel siswa
         Siswa::create([
-            'nama' => $request->nama,
-            'nis' => $request->nis,
-            'tempat_lahir' => $request->tempat_lahir,
+            'nama'          => $request->nama,
+            'nis'           => $request->nis,
+            'tempat_lahir'  => $request->tempat_lahir,
             'tanggal_lahir' => $request->tanggal_lahir,
             'jenis_kelamin' => $request->jenis_kelamin,
-            'id_kelas' => $request->id_kelas, // Simpan ID kelas di kolom id_kelas
-            'kelas' => $kelas->nama, // Simpan nama kelas di kolom kelas
-            'category' => $category->kategori,
-            'status' => $request->status,
+            'id_kelas'      => $request->id_kelas, // Simpan ID kelas di kolom id_kelas
+            'kelas'         => $kelas->nama, // Simpan nama kelas di kolom kelas
+            'category'      => $category->kategori,
+            'status'        => $request->status,
         ]);
 
         return redirect()->route('admin.siswa.index')->with('success', 'Siswa berhasil ditambahkan');
@@ -68,48 +91,68 @@ class SiswaController extends Controller
     // Tampilan View Edit Siswa
     public function edit($id)
     {
+        $pengaturan = Setting::first();
         $categories = Biaya::select('kategori')->distinct()->get();
         $kelas = Kelas::all();
         $siswa = Siswa::findOrFail($id);
-        return view('admin.siswa.edit', compact('siswa', 'kelas', 'categories'));
+        return view('admin.siswa.edit', compact('siswa', 'kelas', 'categories', 'pengaturan'));
     }
 
     // Ubah Siswa
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'nis' => 'required|string|unique:siswas,nis,' . $id . ',id_siswa',
-            'tempat_lahir' => 'required|string|max:255',
+        $validator = \Validator::make($request->all(), [
+            'nama'          => 'required|string|max:255',
+            'nis'           => 'required|string|unique:siswas,nis,' . $id . ',id_siswa',
+            'tempat_lahir'  => 'required|string|max:255',
             'tanggal_lahir' => 'required|date',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
-            'id_kelas' => 'required|exists:kelas,id_kelas',
-            'category' => 'required|in:Atas,Menengah,Bawah',
-            'status' => 'required|in:AKTIF,LULUS,PINDAHAN,KELUAR',
+            'id_kelas'      => 'required|exists:kelas,id_kelas',
+            'category'      => 'required|in:Atas,Menengah,Bawah',
+            'status'        => 'required|in:AKTIF,LULUS,PINDAHAN,KELUAR',
+        ], [
+            'nama.required'           => 'Nama tidak boleh kosong.',
+            'nis.required'            => 'NIS wajib diisi.',
+            'nis.unique'              => 'NIS telah digunakan.',
+            'tempat_lahir.required'   => 'Tempat lahir wajib diisi.',
+            'tanggal_lahir.required'  => 'Tanggal lahir wajib diisi.',
+            'tanggal_lahir.date'      => 'Format tanggal lahir tidak valid.',
+            'jenis_kelamin.required'  => 'Jenis kelamin wajib dipilih.',
+            'jenis_kelamin.in'        => 'Jenis kelamin tidak valid.',
+            'id_kelas.required'       => 'Kelas wajib dipilih.',
+            'id_kelas.exists'         => 'Kelas tidak ditemukan.',
+            'category.required'       => 'Kategori wajib dipilih.',
+            'category.in'             => 'Kategori tidak valid.',
+            'status.required'         => 'Status wajib dipilih.',
+            'status.in'               => 'Status tidak valid.'
         ]);
 
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('error', $validator->errors()->first()); // tampilkan error flash
+        }
+
         $siswa = Siswa::findOrFail($id);
-        // Ambil data kelas berdasarkan id_kelas
         $kelas = Kelas::where('id_kelas', $request->id_kelas)->first();
         $category = Biaya::where('kategori', $request->category)->first();
 
         // Update data siswa
         $siswa->update([
-            'nama' => $request->nama,
-            'nis' => $request->nis,
-            'tempat_lahir' => $request->tempat_lahir,
+            'nama'          => $request->nama,
+            'nis'           => $request->nis,
+            'tempat_lahir'  => $request->tempat_lahir,
             'tanggal_lahir' => $request->tanggal_lahir,
             'jenis_kelamin' => $request->jenis_kelamin,
-            'id_kelas' => $request->id_kelas, // Simpan ID kelas
-            'kelas' => $kelas->nama, // Simpan Nama kelas
-            'category' => $category->kategori,
-            'status' => $request->status,
+            'id_kelas'      => $request->id_kelas, // Simpan ID kelas
+            'kelas'         => $kelas->nama, // Simpan Nama kelas
+            'category'      => $category->kategori,
+            'status'        => $request->status,
         ]);
 
         return redirect()->route('admin.siswa.index')->with('success', 'Data siswa berhasil diperbarui');
     }
-
-
 
     // Hapus Siswa
     public function destroy($id)
@@ -119,8 +162,6 @@ class SiswaController extends Controller
 
         return redirect()->route('admin.siswa.index')->with('success', 'Siswa dan User terkait berhasil dihapus.');
     }
-
-
 
     // create account siswa
     public function createAccount($id_siswa)
@@ -138,12 +179,12 @@ class SiswaController extends Controller
 
         // Buat akun di tabel users
         $user = User::create([
-            'id_users' => Str::uuid(), // UUID untuk primary key
-            'name' => $siswa->nama,
-            'username' => $siswa->nis, // Username diambil dari NIS
-            'password' => Hash::make($randomPassword),
-            'bypass' => $randomPassword, // Simpan password asli (opsional)
-            'role_id' => 2, // Role ID untuk siswa
+            'id_users'  => Str::uuid(), // UUID untuk primary key
+            'name'      => $siswa->nama,
+            'username'  => $siswa->nis, // Username diambil dari NIS
+            'password'  => Hash::make($randomPassword),
+            'bypass'    => $randomPassword, // Simpan password asli (opsional)
+            'role_id'   => 2, // Role ID untuk siswa
         ]);
 
         // Update `users_id` di tabel siswas

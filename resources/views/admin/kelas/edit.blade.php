@@ -28,7 +28,7 @@
         <h1 class="h3 mb-0 text-gray-800">Ubah Data</h1>
     </div>
 
-    <div class="card shadow mb-4 border-bottom-primary">
+    <div class="card shadow mb-4 border-bottom-{{ $pengaturan->tema }}">
             <div class="card-header py-3 d-flex justify-content-center">
                 <h6 class="m-0 font-weight-bold text-primary">Data Kelas</h6>
             </div>
@@ -40,12 +40,12 @@
 
                     <div class="mt-2">
                         <label for="nama" class="form-label">Nama Kelas</label>
-                        <input type="text" id="nama" name="nama" class="form-control" value="{{ $kelas->nama }}" required>
+                        <input type="text" id="nama" name="nama" class="form-control" value="{{ $kelas->nama }}">
                     </div>
 
                     <div class="mt-2">
                         <label class="form-label">Kode Kelas</label>
-                        <input type="text" name="kode_kelas" class="form-control" value="{{ $kelas->kode_kelas }}" required>
+                        <input type="text" name="kode_kelas" class="form-control" value="{{ $kelas->kode_kelas }}">
                     </div>
 
                     <div class="mt-2">
@@ -64,7 +64,6 @@
                             @endforeach
                         </select>
                     </div>
-
 
                     <div class="mt-2 pb-4">
                         <label class="form-label">Deskripsi</label>

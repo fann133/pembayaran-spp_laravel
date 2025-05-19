@@ -41,7 +41,7 @@
                 </div>
             </div>
             
-            <div class="card-body border-bottom-primary">
+            <div class="card-body border-bottom-{{ $pengaturan->tema }}">
                 <form id="printForm" method="POST" action="{{ route('admin.tagihan.printAll') }}" target="_blank">
                     @csrf
                 <div class="table-responsive pt-2">
@@ -87,14 +87,13 @@
                                     @endif
                                 </td>
                                 <td>
-                                        <a href="{{ route('admin.tagihan.payment', $item->id_tagihan) }}" class="btn btn-success btn-circle btn-sm">
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <a href="{{ route('admin.tagihan.payment', $item->id_tagihan) }}" class="btn btn-success btn-circle btn-sm mr-1">
                                             <i class="fas fa-shopping-cart"></i>
                                         </a>
-
-                                        <a href="{{ route('admin.tagihan.print', $item->id_tagihan) }}" target="_blank" class="btn btn-secondary btn-circle btn-sm">
+                                        <a href="{{ route('admin.tagihan.print', $item->id_tagihan) }}" target="_blank" class="btn btn-secondary btn-circle btn-sm mr-1">
                                             <i class="fas fa-print"></i>
                                         </a>
-
                                         <a href="#" class="btn btn-danger btn-circle btn-sm delete-btn"
                                             data-bs-toggle="modal"
                                             data-bs-target="#deleteModal"
@@ -104,6 +103,7 @@
                                             data-siswa="{{ $item->nama }}">
                                             <i class="fas fa-trash"></i>
                                         </a>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach

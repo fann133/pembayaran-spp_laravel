@@ -27,7 +27,7 @@
         <h1 class="h3 mb-0 text-gray-800">Info Aplikasi</h1>
     </div>
 
-    <div class="card shadow mb-4 border-bottom-primary">
+    <div class="card shadow mb-4 border-bottom-{{ $pengaturan->tema }}">
         <div class="card-header py-3 d-flex justify-content-between">
             <h6 class="m-0 font-weight-bold text-primary">Data Aplikasi</h6>
         </div>
@@ -42,12 +42,12 @@
 
                 <div class="mt-2">
                     <label>Ikon Sidebar</label>
-                    <input type="text" name="ikon_sidebar" class="form-control" value="{{ $pengaturan->ikon_sidebar }}">
+                    <input type="text" name="ikon_sidebar" class="form-control" value="{{ $pengaturan->ikon_sidebar }}" oninput="this.value = this.value.toLowerCase()">
                 </div>
 
                 <div class="mt-2">
                     <label>Warna Sidebar</label>
-                    <input type="text" name="tema" class="form-control" value="{{ $pengaturan->tema }}">
+                    <input type="text" name="tema" class="form-control" value="{{ $pengaturan->tema }}" oninput="this.value = this.value.toLowerCase()">
                 </div>
 
                 <div class="mt-2">

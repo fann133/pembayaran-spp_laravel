@@ -25,7 +25,7 @@
         <h1 class="h3 mb-0 text-gray-800">Backup Database</h1>
     </div>
 
-    <div class="card">
+    <div class="card shadow mb-4 border-bottom-{{ $pengaturan->tema }}">
         <div class="card-header py-3 d-flex justify-content-between">
             <h6 class="m-0 font-weight-bold text-primary">Database</h6>
         </div>

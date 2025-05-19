@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
+use App\Models\Setting;
 
 class DatabaseController extends Controller
 {
@@ -17,8 +18,8 @@ class DatabaseController extends Controller
         $tables = DB::select('SHOW TABLES');
         $dbName = env('DB_DATABASE');
         $tableKey = "Tables_in_{$dbName}";
-
-        return view('admin.database', compact('tables', 'tableKey'));
+        $pengaturan = Setting::first();
+        return view('admin.database', compact('tables', 'tableKey', 'pengaturan'));
     }
 
     public function download()

@@ -11,14 +11,16 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
 use Jenssegers\Agent\Agent;
 use Carbon\Carbon;
+use App\Models\Setting;
 
 class UserController extends Controller
 {
 
     public function index()
     {
+        $pengaturan = Setting::first();
         $users = User::all();
-
+        
         $users = $users->map(function ($user) {
             $user->is_online   = Cache::has("user-is-online-{$user->id_users}");
             $user->online_ip   = Cache::get("user-ip-{$user->id_users}", $user->last_ip);
@@ -57,18 +59,18 @@ class UserController extends Controller
         });
         
 
-        return view('admin.user.index', compact('users'));
+        return view('admin.user.index', compact('users', 'pengaturan'));
     }
 
 
     public function edit($id)
     {
         $user = User::findOrFail($id);
-
+        $pengaturan = Setting::first();
         // Ambil daftar role unik dari tabel users
         $roles = DB::table('users')->select('role_id')->distinct()->get();
 
-        return view('admin.user.edit', compact('user', 'roles'));
+        return view('admin.user.edit', compact('user', 'roles', 'pengaturan'));
     }
 
     public function update(Request $request, $id)

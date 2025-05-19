@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-
 use Illuminate\Http\Request;
 use App\Models\Biaya;
+use App\Models\Setting;
 
 class BiayaController extends Controller
 {
     public function index(Request $request)
     {
         $kategori = $request->input('kategori'); // Ambil kategori dari request
-
+        $pengaturan = Setting::first();
         $query = Biaya::query();
         
         if ($kategori) {
@@ -20,14 +20,16 @@ class BiayaController extends Controller
         }
 
         return view('admin.biaya.index', [
-            'biayaList' => $query->get(),
+            'biayaList'        => $query->get(),
             'kategoriTerpilih' => $kategori,
+            'pengaturan'       => $pengaturan
         ]);
     }
 
     public function create()
     {
-        return view('admin.biaya.create');
+        $pengaturan = Setting::first();
+        return view('admin.biaya.create', compact('pengaturan'));
     }
 
     public function store(Request $request)
@@ -57,14 +59,12 @@ class BiayaController extends Controller
         return redirect()->route('admin.biaya.index')->with('success', 'Biaya berhasil ditambahkan.');
     }
 
-
-
     public function edit($id)
     {
         $biaya = Biaya::findOrFail($id);
-        return view('admin.biaya.edit', compact('biaya'));
+        $pengaturan = Setting::first();
+        return view('admin.biaya.edit', compact('biaya', 'pengaturan'));
     }
-
 
     public function update(Request $request, $id)
     {

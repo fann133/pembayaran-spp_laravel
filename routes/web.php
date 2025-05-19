@@ -80,7 +80,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
         // Manajemen Profil
-        Route::get('/profil-sekolah', [AdminProfilController::class, 'index'])->name('admin.profil.index');
+        Route::get('/profil-sekolah', [AdminProfilController::class, 'index'])->name('admin.profil');
         Route::post('/profil-sekolah', [AdminProfilController::class, 'update'])->name('admin.profil.update');
 
         // Manajemen Siswa

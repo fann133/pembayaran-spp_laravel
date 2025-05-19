@@ -27,7 +27,7 @@
         <h1 class="h3 mb-0 text-gray-800">Tambah Data</h1>
     </div>
 
-    <div class="card shadow mb-4 border-bottom-primary">
+    <div class="card shadow mb-4 border-bottom-{{ $pengaturan->tema }}">
         <div class="card-header py-3 d-flex justify-content-center">
             <h6 class="m-0 font-weight-bold text-primary">Data Tagihan</h6>
         </div>

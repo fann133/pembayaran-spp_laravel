@@ -36,7 +36,7 @@
                 </a>
             </div>
             
-            <div class="card-body border-bottom-primary">
+            <div class="card-body border-bottom-{{ $pengaturan->tema }}">
                 <div class="table-responsive pt-2">
                     <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
                         <thead>
@@ -70,23 +70,24 @@
                                 <td>{{ $roles[$guru->role_id] }}</td>
 
                                 <td>
-                                    <a href="{{ route('admin.guru.createAccount', $guru->id_guru) }}" class="btn btn-primary btn-circle btn-sm">
-                                        <i class="fas fa-plus"></i>
-                                    </a>                                    
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <a href="{{ route('admin.guru.createAccount', $guru->id_guru) }}" class="btn btn-primary btn-circle btn-sm mr-1">
+                                            <i class="fas fa-plus"></i>
+                                        </a>                                    
 
-                                    <a href="{{ route('admin.guru.edit', $guru->id_guru) }}" class="btn btn-warning btn-circle btn-sm">
-                                        <i class="fas fa-pen"></i>
-                                    </a>
-                                    
-                                    <a href="#" class="btn btn-danger btn-circle btn-sm delete-btn-guru"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#deleteModalGuru"
-                                    data-id="{{ $guru->id_guru }}"
-                                    data-nama="{{ $guru->nama }}"
-                                    data-nip="{{ $guru->nip }}">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
-
+                                        <a href="{{ route('admin.guru.edit', $guru->id_guru) }}" class="btn btn-warning btn-circle btn-sm mr-1">
+                                            <i class="fas fa-pen"></i>
+                                        </a>
+                                        
+                                        <a href="#" class="btn btn-danger btn-circle btn-sm delete-btn-guru"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteModalGuru"
+                                        data-id="{{ $guru->id_guru }}"
+                                        data-nama="{{ $guru->nama }}"
+                                        data-nip="{{ $guru->nip }}">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach

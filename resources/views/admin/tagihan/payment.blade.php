@@ -79,7 +79,7 @@
     }
 </style>
 
-<div class="container-payment bg-white rounded shadow-sm border-bottom-primary">
+<div class="container-payment bg-white rounded shadow-sm border-bottom-{{ $pengaturan->tema }}">
     <div class="mb-4">
         <div class="d-flex justify-content-between align-items-center">
             <h1 class="h3 text-primary font-weight-bold mb-0">

@@ -16,7 +16,7 @@
             {{-- <a href="{{ route('admin.kelas.index') }}" class="btn btn-secondary btn-sm">&larr; Kembali</a> --}}
         </div>
 
-        <div class="card-body border-bottom-primary">
+        <div class="card-body border-bottom-{{ $pengaturan->tema }}">
             <div class="table-responsive pt-2">
                 <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
                     <thead>

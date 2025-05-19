@@ -27,7 +27,7 @@
         <h1 class="h3 mb-0 text-gray-800">Tambah Data</h1>
     </div>
 
-    <div class="card shadow mb-4 border-bottom-primary">
+    <div class="card shadow mb-4 border-bottom-{{ $pengaturan->tema }}">
         <div class="card-header py-3 d-flex justify-content-center">
             <h6 class="m-0 font-weight-bold text-primary">Data Guru</h6>
         </div>
@@ -38,22 +38,22 @@
                 <div class="container d-flex flex-column col-12 col-md-5 justify-content-center">
                     <div class="mt-3">
                         <label for="nama" class="form-label">Nama</label>
-                        <input type="text" name="nama" id="nama" class="form-control" placeholder="Masukan Nama Lengkap" required oninput="this.value = this.value.toUpperCase();">
+                        <input type="text" name="nama" id="nama" class="form-control" placeholder="Masukan Nama Lengkap" oninput="this.value = this.value.toUpperCase();">
                     </div>
 
                     <div class="mt-3">
                         <label for="nip" class="form-label">NIP</label>
-                        <input type="text" name="nip" id="nip" class="form-control" placeholder="Masukan NIP" required>
+                        <input type="text" name="nip" id="nip" class="form-control" placeholder="Masukan NIP">
                     </div>
 
                     <div class="mt-3">
                         <label for="tempat_lahir" class="form-label">Tempat Lahir</label>
-                        <input type="text" name="tempat_lahir" id="tempat_lahir" class="form-control" placeholder="Masukan Tempat Lahir" required>
+                        <input type="text" name="tempat_lahir" id="tempat_lahir" class="form-control" placeholder="Masukan Tempat Lahir">
                     </div>
 
                     <div class="mt-3">
                         <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
-                        <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control" required>
+                        <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control">
                     </div>
 
                     
@@ -74,7 +74,7 @@
 
                     <div class="mt-3">
                         <label for="agama" class="form-label">Agama</label>
-                        <select name="agama" id="agama" class="form-control" required>
+                        <select name="agama" id="agama" class="form-control">
                             <option value="">Pilih Agama</option>
                             <option value="Islam">Islam</option>
                             <option value="Kristen">Kristen</option>
@@ -88,7 +88,7 @@
 
                     <div class="mt-3">
                         <label for="status" class="form-label">Status</label>
-                        <select name="status" id="status" class="form-control" required>
+                        <select name="status" id="status" class="form-control">
                             <option value="">-- Pilih Status --</option>
                             <option value="TETAP">TETAP</option>
                             <option value="HONOR">HONOR</option>
@@ -98,7 +98,7 @@
 
                     <div class="pb-4 mt-3">
                         <label for="role_id" class="form-label">Jabatan</label>
-                        <select name="role_id" id="role_id" class="form-control" required>
+                        <select name="role_id" id="role_id" class="form-control">
                             <option value="">-- Pilih Jabatan --</option>
                             <option value="3">Guru</option>
                             <option value="4">Bendahara</option>

@@ -8,6 +8,7 @@ use App\Models\ProfilSekolah;
 use App\Models\Siswa;
 use App\Models\Tagihan;
 use App\Models\Pembayaran;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -42,13 +43,6 @@ class DashboardController extends Controller
             ->distinct()
             ->orderBy('tahun', 'desc')
             ->pluck('tahun');
-
-        // Ini data dari pembayaran (jumlah siswa yang bayar)
-        // $sudahBayarPembayaran = Pembayaran::whereIn('jenis', ['SPP', 'NON-SPP'])
-        //     ->whereMonth('tanggal_bayar', $bulanDipilih)
-        //     ->whereYear('tanggal_bayar', $tahunDipilih)
-        //     ->distinct('id_siswa')
-        //     ->count('id_siswa');
 
         // Ini data tagihan untuk progress
         $totalTagihan = Tagihan::whereMonth('tanggal_tagihan', $bulanDipilih)
@@ -113,6 +107,9 @@ class DashboardController extends Controller
         $kelasData = $dataPie->pluck('kelas');
         $jumlahBelumBayar = $dataPie->pluck('belum_bayar');
 
+        $pengaturan = Setting::first();
+
+
         return view('admin.dashboard', [
             'namaSekolah'               => $namaSekolah,
             'jumlahSiswaAktif'          => $jumlahSiswaAktif,
@@ -131,7 +128,8 @@ class DashboardController extends Controller
             'tahunList'                 => $tahunList,
             'dataPie'                   => $dataPie,
             'kelasData'                 => $kelasData,
-            'jumlahBelumBayar'          => $jumlahBelumBayar
+            'jumlahBelumBayar'          => $jumlahBelumBayar,
+            'pengaturan'                => $pengaturan
         ]);
     }
 }

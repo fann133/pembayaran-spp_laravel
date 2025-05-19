@@ -9,6 +9,7 @@ use App\Models\Siswa;
 use App\Models\Biaya;
 use App\Models\Tagihan;
 use App\Models\Pembayaran;
+use App\Models\Setting;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use Mpdf\Mpdf;
@@ -24,14 +25,16 @@ class TagihanController extends Controller
         $tagihan = Tagihan::with('siswa.kelasData', 'biaya')
                 ->orderBy('created_at', 'desc') // Menampilkan data terbaru di atas
                 ->get();
-        return view('admin.tagihan.index', compact('tagihan'));
+        $pengaturan = Setting::first();
+        return view('admin.tagihan.index', compact('tagihan', 'pengaturan'));
     }
 
     public function create()
     {
         $siswas = Siswa::whereIn('status', ['AKTIF', 'PINDAHAN'])->get();
         $biayas = Biaya::where('status', 'AKTIF')->get();
-        return view('admin.tagihan.create', compact('siswas', 'biayas'));
+        $pengaturan = Setting::first();
+        return view('admin.tagihan.create', compact('siswas', 'biayas', 'pengaturan'));
     }
 
     public function store(Request $request)
@@ -114,7 +117,8 @@ class TagihanController extends Controller
     public function payment($id)
     {
         $tagihan = Tagihan::with('siswa', 'biaya')->findOrFail($id);
-        return view('admin.tagihan.payment', compact('tagihan'));
+        $pengaturan = Setting::first();
+        return view('admin.tagihan.payment', compact('tagihan', 'pengaturan'));
     }
 
     public function processPayment(Request $request, $id)
@@ -178,8 +182,6 @@ class TagihanController extends Controller
             return redirect()->route('admin.tagihan.index')->with('warning', 'Pembayaran berhasil. Tagihan belum lunas.');
         }                
     }
-
-
 
     public function print($id_tagihan)
     {

@@ -37,7 +37,7 @@
         </div>
 
 
-        <div class="card-body border-bottom-primary">
+        <div class="card-body border-bottom-{{ $pengaturan->tema }}">
             <div class="mb-5 row justify-content-center d-flex align-items-center">
                 <div class="col-auto">
                     <label class="form-label">Filter Kategori</label>
@@ -81,18 +81,20 @@
 
                                 <td>{{ $b->kategori }}</td>
                                 <td>
-                                    <a href="{{ route('admin.biaya.edit', $b->id_biaya) }}" class="btn btn-warning btn-circle btn-sm">
-                                        <i class="fas fa-pen"></i>
-                                    </a>
-                                    
-                                    <a href="#" class="btn btn-danger btn-circle btn-sm delete-btn"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#deleteModalBiaya"
-                                        data-id="{{ $b->id_biaya }}"
-                                        data-nama="{{ $b->nama }}"
-                                        data-kode="{{ $b->kode }}">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <a href="{{ route('admin.biaya.edit', $b->id_biaya) }}" class="btn btn-warning btn-circle btn-sm mr-1">
+                                            <i class="fas fa-pen"></i>
+                                        </a>
+                                        
+                                        <a href="#" class="btn btn-danger btn-circle btn-sm delete-btn"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#deleteModalBiaya"
+                                            data-id="{{ $b->id_biaya }}"
+                                            data-nama="{{ $b->nama }}"
+                                            data-kode="{{ $b->kode }}">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach

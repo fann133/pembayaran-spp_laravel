@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pembayaran;
+use App\Models\Setting;
 use Mpdf\Mpdf;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PembayaranExport;
@@ -16,7 +17,8 @@ class PembayaranController extends Controller
     public function index()
     {
         $pembayaran = Pembayaran::with('tagihan')->orderBy('created_at', 'desc')->get();
-        return view('admin.pembayaran.index', compact('pembayaran'));
+        $pengaturan = Setting::first();
+        return view('admin.pembayaran.index', compact('pembayaran', 'pengaturan'));
     }
 
     public function print($id)

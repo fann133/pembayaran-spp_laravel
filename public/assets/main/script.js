@@ -38,3 +38,10 @@ function previewAvatar(input) {
         reader.readAsDataURL(file);
     }
 }
+
+// Select 2 Responsive
+$(document).ready(function() {
+    $('.select2').select2({
+        width: '100%' // Tambahkan ini juga
+    });
+});

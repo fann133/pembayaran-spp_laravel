@@ -40,7 +40,7 @@
             </a>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item {{ request()->routeIs('admin.profil.index') ? 'active' : '' }}" href="{{ route('admin.profil.index') }}">
+                    <a class="collapse-item {{ request()->routeIs('admin.profil.index') ? 'active' : '' }}" href="{{ route('admin.profil') }}">
                         <i class="fas fa-fw fa-school"></i> Profil Sekolah
                     </a>
                     <a class="collapse-item {{ request()->routeIs('admin.siswa.index', 'admin.siswa.create', 'admin.siswa.edit') ? 'active' : '' }}" href="{{ route('admin.siswa.index') }}">
