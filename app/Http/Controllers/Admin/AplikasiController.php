@@ -26,7 +26,7 @@ class AplikasiController extends Controller
             'logo' => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
         ], [
             'nama_aplikasi.required' => 'Nama Aplikasi tidak boleh kosong.',
-            'nama_aplikasi.max'      => 'Nama aplikasi maksimal 30 karakter saja.',
+            'nama_aplikasi.max'      => 'Nama aplikasi maksimal 30 karakter.',
             'ikon_sidebar'           => 'Ikon Sidebar tidak boleh kosong.',
             'tema.required'          => 'Tema tidak boleh kosong.',
             'footer.required'        => 'Footer tidak boleh kosong.',

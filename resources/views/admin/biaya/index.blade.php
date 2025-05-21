@@ -77,7 +77,7 @@
                                 </td>
                                 <td>{{ $b->kode }}</td>
                                 <td>{{ $b->jenis }}</td>
-                                <td>{{ number_format((float) $b->jumlah, 0, ',', '.') }}</td>
+                                <td>Rp{{ number_format((float) $b->jumlah, 0, ',', '.') }}</td>
 
                                 <td>{{ $b->kategori }}</td>
                                 <td>

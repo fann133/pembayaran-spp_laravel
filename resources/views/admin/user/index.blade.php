@@ -72,7 +72,6 @@
                                     </span>
                                 </small>
                             </td>                            
-
                             @php
                                 $roles = [
                                     1 => 'Admin',
@@ -83,7 +82,6 @@
                                 ];
                             @endphp
                             <td>{{ $roles[$user->role_id] }}</td>
-
                             <td>
                                 <a href="{{ route('admin.user.edit', $user->id_users) }}" class="btn btn-warning btn-circle btn-sm">
                                     <i class="fas fa-pen"></i>

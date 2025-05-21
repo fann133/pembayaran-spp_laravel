@@ -39,17 +39,17 @@
             <div class="container d-flex flex-column col-12 col-md-5 justify-content-center">
                 <div class="mt-2">
                     <label for="name" class="form-label">Nama</label>
-                    <input type="text" name="name" class="form-control" id="name" value="{{ old('name', $user->name) }}" required>
+                    <input type="text" name="name" class="form-control" id="name" value="{{ old('name', $user->name) }}">
                 </div>
 
                 <div class="mt-2">
                     <label for="username" class="form-label">Username</label>
-                    <input type="text" name="username" class="form-control" id="username" value="{{ old('username', $user->username) }}" required>
+                    <input type="text" name="username" class="form-control" id="username" value="{{ old('username', $user->username) }}">
                 </div>
 
                 <div class="mt-2">
                     <label for="password" class="form-label">Password (Kosongkan jika tidak ingin diubah)</label>
-                    <input type="text" name="password" class="form-control" id="password"value="{{ old('username', $user->bypass) }}" >
+                    <input type="text" name="password" class="form-control" id="password"value="{{ old('password', $user->bypass) }}" >
                 </div>
 
                 <div class="mt-2 pb-4">

@@ -87,6 +87,14 @@
             </h1>
         </div>
         <p class="text-muted mt-1">Halaman ini menampilkan detail tagihan dan form konfirmasi pembayaran.</p>
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('error') }}
+                <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
     </div>
 
     <div class="card shadow mb-4">
@@ -128,7 +136,7 @@
                     @csrf
                     <div class="mb-3 inputWithIcon">
                         <label for="dibayar" class="form-label">Jumlah yang Dibayar</label>
-                        <input type="text" class="form-control" id="dibayar" name="dibayar" placeholder="Rp 0" required>
+                        <input type="text" class="form-control" id="dibayar" name="dibayar" placeholder="Rp0">
                         <span class="fas fa-money-bill-wave"></span>
                     </div>
 
@@ -160,7 +168,7 @@
     input?.addEventListener('input', function(e) {
         let value = input.value.replace(/[^\d]/g, '');
         if (parseInt(value) > max) value = max;
-        input.value = formatRupiah(value, 'Rp ');
+        input.value = formatRupiah(value, 'Rp');
     });
 
     function formatRupiah(angka, prefix) {

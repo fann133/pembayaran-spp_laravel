@@ -75,12 +75,30 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
+        $validator = \Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username,' . $id . ',id_users',
             'password' => 'nullable|min:5',
             'role_id' => 'required|in:1,2,3,4,5', // Pastikan role_id valid
+        ], [
+            'name.required'     => 'Nama wajib diisi.',
+            'name.string'       => 'Nama harus berupa teks.',
+            'name.max'          => 'Nama maksimal 255 karakter.',
+            'username.required' => 'Username wajib diisi.',
+            'username.string'   => 'Username harus berupa teks.',
+            'username.max'      => 'Username maksimal 255 karakter.',
+            'username.unique'   => 'Username sudah digunakan, silakan gunakan yang lain.',
+            'password.min'      => 'Password minimal 5 karakter.',
+            'role_id.required'  => 'Role wajib dipilih.',
+            'role_id.in'        => 'Role yang dipilih tidak valid.',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('error', $validator->errors()->first()); // tampilkan error flash
+        }
 
         $user = User::findOrFail($id);
         $user->name = $request->name;
@@ -91,7 +109,6 @@ class UserController extends Controller
             $user->password = Hash::make($request->password);
             $user->bypass = $request->password; // Simpan password asli di bypass
         }
-
         $user->save();
 
         return redirect()->route('admin.user.index')->with('success', 'User berhasil diperbarui!');

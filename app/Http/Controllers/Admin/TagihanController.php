@@ -39,12 +39,28 @@ class TagihanController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'id_siswa' => 'required',
-            'jenis_pembayaran' => 'required',
-            'status' => 'required',
-            'bulan' => $request->jenis_pembayaran === 'SPP' ? 'required' : 'nullable',
+        $validator = \Validator::make($request->all(), [
+            'id_siswa'          => 'required',
+            'jenis_pembayaran'  => 'required',
+            'status'            => 'required',
+            'bulan'             => 'required_if:jenis_pembayaran,SPP|nullable',
+            'id_biaya'          => 'required_if:jenis_pembayaran,NON-SPP|nullable|exists:biaya,id_biaya',
+        ], [
+            'id_siswa.required'            => 'Siswa wajib dipilih.',
+            'jenis_pembayaran.required'    => 'Jenis pembayaran wajib dipilih.',
+            'jenis_pembayaran.in'          => 'Jenis pembayaran tidak valid.',
+            'status.required'              => 'Status pembayaran wajib diisi.',
+            'bulan.required_if'            => 'Bulan wajib diisi jika jenis pembayaran adalah SPP.',
+            'id_biaya.required_if'         => 'Nama pembayaran wajib dipilih jika jenis pembayaran adalah NON-SPP.',
+            'id_biaya.exists'              => 'Nama pembayaran tidak valid.',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('error', $validator->errors()->first()); // tampilkan error flash
+        }
 
         // Cek data siswa berdasarkan id_siswa
         $siswa = Siswa::where('id_siswa', $request->id_siswa)->first();
@@ -69,11 +85,11 @@ class TagihanController extends Controller
 
         // Parameter pencarian untuk pengecekan
         $queryParams = [
-            ['id_siswa', $request->id_siswa],
-            ['nis', $siswa->nis],
-            ['kelas', $siswa->kelas],
-            ['kode', $biaya->kode], // Gunakan kode sebagai patokan
-            ['jenis', $biaya->jenis],
+            ['id_siswa',        $request->id_siswa],
+            ['nis',             $siswa->nis],
+            ['kelas',           $siswa->kelas],
+            ['kode',            $biaya->kode], // Gunakan kode sebagai patokan
+            ['jenis',           $biaya->jenis],
             ['nama_pembayaran', $biaya->nama],
         ];
 
@@ -95,19 +111,19 @@ class TagihanController extends Controller
 
         // Simpan data tagihan
         Tagihan::create([
-            'id_tagihan' => Str::uuid(),
-            'id_siswa' => $request->id_siswa,
-            'nama' => $siswa->nama,
-            'nis' => $siswa->nis,
-            'kelas' => $siswa->kelas,
-            'id_biaya' => $biaya->id_biaya,
-            'nama_pembayaran' => $biaya->nama,
-            'jenis' => $biaya->jenis,
-            'kode' => $biaya->kode, // Menggunakan kode biaya dan menyimpannya di tagihan
-            'jumlah' => $biaya->jumlah,
-            'bulan' => $biaya->jenis === 'SPP' ? $request->bulan : '',
-            'status' => $request->status,
-            'tanggal_tagihan' => now()->toDateString(),
+            'id_tagihan'        => Str::uuid(),
+            'id_siswa'          => $request->id_siswa,
+            'nama'              => $siswa->nama,
+            'nis'               => $siswa->nis,
+            'kelas'             => $siswa->kelas,
+            'id_biaya'          => $biaya->id_biaya,
+            'nama_pembayaran'   => $biaya->nama,
+            'jenis'             => $biaya->jenis,
+            'kode'              => $biaya->kode, // Menggunakan kode biaya dan menyimpannya di tagihan
+            'jumlah'            => $biaya->jumlah,
+            'bulan'             => $biaya->jenis === 'SPP' ? $request->bulan : '',
+            'status'            => $request->status,
+            'tanggal_tagihan'   => now()->toDateString(),
         ]);
 
         return redirect()->route('admin.tagihan.index')->with('success', 'Tagihan berhasil ditambahkan.');
@@ -124,61 +140,62 @@ class TagihanController extends Controller
     public function processPayment(Request $request, $id)
     {
         $tagihan = Tagihan::findOrFail($id);
-
-        // Ambil ID user dari Auth atau session
         $id_users = Auth::check() ? Auth::user()->id_users : session('id_users');
 
-        // Ambil input dibayar dan bersihkan formatnya
-        $dibayarSekarang = str_replace(['Rp', '.', ' '], '', $request->dibayar);
+        // Validasi awal
+        $validator = \Validator::make($request->all(), [
+            'dibayar' => ['required'],
+        ], [
+            'dibayar.required' => 'Jumlah yang dibayar wajib diisi.',
+        ]);
 
-        // Konversi ke integer
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('error', $validator->errors()->first());
+        }
+
+        $dibayarSekarang = str_replace(['Rp', '.', ' '], '', $request->dibayar);
         $dibayarSekarang = (int) $dibayarSekarang;
 
-        // Validasi jumlah pembayaran
         if ($dibayarSekarang > $tagihan->jumlah) {
             return redirect()->route('admin.tagihan.index')->with('error', 'Jumlah pembayaran melebihi sisa tagihan.');
         }
 
-        // Hitung sisa hutang setelah pembayaran terbaru
         $piutang = $tagihan->jumlah - $dibayarSekarang;
         $status = $piutang == 0 ? 'LUNAS' : 'BELUM LUNAS';
 
-        // Simpan transaksi pembayaran tanpa menghapus riwayat sebelumnya
         Pembayaran::create([
-            'id_pembayaran' => Str::uuid(),
-            'id_users' => $id_users,
-            'id_tagihan' => $tagihan->id_tagihan,
-            'id_siswa' => $tagihan->id_siswa,
-            'nama' => $tagihan->nama,
-            'nis' => $tagihan->nis,
-            'kelas' => $tagihan->kelas,
-            'kode' => $tagihan->kode,
-            'nama_pembayaran' => $tagihan->nama_pembayaran,
-            'jenis' => $tagihan->jenis,
-            'bulan' => $tagihan->bulan,
-            'jumlah_tagihan' => $tagihan->jumlah, // Menyimpan jumlah tagihan awal
-            'dibayar' => $dibayarSekarang,
-            'piutang' => $piutang,
-            'status' => $status,
-            'tanggal_bayar' => now()->toDateString(),
+            'id_pembayaran'     => Str::uuid(),
+            'id_users'          => $id_users,
+            'id_tagihan'        => $tagihan->id_tagihan,
+            'id_siswa'          => $tagihan->id_siswa,
+            'nama'              => $tagihan->nama,
+            'nis'               => $tagihan->nis,
+            'kelas'             => $tagihan->kelas,
+            'kode'              => $tagihan->kode,
+            'nama_pembayaran'   => $tagihan->nama_pembayaran,
+            'jenis'             => $tagihan->jenis,
+            'bulan'             => $tagihan->bulan,
+            'jumlah_tagihan'    => $tagihan->jumlah, // Menyimpan jumlah tagihan awal
+            'dibayar'           => $dibayarSekarang,
+            'piutang'           => $piutang,
+            'status'            => $status,
+            'tanggal_bayar'     => now()->toDateString(),
         ]);
 
         if ($status == 'LUNAS') {
-            // Ambil jumlah awal dari relasi biaya
             $jumlah_awal = $tagihan->biaya->jumlah ?? $tagihan->jumlah; // fallback jika relasi tidak ada
-        
             $tagihan->update([
                 'status' => 'SUDAH DIBAYAR',
                 'jumlah' => $jumlah_awal
             ]);
-        
             return redirect()->route('admin.tagihan.index')->with('success', 'Pembayaran berhasil. Tagihan sudah lunas.');
         } else {
-            // Jika masih ada sisa hutang, update jumlah agar menampilkan sisa tagihan
             $tagihan->update([
                 'jumlah' => $piutang
             ]);
-        
             return redirect()->route('admin.tagihan.index')->with('warning', 'Pembayaran berhasil. Tagihan belum lunas.');
         }                
     }
@@ -186,13 +203,10 @@ class TagihanController extends Controller
     public function print($id_tagihan)
     {
         $tagihan = DB::table('tagihan')->where('id_tagihan', $id_tagihan)->first();
-
         if (!$tagihan) {
             abort(404, 'Tagihan tidak ditemukan');
         }
-
         $html = view('admin.tagihan.print', compact('tagihan'))->render();
-
         $mpdf = new Mpdf();
         $mpdf->WriteHTML($html);
         return $mpdf->Output('tagihan-' . $tagihan->nama . '.pdf', 'I');
@@ -201,15 +215,11 @@ class TagihanController extends Controller
     public function printAll(Request $request)
     {
         $ids = $request->input('tagihan_id');
-
         if (empty($ids)) {
             return redirect()->back()->with('error', 'Centang dulu data tagihan siswa!');
         }
-
         $tagihan = Tagihan::whereIn('id_tagihan', $ids)->get();
-
         $html = view('admin.tagihan.print-pdf', compact('tagihan'))->render();
-
         $mpdf = new Mpdf();
         $mpdf->WriteHTML($html);
         $mpdf->Output('Data-Tagihan.pdf', 'I'); // I = inline di browser
@@ -217,10 +227,9 @@ class TagihanController extends Controller
 
     public function destroy($id)
     {
-            $tagihan = Tagihan::findOrFail($id);
-            $tagihan->delete();
-
-            return redirect()->back()->with('success', 'Tagihan berhasil dihapus.');
+        $tagihan = Tagihan::findOrFail($id);
+        $tagihan->delete();
+        return redirect()->back()->with('success', 'Tagihan berhasil dihapus.');
     }
 
 }

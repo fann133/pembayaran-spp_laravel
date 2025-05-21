@@ -39,7 +39,7 @@
                     <!-- Nama Siswa -->
                     <div class="mt-2">
                         <label for="id_siswa">Nama Siswa</label>
-                        <select class="form-control select2" name="id_siswa" id="id_siswa" required>
+                        <select class="form-control select2" name="id_siswa" id="id_siswa">
                             <option value="">-- Pilih Siswa --</option>
                             @foreach ($siswas as $siswa)
                                 <option value="{{ $siswa->id_siswa }}" data-nama="{{ $siswa->nama }}" data-kelas="{{ $siswa->kelas }}" data-nis="{{ $siswa->nis }}">
@@ -57,7 +57,7 @@
                     <!-- Jenis Pembayaran -->
                     <div class="mt-2">
                         <label for="jenis_pembayaran">Jenis Pembayaran</label>
-                        <select class="form-control" name="jenis_pembayaran" id="jenis_pembayaran" required>
+                        <select class="form-control" name="jenis_pembayaran" id="jenis_pembayaran">
                             <option value="">-- Pilih Jenis Pembayaran --</option>
                             <option value="SPP">SPP</option>
                             <option value="NON-SPP">Non-SPP</option>
@@ -92,7 +92,7 @@
                     <!-- Status -->
                     <div class="mt-2 pb-4">
                         <label for="status">Status</label>
-                        <select class="form-control" name="status" required>
+                        <select class="form-control" name="status">
                             <option value="BELUM DIBAYAR">Belum Dibayar</option>
                             <option value="SUDAH DIBAYAR">Sudah Dibayar</option>
                         </select>
