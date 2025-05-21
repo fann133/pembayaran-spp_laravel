@@ -27,7 +27,6 @@
         <h1 class="h3 mb-0 text-gray-800">Pembayaran</h1>
     </div>
 
-
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">Data Pembayaran</h6>

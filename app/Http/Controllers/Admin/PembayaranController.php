@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Pembayaran;
 use App\Models\Setting;
+use App\Models\ProfilSekolah;
 use Mpdf\Mpdf;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PembayaranExport;
@@ -23,10 +24,11 @@ class PembayaranController extends Controller
 
     public function print($id)
     {
+        $profil = ProfilSekolah::first();
         $pembayaran = Pembayaran::with('siswa') // cukup siswa saja kalau memang ada relasinya
             ->findOrFail($id);
 
-        $html = view('admin.pembayaran.print', compact('pembayaran'))->render();
+        $html = view('admin.pembayaran.print', compact('pembayaran', 'profil'))->render();
 
         $mpdf = new Mpdf();
         $mpdf->WriteHTML($html);
