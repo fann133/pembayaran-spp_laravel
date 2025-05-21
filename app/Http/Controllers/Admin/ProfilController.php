@@ -21,15 +21,22 @@ class ProfilController extends Controller
     public function update(Request $request)
     {
         $validator = \Validator::make($request->all(), [
-            'nama_sekolah' => 'required',
-            'kepala_sekolah' => 'required',
-            'npsn' => 'required',
-            'alamat_sekolah' => 'required',
-            'email' => 'required|email',
-            'website' => 'required|url',
-            'telepon' => 'required',
-            'tahun_pelajaran' => 'required',
-            'logo' => 'nullable|image|max:2048',
+            'nama_sekolah'      => 'required',
+            'kepala_sekolah'    => 'required',
+            'npsn'              => 'required',
+            'alamat_sekolah'    => 'required',
+            'email'             => 'required|email',
+            'website'           => 'required|url',
+            'telepon'           => 'required',
+            'tahun_pelajaran'   => 'required',
+            'naungan'           => 'required',
+            'nsm'               => 'required',
+            'akreditasi'        => 'required',
+            'sk'                => 'required',
+            'kode_pos'          => 'required',
+            'nip'               => 'required',
+            'logo'              => 'nullable|image|max:2048',
+            'logo_naungan'      => 'nullable|image|max:2048',
         ], [
             'nama_sekolah.required'   => 'Nama Sekolah tidak boleh kosong.',
             'kepala_sekolah.required' => 'Kepala Sekolah tidak boleh kosong.',
@@ -38,7 +45,13 @@ class ProfilController extends Controller
             'email.required'          => 'Email Sekolah tidak boleh kosong.',
             'website.required'        => 'Website Sekolah tidak boleh kosong.',
             'telepon.required'        => 'Telepon Sekolah tidak boleh kosong.',
-            'tahun_pelajaran.required'=> 'Tahun Pelajaran tidak boleh kosong.'
+            'tahun_pelajaran.required'=> 'Tahun Pelajaran tidak boleh kosong.',
+            'naungan.required'        => 'Naungan tidak boleh kosong.',
+            'nsm.required'            => 'NSM tidak boleh kosong.',
+            'akreditasi.required'     => 'Akreditasi tidak boleh kosong.',
+            'sk.required'             => 'SK tidak boleh kosong.',
+            'kode_pos.required'       => 'Kode pos tidak boleh kosong.',
+            'nip.required'            => 'NIP Kepala Sekolah tidak boleh kosong.',
         ]);
 
         if ($validator->fails()) {
@@ -84,16 +97,35 @@ class ProfilController extends Controller
             $request->logo->move($folder, $filename);
             $profil->logo = $filename;
         }
+
+        if ($request->hasFile('logo_naungan')) {
+            $folder = public_path('assets/img/profil-sekolah');
+            $ext = $request->logo_naungan->getClientOriginalExtension();
+            $filename = 'logo_naungan.' . $ext;
+        
+            if ($profil->logo_naungan && file_exists($folder . '/' . $profil->logo_naungan)) {
+                @unlink($folder . '/' . $profil->logo_naungan);
+            }
+        
+            $request->logo_naungan->move($folder, $filename);
+            $profil->logo_naungan = $filename;
+        }
         
         // Manual isi data agar lebih aman
-        $profil->nama_sekolah = $request->nama_sekolah;
-        $profil->kepala_sekolah = $request->kepala_sekolah;
-        $profil->npsn = $request->npsn;
-        $profil->alamat_sekolah = $request->alamat_sekolah;
-        $profil->email = $request->email;
-        $profil->website = $request->website;
-        $profil->telepon = $request->telepon;
-        $profil->tahun_pelajaran = $request->tahun_pelajaran;
+        $profil->nama_sekolah     = $request->nama_sekolah;
+        $profil->kepala_sekolah   = $request->kepala_sekolah;
+        $profil->npsn             = $request->npsn;
+        $profil->alamat_sekolah   = $request->alamat_sekolah;
+        $profil->email            = $request->email;
+        $profil->website          = $request->website;
+        $profil->telepon          = $request->telepon;
+        $profil->tahun_pelajaran  = $request->tahun_pelajaran;
+        $profil->naungan          = $request->naungan;
+        $profil->nsm              = $request->nsm;
+        $profil->akreditasi       = $request->akreditasi;
+        $profil->sk               = $request->sk;
+        $profil->kode_pos         = $request->kode_pos;
+        $profil->nip              = $request->nip;
 
         $profil->save();
 

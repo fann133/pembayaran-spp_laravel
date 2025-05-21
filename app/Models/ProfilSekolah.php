@@ -22,6 +22,13 @@ class ProfilSekolah extends Model
         'telepon',
         'tahun_pelajaran',
         'logo',
+        'naungan',
+        'nsm',
+        'akreditasi',
+        'sk',
+        'kode_pos',
+        'nip',
+        'logo_naungan'
     ];
 
     protected static function boot()

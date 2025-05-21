@@ -44,20 +44,56 @@
                             </div>
 
                             <div class="form-group col-md-6">
-                                <label for="kepala_sekolah">Kepala Sekolah</label>
-                                <input type="text" name="kepala_sekolah" id="kepala_sekolah" class="form-control" value="{{ old('kepala_sekolah', $profil->kepala_sekolah ?? '') }}">
+                                <label for="naungan">Naungan</label>
+                                <input type="text" name="naungan" id="naungan" class="form-control" value="{{ old('naungan', $profil->naungan ?? '') }}">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="npsn">NPSN</label>
-                                <input type="text" name="npsn" id="npsn" class="form-control" value="{{ old('npsn', $profil->npsn ?? '') }}">
+                                <label for="kepala_sekolah">Kepala Sekolah</label>
+                                <input type="text" name="kepala_sekolah" id="kepala_sekolah" class="form-control" value="{{ old('kepala_sekolah', $profil->kepala_sekolah ?? '') }}">
                             </div>
 
                             <div class="form-group col-md-6">
+                                <label for="nip">NIP Kepala Sekolah</label>
+                                <input type="text" name="nip" id="nip" class="form-control" value="{{ old('nip', $profil->nip ?? '') }}">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="nsm">NSM</label>
+                                <input type="text" name="nsm" id="nsm" class="form-control" value="{{ old('nsm', $profil->nsm ?? '') }}">
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="npsn">NPSN</label>
+                                <input type="text" name="npsn" id="npsn" class="form-control" value="{{ old('npsn', $profil->npsn ?? '') }}">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="akreditasi">Akreditasi</label>
+                                <input type="text" name="akreditasi" id="akreditasi" class="form-control" value="{{ old('akreditasi', $profil->akreditasi ?? '') }}">
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="sk">SK</label>
+                                <input type="text" name="sk" id="sk" class="form-control" value="{{ old('sk', $profil->sk ?? '') }}">
+                            </div>
+                        </div>
+
+                        <div class="row">                            
+                            <div class="form-group col-md-6">
                                 <label for="tahun_pelajaran">Tahun Pelajaran</label>
                                 <input type="text" name="tahun_pelajaran" id="tahun_pelajaran" class="form-control" value="{{ old('tahun_pelajaran', $profil->tahun_pelajaran ?? '') }}">
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="kode_pos">Kode Pos</label>
+                                <input type="text" name="kode_pos" id="kode_pos" class="form-control" value="{{ old('kode_pos', $profil->kode_pos ?? '') }}">
                             </div>
                         </div>
 
@@ -111,7 +147,23 @@
                                                
                     </div>
                 </div>
-            </div>
+
+                <div class="card shadow mb-4 border-bottom-{{ $pengaturan->tema }}">
+                    <div class="card-header py-3 d-flex justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Logo Naungan</h6>
+                    </div>
+                    <div class="card-body text-center">
+                        @if(!empty($profil->logo_naungan))
+                            <img src="{{ asset('assets/img/profil-sekolah/' . $profil->logo_naungan) }}" alt="Logo Naungan" class="img-fluid mb-3" width="150">
+                        @endif
+                
+                        <div class="form-group text-center">
+                            <label for="logo_naungan" class="d-block">Upload Logo Naungan</label>
+                            <input type="file" name="logo_naungan" id="logo_naungan" class="form-control-file mt-2 d-block mx-auto" style="max-width: 250px;">
+                        </div>
+                    </div>
+                </div>
+            </div>            
 
         </div>
 
