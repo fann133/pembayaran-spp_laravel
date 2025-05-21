@@ -25,6 +25,14 @@ class PembayaranController extends Controller
     public function print($id)
     {
         $profil = ProfilSekolah::first();
+        
+        $logoNaunganPath = public_path('assets/img/profil-sekolah/' . $profil->logo_naungan);
+        $logoSekolahPath = public_path('assets/img/profil-sekolah/' . $profil->logo);
+
+        if (!file_exists($logoNaunganPath) || !file_exists($logoSekolahPath)) {
+            dd('Gambar tidak ditemukan!');
+        }
+
         $pembayaran = Pembayaran::with('siswa') // cukup siswa saja kalau memang ada relasinya
             ->findOrFail($id);
 
