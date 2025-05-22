@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Tagihan;
 use App\Models\Pembayaran;
 use App\Models\Setting;
 use App\Models\ProfilSekolah;
@@ -25,6 +26,7 @@ class PembayaranController extends Controller
     public function print($id)
     {
         $profil = ProfilSekolah::first();
+        $tagihan = Tagihan::first();
         
         $logoNaunganPath = public_path('assets/img/profil-sekolah/' . $profil->logo_naungan);
         $logoSekolahPath = public_path('assets/img/profil-sekolah/' . $profil->logo);
@@ -36,7 +38,7 @@ class PembayaranController extends Controller
         $pembayaran = Pembayaran::with('siswa') // cukup siswa saja kalau memang ada relasinya
             ->findOrFail($id);
 
-        $html = view('admin.pembayaran.print', compact('pembayaran', 'profil'))->render();
+        $html = view('admin.pembayaran.print', compact('pembayaran', 'profil', 'tagihan'))->render();
 
         $mpdf = new Mpdf();
         $mpdf->WriteHTML($html);

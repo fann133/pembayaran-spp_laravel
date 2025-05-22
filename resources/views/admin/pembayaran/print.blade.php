@@ -2,8 +2,8 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Bukti Pembayaran SPP</title>
-    <link rel="icon" type="image/png" href="{{ asset($pengaturan->logo ?? 'assets/img/logo-login/logo.png') }}?v={{ time() }}">
+    <title>{{ $pembayaran->nis }} | {{ $pembayaran->nama }}</title>
+    <link rel="icon" type="image/png" href="{{ asset('assets/img/logo-login/logo.png') }}?v={{ time() }}">
     <style>
         body {
             font-family: 'Times New Roman', Arial, sans-serif;
@@ -21,67 +21,74 @@
             position: relative;
             margin-top: -50px;
             margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .header-logo-left,
-        .header-logo-right {
-            width: 80px;
-            height: auto;
-        }
-
-        .header-text {
-            flex-grow: 1;
-            text-align: center;
-            padding: 0 10px;
-        }
-
-        .header-text p {
-            font-size: 12px;
-            margin: 2px 0;
         }
 
         .header-underline {
             position: absolute;
-            top: -40px; /* Naik 10px dari posisi awal -30px */
+            bottom: -5px;
             left: 0;
             right: 0;
             border-top: 4px solid #000;
             width: 100%;
-            background-color: rgba(255,0,0,0.2);
         }
 
-
-        .email {
-            font-style: italic;
-            color: rgb(113, 188, 229);
-        }
-
-        .judul-laporan {
-            margin-top: -10px;
-            margin-bottom: 30px;
+        .title {
+            margin-top: 10px;
+            margin-bottom: 50px;
             text-align: center;
             font-size: 16px;
             font-weight: bold;
+            text-decoration: underline;
         }
 
-        table {
+        .table-responsive {
+            overflow-x: auto;
+            width: 100%;
+        }
+
+        .table-invoice {
             width: 100%;
             border-collapse: collapse;
-            font-size: 12px;
+            margin-bottom: 15px;
+            table-layout: fixed;
         }
 
-        th, td {
+        .table-invoice td {
             border: 1px solid #000;
-            padding: 6px;
-            text-align: left;
+            padding: 8px 10px;
+            vertical-align: top;
+            word-wrap: break-word;
         }
 
-        th {
-            background-color: #f2f2f2;
-            width: 30%;
+        .table-invoice td.label {
+            width: 50%;
+            font-weight: bold;
+            background-color: #f5f5f5;
+        }
+
+        .table-invoice td.value {
+            width: 50%;
+        }
+
+        .nama-pembayaran {
+            text-transform: uppercase;
+        }
+
+        .table-invoice td[colspan] {
+            text-align: center;
+        }
+
+        .highlight {
+            font-size: 16px;
+            font-weight: bold;
+            color: red;
+            text-align: center;
+            padding: 15px 0;
+        }
+
+        .small-text {
+            font-size: 10px;
+            color: #333;
         }
     </style>
 </head>
@@ -102,8 +109,9 @@
                     <p>Terakreditasi {{ $profil->akreditasi }}</p>
                     <p>{{ $profil->sk }}</p>
                     <p>{{ $profil->alamat_sekolah }}</p>
-                    <p>Kode Pos: {{ $profil->kode_pos }} Telp ({{ $profil->telepon }}) Email: <span style="color: rgb(113, 188, 229); font-style: italic;">{{ $profil->email }}</span></p>
+                    <p>Kode Pos: {{ $profil->kode_pos }} Telp ({{ $profil->telepon }}) Email: <span style="font-style: italic;"><a href="mailto:{{ $profil->email }}">{{ $profil->email }}</a></span></p>
                 </td>
+                
                 <!-- Logo kanan -->
                 <td style="width: 12.5%; text-align: right; border: none;">
                     <img src="{{ public_path('assets/img/profil-sekolah/' . $profil->logo) }}" style="width: 80px;">
@@ -113,17 +121,63 @@
         <div class="header-underline"></div>
     </div>
 
-    <div class="judul-laporan">Invoice Pembayaran</div>
+    <br>
+    <div class="title">INVOICE PEMBAYARAN</div>
 
-    <table>
-        <tr><th>Nama Siswa</th><td>{{ $pembayaran->nama }}</td></tr>
-        <tr><th>NIS</th><td>{{ $pembayaran->nis }}</td></tr>
-        <tr><th>Kelas</th><td>{{ $pembayaran->kelas }}</td></tr>
-        <tr><th>Pembayaran</th><td>{{ $pembayaran->nama_pembayaran }}</td></tr>
-        <tr><th>Bulan</th><td>{{ $pembayaran->bulan ?? '-' }}</td></tr>
-        <tr><th>Jumlah</th><td>Rp {{ number_format($pembayaran->jumlah_tagihan, 0, ',', '.') }}</td></tr>
-        <tr><th>Tanggal</th><td>{{ \Carbon\Carbon::parse($pembayaran->created_at)->translatedFormat('d F Y') }}</td></tr>
-        <tr><th>Petugas</th><td>{{ $pembayaran->user->name }}</td></tr>
+    <!-- Data Diri -->
+    <table class="data-diri" style="width: 100%; margin-bottom: 20px;">
+        <tr>
+            <td style="width: 20%;"><strong>Nama Siswa</strong></td>
+            <td style="width: 2%;">:</td>
+            <td>{{ $pembayaran->nama }}</td>
+        </tr>
+        <tr>
+            <td><strong>NIS</strong></td>
+            <td>:</td>
+            <td>{{ $pembayaran->nis }}</td>
+        </tr>
+        <tr>
+            <td><strong>Kelas</strong></td>
+            <td>:</td>
+            <td>{{ $pembayaran->kelas }}</td>
+        </tr>
+        <tr>
+            <td><strong>Tahun Ajar</strong></td>
+            <td>:</td>
+            <td>{{ $pembayaran->tahun_ajar ?? '-' }}</td>
+        </tr>
     </table>
+
+    <!-- Tabel Pembayaran -->
+    <div class="table-responsive">
+        <table class="table-invoice">
+            <tr>
+                <td class="label">Pembayaran</td>
+                <td class="value">
+                    <strong class="nama-pembayaran">{{ $pembayaran->nama_pembayaran }}</strong><br>
+                    <span class="small-text">{{ \Carbon\Carbon::parse($pembayaran->tanggal_bayar)->translatedFormat('d F Y') }}</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="label">Kode</td>
+                <td class="value">{{ $pembayaran->kode }}</td>
+            </tr>
+            <tr>
+                <td class="label">Bulan</td>
+                <td class="value"><strong>{{ $pembayaran->bulan }}</strong></td>
+            </tr>
+            <tr>
+                <td class="label">Total Tagihan</td>
+                <td class="value"><strong>Rp{{ number_format($tagihan->jumlah, 0, ',', '.') }}</strong></td>
+            </tr>
+            <tr>
+                <td class="label">Status</td>
+                <td class="value">{{ $pembayaran->status }}</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="highlight">Rp{{ number_format($pembayaran->dibayar, 0, ',', '.') }}</td>
+            </tr>
+        </table>
+    </div>
 </body>
 </html>
