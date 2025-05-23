@@ -45,3 +45,8 @@ $(document).ready(function() {
         width: '100%' // Tambahkan ini juga
     });
 });
+
+$('.select2').select2({
+    dropdownAutoWidth: true,
+    width: '100%' // atau 'resolve' jika ingin fleksibel
+});

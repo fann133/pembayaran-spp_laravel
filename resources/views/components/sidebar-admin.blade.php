@@ -105,7 +105,7 @@
     <li class="nav-item {{ request()->routeIs('admin.pengaturan') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('admin.pengaturan') }}">
             <i class="fas fa-fw fa-cog"></i>
-            <span>Setting</span></a>
+            <span>Pengaturan</span></a>
     </li>
 
 

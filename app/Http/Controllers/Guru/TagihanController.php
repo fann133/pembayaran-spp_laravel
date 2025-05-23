@@ -46,26 +46,32 @@ class TagihanController extends Controller
     public function processPayment(Request $request, $id)
     {
         $tagihan = Tagihan::findOrFail($id);
-
-        // Ambil ID user dari Auth atau session
         $id_users = Auth::check() ? Auth::user()->id_users : session('id_users');
 
-        // Ambil input dibayar dan bersihkan formatnya
-        $dibayarSekarang = str_replace(['Rp', '.', ' '], '', $request->dibayar);
+        // Validasi awal
+        $validator = \Validator::make($request->all(), [
+            'dibayar' => ['required'],
+        ], [
+            'dibayar.required' => 'Jumlah yang dibayar wajib diisi.',
+        ]);
 
-        // Konversi ke integer
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('error', $validator->errors()->first());
+        }
+
+        $dibayarSekarang = str_replace(['Rp', '.', ' '], '', $request->dibayar);
         $dibayarSekarang = (int) $dibayarSekarang;
 
-        // Validasi jumlah pembayaran
         if ($dibayarSekarang > $tagihan->jumlah) {
             return redirect()->route('guru.tagihan.index')->with('error', 'Jumlah pembayaran melebihi sisa tagihan.');
         }
 
-        // Hitung sisa hutang setelah pembayaran terbaru
         $piutang = $tagihan->jumlah - $dibayarSekarang;
         $status = $piutang == 0 ? 'LUNAS' : 'BELUM LUNAS';
 
-        // Simpan transaksi pembayaran tanpa menghapus riwayat sebelumnya
         Pembayaran::create([
             'id_pembayaran' => Str::uuid(),
             'id_users' => $id_users,
@@ -125,7 +131,7 @@ class TagihanController extends Controller
         $ids = $request->input('tagihan_id');
 
         if (empty($ids)) {
-            return redirect()->back()->with('error', 'Centang dulu data tagihan siswa!');
+            return redirect()->back()->with('error', 'Pilih dulu data tagihan siswa!');
         }
 
         $tagihan = Tagihan::whereIn('id_tagihan', $ids)->get();

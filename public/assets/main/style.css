@@ -32,3 +32,39 @@
 .select2-selection {
     width: 100% !important;
 }
+body {
+    overflow-x: hidden !important;
+}
+
+.select2-container {
+    max-width: 100% !important;
+}
+
+.select2-dropdown {
+    max-width: 100% !important;
+    box-sizing: border-box;
+}
+
+.select2-container--default .select2-selection--single {
+    height: calc(1.5em + .75rem + 2px);
+    border-radius: 0.35rem;
+    border: 1px solid #d1d3e2;
+    background-color: #fff;
+    color: #6e707e;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: normal;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 100%;
+    right: 10px;
+}
+
+/* Saat aktif */
+.select2-container--default.select2-container--open .select2-selection--single {
+    border-color: #4e73df;
+    box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+}
+

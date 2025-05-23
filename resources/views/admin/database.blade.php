@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Aplikasi')
+@section('title', 'Database')
 @section('content')
 <div class="container-fluid">
     @if(session('success'))
@@ -41,7 +41,7 @@
             <h5>Backup Per Tabel</h5>
             <form action="{{ route('admin.database.backup') }}" method="POST">
                 @csrf
-                <div class="form-group">
+                <div class="form-group col-12 col-md-4">
                     <label for="table">Pilih Tabel:</label>
                     <select name="table" id="table" class="form-control select2">
                         <option value="">-- Pilih Tabel --</option>

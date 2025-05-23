@@ -87,6 +87,14 @@
             </h1>
         </div>
         <p class="text-muted mt-1">Halaman ini menampilkan detail tagihan dan form konfirmasi pembayaran.</p>
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('error') }}
+                <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
     </div>
 
     <div class="card shadow mb-4">
@@ -124,11 +132,11 @@
                 <h5 class="mb-4 text-primary"><i class="fas fa-wallet"></i> Form Pembayaran</h5>
 
                 @if($tagihan->status == 'BELUM DIBAYAR')
-                <form action="{{ route('admin.tagihan.processPayment', $tagihan->id_tagihan) }}" method="POST">
+                <form action="{{ route('guru.tagihan.processPayment', $tagihan->id_tagihan) }}" method="POST">
                     @csrf
                     <div class="mb-3 inputWithIcon">
                         <label for="dibayar" class="form-label">Jumlah yang Dibayar</label>
-                        <input type="text" class="form-control" id="dibayar" name="dibayar" placeholder="Rp 0" required>
+                        <input type="text" class="form-control" id="dibayar" name="dibayar" placeholder="Rp0">
                         <span class="fas fa-money-bill-wave"></span>
                     </div>
 
@@ -145,7 +153,7 @@
                 </div>
                 @endif
 
-                <a href="{{ route('admin.tagihan.index') }}" class="btn btn-secondary w-100 mt-3">
+                <a href="{{ route('guru.tagihan.index') }}" class="btn btn-secondary w-100 mt-3">
                     <i class="fas fa-arrow-left"></i> Kembali
                 </a>
             </div>
@@ -160,7 +168,7 @@
     input?.addEventListener('input', function(e) {
         let value = input.value.replace(/[^\d]/g, '');
         if (parseInt(value) > max) value = max;
-        input.value = formatRupiah(value, 'Rp ');
+        input.value = formatRupiah(value, 'Rp');
     });
 
     function formatRupiah(angka, prefix) {

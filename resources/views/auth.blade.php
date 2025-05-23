@@ -24,7 +24,7 @@
 
 </head>
 
-<body class="bg-login"> {{-- bg-gradient-light --}}
+<body class="bg-gradient-light"> {{-- bg-login --}}
     <!-- Preloader -->
     <div class="preloader">
         <div class="spinner-border text-primary preloader-spinner" role="status">
@@ -96,7 +96,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
 
         </div>

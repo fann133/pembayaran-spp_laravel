@@ -48,7 +48,7 @@ class PembayaranController extends Controller
         $ids = $request->input('pembayaran_id');
 
         if (empty($ids)) {
-            return redirect()->back()->with('error', 'Centang dulu data pembayaran siswa!');
+            return redirect()->back()->with('error', 'Pilih dulu data pembayaran siswa!');
         }
 
         $pembayaran = Pembayaran::whereIn('id_pembayaran', $ids)->get();
@@ -69,7 +69,7 @@ class PembayaranController extends Controller
         $ids = $request->input('pembayaran_id');
         
         if (empty($ids)) {
-            return redirect()->back()->with('error', 'Centang dulu data pembayaran siswa!');
+            return redirect()->back()->with('error', 'Pilih dulu data pembayaran siswa!');
         }
 
         $timestamp = Carbon::now()->format('His_d-m-Y'); // Format: jammenitdetik_tanggal-bulan-tahun

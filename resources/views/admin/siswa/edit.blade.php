@@ -82,8 +82,6 @@
                     </select>
                 </div>
 
-                
-            
                 <div class="mt-2">
                     <label class="form-label">Kategori</label>
                     <select name="category" class="form-control">

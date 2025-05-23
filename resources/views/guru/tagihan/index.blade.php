@@ -75,7 +75,7 @@
                                 <td>{{ $item->nama_pembayaran }} <br><span class="font-weight-bold">{{ $item->bulan }}</span></td>
                                 <td>{{ $item->jenis }}</td>
                                 <td>{{ $item->kode }}</td>
-                                <td>{{ number_format($item->jumlah, 0, ',', '.') }}</td>
+                                <td>Rp{{ number_format($item->jumlah, 0, ',', '.') }}</td>
                                 <td>
                                     @if($item->status == 'BELUM DIBAYAR')
                                         <span class="badge bg-danger text-light">Belum Dibayar</span>
@@ -84,11 +84,12 @@
                                     @endif
                                 </td>
                                 <td>
-                                        <a href="{{ route('guru.tagihan.payment', $item->id_tagihan) }}" class="btn btn-success btn-circle btn-sm">
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <a href="{{ route('guru.tagihan.payment', $item->id_tagihan) }}" class="btn btn-success btn-circle btn-sm mr-1">
                                             <i class="fas fa-shopping-cart"></i>
                                         </a>
 
-                                        <a href="{{ route('guru.tagihan.print', $item->id_tagihan) }}" target="_blank" class="btn btn-secondary btn-circle btn-sm">
+                                        <a href="{{ route('guru.tagihan.print', $item->id_tagihan) }}" target="_blank" class="btn btn-secondary btn-circle btn-sm mr-1">
                                             <i class="fas fa-print"></i>
                                         </a>
 
@@ -101,6 +102,7 @@
                                             data-siswa="{{ $item->nama }}">
                                             <i class="fas fa-trash"></i>
                                         </a>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach
