@@ -8,8 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\Siswa; // Pastikan model Siswa diimpor
 use App\Models\User; // Pastikan model User diimpor
 use App\Models\Kelas; // Pastikan model User diimpor
-use App\Models\Biaya; // Pastikan model User diimpor
-use App\Models\Setting; // Pastikan model User diimpor
+use App\Models\Biaya;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
