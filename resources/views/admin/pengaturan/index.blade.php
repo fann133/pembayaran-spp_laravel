@@ -4,9 +4,17 @@
 @section('content')
 <div class="container-fluid">
 
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Pengaturan</li>
+    </ol>
+    </nav>
+
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
+            <i class="fas fa-check-circle"></i> {{ session('success') }}
             <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -15,61 +23,85 @@
 
     @if(session('error'))
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('error') }}
+            <i class="fas fa-times-circle"></i> {{ session('error') }}
             <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
     @endif
-    
+
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Info Aplikasi</h1>
+        <h1 class="h3 mb-0 text-gray-800">Pengaturan</h1>
     </div>
 
-    <div class="card shadow mb-4 border-bottom-{{ $pengaturan->tema }}">
-        <div class="card-header py-3 d-flex justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Data Aplikasi</h6>
-        </div>
+    <form action="{{ route('admin.pengaturan.update') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <div class="row">
+            <!-- Form Utama -->
+            <div class="col-xl-8 col-lg-7">
+                <div class="card shadow mb-4 border-bottom-{{ $pengaturan->tema }}">
+                    <div class="card-header py-3 d-flex justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Data Pengaturan</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="nama_aplikasi">Nama Aplikasi</label>
+                                <input type="text" name="nama_aplikasi" id="nama_aplikasi" class="form-control" value="{{ old('nama_aplikasi', $pengaturan->nama_aplikasi ?? '') }}">
+                            </div>
 
-            <form action="{{ route('admin.pengaturan.update') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <div class="container d-flex flex-column col-12 col-md-5">
-                <div class="mt-2">
-                    <label>Nama Aplikasi</label>
-                    <input type="text" name="nama_aplikasi" class="form-control" value="{{ $pengaturan->nama_aplikasi }}">
-                </div>
+                            <div class="form-group col-md-6">
+                                <label for="ikon_sidebar">Ikon Sidebar</label>
+                                <input type="text" name="ikon_sidebar" id="ikon_sidebar" class="form-control" value="{{ old('ikon_sidebar', $pengaturan->ikon_sidebar ?? '') }}" oninput="this.value = this.value.toLowerCase()">
+                            </div>
+                        </div>
 
-                <div class="mt-2">
-                    <label>Ikon Sidebar</label>
-                    <input type="text" name="ikon_sidebar" class="form-control" value="{{ $pengaturan->ikon_sidebar }}" oninput="this.value = this.value.toLowerCase()">
-                </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="tema">Warna Sidebar</label>
+                                <input type="text" name="tema" id="tema" class="form-control" value="{{ old('tema', $pengaturan->tema ?? '') }}" oninput="this.value = this.value.toLowerCase()">
+                            </div>
 
-                <div class="mt-2">
-                    <label>Warna Sidebar</label>
-                    <input type="text" name="tema" class="form-control" value="{{ $pengaturan->tema }}" oninput="this.value = this.value.toLowerCase()">
-                </div>
+                            <div class="form-group col-md-6">
+                                <label for="footer">Footer</label>
+                                <input type="text" name="footer" id="footer" class="form-control" value="{{ old('footer', $pengaturan->footer ?? '') }}">
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="mt-2">
-                    <label>Footer</label>
-                    <input type="text" name="footer" class="form-control" value="{{ $pengaturan->footer }}">
-                </div>
-
-                <div class="mt-2 pb-4">
-                    <label>Logo (opsional)</label><br>
-                    <img src="{{ asset($pengaturan->logo ?? 'assets/img/logo-login/logo.png') }}" height="100" alt="Logo Sekarang"><br><br>
-                    <input type="file" name="logo" class="form-control-file">
-                </div>
-            </div>
-
-            <div class="container d-flex flex-column col-12 justify-content-start">
-                <div class="d-flex mb-5 bg-gray-200">
-                    <div class="mb-4 mt-4 text-center w-75">
+                    <!-- Tombol Simpan -->
+                    <div class="text-left ml-4 mb-5">
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </div>
             </div>
-            </form>
-    </div>
+
+            <!-- Form Logo -->
+            <div class="col-xl-4 col-lg-5">
+                <div class="card shadow mb-4 border-bottom-{{ $pengaturan->tema }}">
+                    <div class="card-header py-3 d-flex justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Logo Aplikasi</h6>
+                    </div>
+                    <div class="card-body text-center">
+                        @if(!empty($pengaturan->logo))
+                            <img src="{{ asset($pengaturan->logo) }}" alt="Logo Aplikasi" class="img-fluid mb-3" width="150">
+                        @else
+                            <img src="{{ asset('assets/img/logo-login/logo.png') }}" alt="Logo Default" class="img-fluid mb-3" width="150">
+                        @endif
+
+                        <div class="form-group text-center">
+                            <label for="logo" class="d-block mb-2">Upload Logo Baru (opsional)</label>
+                            <div class="custom-file" style="max-width: 250px; margin: 0 auto;">
+                                <input type="file" class="custom-file-input" id="logo" name="logo" aria-describedby="logo">
+                                <label class="custom-file-label text-left" for="logo">Pilih file</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </form>
+
 </div>
 @endsection

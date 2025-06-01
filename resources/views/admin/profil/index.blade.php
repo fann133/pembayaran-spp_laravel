@@ -4,9 +4,17 @@
 @section('content')
 <div class="container-fluid">
 
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Profil</li>
+    </ol>
+    </nav>
+
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
+            <i class="fas fa-check-circle"></i> {{ session('success') }}
             <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -15,7 +23,7 @@
 
     @if(session('error'))
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('error') }}
+            <i class="fas fa-times-circle"></i> {{ session('error') }}
             <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -123,7 +131,7 @@
                     </div>
 
                     <!-- Tombol Simpan -->
-                    <div class="text-center mb-5">
+                    <div class="text-left ml-4 mb-5">
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </div>
@@ -141,8 +149,11 @@
                         @endif
 
                         <div class="form-group text-center">
-                            <label for="logo" class="d-block">Upload Logo Baru</label>
-                            <input type="file" name="logo" id="logo" class="form-control-file mt-2 d-block mx-auto" style="max-width: 250px;">
+                            <label for="logo" class="d-block mb-2">Upload Logo Baru</label>
+                            <div class="custom-file" style="max-width: 250px; margin: 0 auto;">
+                                <input type="file" class="custom-file-input" id="logo" name="logo">
+                                <label class="custom-file-label text-left" for="logo">Pilih file</label>
+                            </div>
                         </div>
                                                
                     </div>
@@ -158,8 +169,11 @@
                         @endif
                 
                         <div class="form-group text-center">
-                            <label for="logo_naungan" class="d-block">Upload Logo Naungan</label>
-                            <input type="file" name="logo_naungan" id="logo_naungan" class="form-control-file mt-2 d-block mx-auto" style="max-width: 250px;">
+                            <label for="logo_naungan" class="d-block mb-2">Upload Logo Naungan</label>
+                            <div class="custom-file" style="max-width: 250px; margin: 0 auto;">
+                                <input type="file" class="custom-file-input" id="logo_naungan" name="logo_naungan" aria-describedby="logo_naungan">
+                                <label class="custom-file-label text-left" for="logo_naungan">Pilih file</label>
+                            </div>
                         </div>
                     </div>
                 </div>

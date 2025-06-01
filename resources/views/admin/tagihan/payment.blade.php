@@ -78,7 +78,16 @@
         }
     }
 </style>
-
+<div class="container-fluid">
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('admin.tagihan.index') }}">Tagihan</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Bayar Tagihan</li>
+    </ol>
+    </nav>
+</div>
 <div class="container-payment bg-white rounded shadow-sm border-bottom-{{ $pengaturan->tema }}">
     <div class="mb-4">
         <div class="d-flex justify-content-between align-items-center">

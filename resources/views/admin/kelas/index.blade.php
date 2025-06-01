@@ -4,10 +4,17 @@
 
 @section('content')
 <div class="container-fluid">
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">kelas</li>
+    </ol>
+    </nav>
 
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
+            <i class="fas fa-check-circle"></i> {{ session('success') }}
             <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -16,7 +23,7 @@
 
     @if(session('error'))
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('error') }}
+            <i class="fas fa-times-circle"></i> {{ session('error') }}
             <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -56,7 +63,7 @@
                             <tr>
                                 <td>{{ $key + 1 }}</td>
                                 <td>{{ $k->nama }}</td>
-                                <td>{{ $k->kode_kelas }}</td>
+                                <td class="font-weight-bold">{{ $k->kode_kelas }}</td>
                                 <td>{{ $k->guruPengampu->nama ?? 'Tidak ada' }}</td>
                                 <td>{{ optional($k->siswas)->count() }} Siswa</td>
 

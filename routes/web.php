@@ -105,7 +105,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/kelas', [AdminKelasController::class, 'index'])->name('admin.kelas.index');
         Route::get('/kelas/create', [AdminKelasController::class, 'create'])->name('admin.kelas.create');
         Route::post('/kelas/store', [AdminKelasController::class, 'store'])->name('admin.kelas.store');
-        Route::get('/kelas/{id_kelas}', [AdminKelasController::class, 'show'])->name('admin.kelas.show');
+        Route::get('/kelas/show/{id_kelas}', [AdminKelasController::class, 'show'])->name('admin.kelas.show');
         Route::get('/kelas/edit/{id_kelas}', [AdminKelasController::class, 'edit'])->name('admin.kelas.edit');
         Route::put('/kelas/{id_kelas}', [AdminKelasController::class, 'update'])->name('admin.kelas.update');
         Route::delete('/kelas/{id_kelas}', [AdminKelasController::class, 'destroy'])->name('admin.kelas.destroy');

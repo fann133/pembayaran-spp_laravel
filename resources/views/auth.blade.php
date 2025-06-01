@@ -86,10 +86,10 @@
                                                 <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITEKEY') }}"></div>
                                             </div>
                                         </div>     
+                                        <hr>
                                         <button type="submit" class="btn btn-{{ $pengaturan->tema }} btn-user btn-block">
                                             Login
                                         </button>
-                                        <hr>
                                     </form>
                                 </div>
                             </div>

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Setting;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class AplikasiController extends Controller
 {
@@ -18,12 +18,12 @@ class AplikasiController extends Controller
 
     public function update(Request $request)
     {
-        $validator = \Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'nama_aplikasi' => 'required|max:30',
             'ikon_sidebar' => 'required',
             'tema' => 'required',
             'footer' => 'required',
-            'logo' => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
+            'logo' => 'nullable|image|mimes:png,jpg,jpeg|max:5048',
         ], [
             'nama_aplikasi.required' => 'Nama Aplikasi tidak boleh kosong.',
             'nama_aplikasi.max'      => 'Nama aplikasi maksimal 30 karakter.',
@@ -32,24 +32,33 @@ class AplikasiController extends Controller
             'footer.required'        => 'Footer tidak boleh kosong.',
             'logo.image'             => 'File logo harus berupa gambar.',
             'logo.mimes'             => 'Logo harus berekstensi PNG, JPG, atau JPEG.',
-            'logo.max'               => 'Ukuran logo maksimal 2MB.',
+            'logo.max'               => 'Ukuran logo maksimal 5MB.',
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
                 ->withInput()
-                ->with('error', $validator->errors()->first());  // Flash error pesan pertama
+                ->with('error', $validator->errors()->first());
         }
 
         $setting = Setting::first();
 
         if ($request->hasFile('logo')) {
-            $request->file('logo')->storeAs('public/logo-login', 'logo.png');
+            // Hapus logo lama jika ada
+            if ($setting->logo && file_exists(public_path($setting->logo))) {
+                unlink(public_path($setting->logo));
+            }
+
+            // Simpan logo baru
+            $logo = $request->file('logo');
+            $logo->move(public_path('assets/img/logo-login'), 'logo.png');
+
+            // Update path logo
             $setting->logo = 'assets/img/logo-login/logo.png';
         }
 
-        // Pastikan ikon_sidebar disimpan lowercase
+        // Update data lainnya
         $setting->nama_aplikasi = $request->nama_aplikasi;
         $setting->ikon_sidebar = strtolower($request->ikon_sidebar);
         $setting->tema = $request->tema;
@@ -58,5 +67,6 @@ class AplikasiController extends Controller
 
         return redirect()->route('admin.pengaturan')->with('success', 'Pengaturan berhasil diperbarui!');
     }
+
 }
 

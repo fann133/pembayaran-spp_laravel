@@ -4,9 +4,17 @@
 @section('content')
 <div class="container-fluid">
 
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Siswa</li>
+    </ol>
+    </nav>
+
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
+            <i class="fas fa-check-circle"></i> {{ session('success') }}
             <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -15,7 +23,7 @@
 
     @if(session('error'))
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('error') }}
+            <i class="fas fa-times-circle"></i> {{ session('error') }}
             <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -26,7 +34,6 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Siswa</h1>
     </div>
-
 
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between">
@@ -63,9 +70,9 @@
                                 <td>{{ ucfirst($siswa->category) }}</td>
                                 <td>
                                    <div class="d-flex justify-content-center align-items-center">
-                                        <a href="{{ route('admin.siswa.createAccount', $siswa->id_siswa) }}" class="btn btn-primary btn-circle btn-sm mr-1">
+                                        {{-- <a href="{{ route('admin.siswa.createAccount', $siswa->id_siswa) }}" class="btn btn-primary btn-circle btn-sm mr-1">
                                             <i class="fas fa-plus"></i>
-                                        </a>
+                                        </a> --}}
 
                                         <a href="{{ route('admin.siswa.edit', $siswa->id_siswa) }}" class="btn btn-warning btn-circle btn-sm mr-1">
                                             <i class="fas fa-pen"></i>

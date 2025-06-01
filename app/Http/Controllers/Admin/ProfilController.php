@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\ProfilSekolah;
 use App\Models\Setting;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+
 
 class ProfilController extends Controller
 {
@@ -20,7 +21,7 @@ class ProfilController extends Controller
 
     public function update(Request $request)
     {
-        $validator = \Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'nama_sekolah'      => 'required',
             'kepala_sekolah'    => 'required',
             'npsn'              => 'required',
