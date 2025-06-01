@@ -11,7 +11,7 @@ window.addEventListener('load', function () {
 
         // Hapus overflow hidden setelah preloader hilang
         document.body.classList.remove('preloader-active');
-    });
+});
 
 
 // Notif Flashdata 

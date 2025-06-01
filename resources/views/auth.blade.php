@@ -24,29 +24,34 @@
 
 </head>
 
-<body class="bg-gradient-light"> {{-- bg-login --}}
+<body class="bg-white"> {{-- bg-login --}}
     <!-- Preloader -->
     <div class="preloader">
         <div class="spinner-border text-primary preloader-spinner" role="status">
         </div>
     </div>
+    @php
+        use App\Models\Setting;
+            $pengaturan = Setting::first();
+    @endphp
 
+    <nav class="navbar navbar-expand-lg navbar-light shadow-sm mb-4 w-100" style="height: 40px; background-color: rgba(200, 200, 200, 0.5);">
+        <div class="container-fluid px-2 d-flex justify-content-center justify-content-lg-start align-items-center">
+            <h4 class="ml-lg-4 mb-0 font-weight-bold text-dark"><i class="{{ $pengaturan->ikon_sidebar ?? 'fas fa-dollar-sign' }} mr-2"></i> {{ $pengaturan->nama_aplikasi }}</h4>
+        </div>
+    </nav>
     <div class="container">
 
         <!-- Outer Row -->
         <div class="row justify-content-center">
 
-            <div class="col-xl-10 col-lg-12 col-md-9">
-                <div class="text-center my-5 mb-3">
-                @php
-                    use App\Models\Setting;
-                    $pengaturan = Setting::first();
-                @endphp
-
+            <div class="col-xl-8 col-lg-8 col-md-9">
+                <div class="text-center my-4 mb-3">
+                
                 <img src="{{ asset($pengaturan->logo ?? 'assets/img/logo-login/logo.png') }}?v={{ time() }}" height="150" alt="Logo Sekarang">
                 </div>
 
-                <div class="card o-hidden border-0 shadow-lg my-5 border-bottom-{{ $pengaturan->tema }}">
+                <div class="card o-hidden border-0 shadow-lg border-bottom-{{ $pengaturan->tema }}">
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row justify-content-center">
@@ -81,11 +86,11 @@
                                                 <label class="custom-control-label" for="customCheck">Tampilkan</label>
                                             </div>
                                         </div>
-                                        {{-- <div class="form-group text-center">
-                                            <div style="display: inline-block; transform: scale(0.85); transform-origin: top center;">
+                                        <div class="form-group d-flex justify-content-center">
+                                            <div style="transform: scale(0.85); transform-origin: top center;">
                                                 <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITEKEY') }}"></div>
                                             </div>
-                                        </div> --}}
+                                        </div>
                                         <hr>
                                         <button type="submit" class="btn btn-{{ $pengaturan->tema }} btn-user btn-block">
                                             Login
@@ -127,9 +132,9 @@
             }
         }
 
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-        });
+        // document.addEventListener('contextmenu', function(e) {
+        //     e.preventDefault();
+        // });
     </script>
 
 </body>
