@@ -5,6 +5,14 @@ document.addEventListener("DOMContentLoaded", function() {
     }, 500); // 0.5 detik
 });
 
+window.addEventListener('load', function () {
+        const preloader = document.querySelector('.preloader');
+        preloader.classList.add('hidden');
+
+        // Hapus overflow hidden setelah preloader hilang
+        document.body.classList.remove('preloader-active');
+    });
+
 
 // Notif Flashdata 
 setTimeout(function() {

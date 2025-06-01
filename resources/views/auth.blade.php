@@ -46,7 +46,7 @@
                 <img src="{{ asset($pengaturan->logo ?? 'assets/img/logo-login/logo.png') }}?v={{ time() }}" height="150" alt="Logo Sekarang">
                 </div>
 
-                <div class="card o-hidden border-0 shadow-lg border-bottom-{{ $pengaturan->tema }}">
+                <div class="card o-hidden border-0 shadow-lg my-5 border-bottom-{{ $pengaturan->tema }}">
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row justify-content-center">
@@ -81,11 +81,11 @@
                                                 <label class="custom-control-label" for="customCheck">Tampilkan</label>
                                             </div>
                                         </div>
-                                        <div class="form-group" style="display: flex; justify-content: center;">
-                                            <div style="transform: scale(0.85); transform-origin: 0 0;">
+                                        {{-- <div class="form-group text-center">
+                                            <div style="display: inline-block; transform: scale(0.85); transform-origin: top center;">
                                                 <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITEKEY') }}"></div>
                                             </div>
-                                        </div>     
+                                        </div> --}}
                                         <hr>
                                         <button type="submit" class="btn btn-{{ $pengaturan->tema }} btn-user btn-block">
                                             Login

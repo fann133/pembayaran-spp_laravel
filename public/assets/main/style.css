@@ -1,4 +1,8 @@
 /* CSS Styel Loading */
+body.preloader-active {
+    overflow: hidden;
+}
+ 
 .preloader {
     position: fixed;
     width: 100%;

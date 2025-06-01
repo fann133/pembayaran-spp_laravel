@@ -36,8 +36,8 @@ class ProfilController extends Controller
             'sk'                => 'required',
             'kode_pos'          => 'required',
             'nip'               => 'required',
-            'logo'              => 'nullable|image|max:2048',
-            'logo_naungan'      => 'nullable|image|max:2048',
+            'logo'              => 'nullable|image|max:5048',
+            'logo_naungan'      => 'nullable|image|max:5048',
         ], [
             'nama_sekolah.required'   => 'Nama Sekolah tidak boleh kosong.',
             'kepala_sekolah.required' => 'Kepala Sekolah tidak boleh kosong.',
@@ -53,6 +53,8 @@ class ProfilController extends Controller
             'sk.required'             => 'SK tidak boleh kosong.',
             'kode_pos.required'       => 'Kode pos tidak boleh kosong.',
             'nip.required'            => 'NIP Kepala Sekolah tidak boleh kosong.',
+            'logo.max'                => 'Ukuran logo sekolah tidak boleh lebih dari 5 MB',
+            'logo_naungan.max'        => 'Ukuran logo sekolah tidak boleh lebih dari 5 MB'
         ]);
 
         if ($validator->fails()) {

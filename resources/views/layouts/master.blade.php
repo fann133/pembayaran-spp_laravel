@@ -10,7 +10,7 @@
     <meta name="author" content="">
 
     <link rel="icon" type="image/png" href="{{ asset($pengaturan->logo ?? 'assets/img/logo-login/logo.png') }}?v={{ time() }}">
-    <title>@yield('title', 'SB Admin 2')</title>
+    <title>@yield('title', 'Pembayaran SPP')</title>
 
     {{-- Custom CSS --}}
     <link rel="stylesheet" href="{{ asset('assets/main/style.css') }}">
@@ -21,7 +21,6 @@
     <link href="{{ asset('assets/css/font.css') }}" rel="stylesheet">
     {{-- Font Montserrat --}}
     <link href="{{ asset('assets/css/css2.css') }}" rel="stylesheet">
-
     <!-- Custom styles for this template-->
     <link href="{{ asset('assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
 
@@ -33,28 +32,21 @@
 @php
     $isMobile = preg_match('/(android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini)/i', request()->header('User-Agent'));
 @endphp
-<body id="page-top" class="{{ $isMobile ? 'sidebar-toggled' : '' }}">
+<body id="page-top" class="{{ $isMobile ? 'sidebar-toggled' : '' }} preloader-active">
     <!-- Preloader -->
     <div class="preloader">
         <div class="spinner-border text-primary preloader-spinner" role="status">
         </div>
     </div>
-
     <!-- Page Wrapper -->
     <div id="wrapper">
-
     @include('components.sidebar')
-
         <div id="content-wrapper" class="d-flex flex-column">
-
             <div id="content">
             @include('components.topbar')
-
                 @yield('content')
             </div>
-
             @include('components.footer')
-
         </div>
 
     </div>
@@ -63,7 +55,7 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
+    
     <!-- Profile Modal -->
     <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel"
         aria-hidden="true">
