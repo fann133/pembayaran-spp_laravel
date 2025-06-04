@@ -84,6 +84,9 @@ class TagihanController extends Controller
             return redirect()->back()->with('error', 'Biaya tidak ditemukan untuk kategori ini.');
         }
 
+        $profilSekolah = ProfilSekolah::first(); // asumsi cuma 1 baris data profil sekolah
+        $tahunAjar = ProfilSekolah::first()?->tahun_pelajaran;
+
         // Parameter pencarian untuk pengecekan
         $queryParams = [
             ['id_siswa',        $request->id_siswa],
@@ -92,6 +95,7 @@ class TagihanController extends Controller
             ['kode',            $biaya->kode], // Gunakan kode sebagai patokan
             ['jenis',           $biaya->jenis],
             ['nama_pembayaran', $biaya->nama],
+            ['tahun_pelajaran', $tahunAjar],
         ];
 
         if ($biaya->jenis === 'SPP') {
@@ -124,6 +128,7 @@ class TagihanController extends Controller
             'jumlah'            => $biaya->jumlah,
             'bulan'             => $biaya->jenis === 'SPP' ? $request->bulan : '',
             'status'            => $request->status,
+            'tahun_pelajaran'   => $tahunAjar,
             'tanggal_tagihan'   => now()->toDateString(),
         ]);
 
@@ -180,6 +185,7 @@ class TagihanController extends Controller
             'jenis'             => $tagihan->jenis,
             'bulan'             => $tagihan->bulan,
             'jumlah_tagihan'    => $tagihan->jumlah, // Menyimpan jumlah tagihan awal
+            'tahun_pelajaran'   => $tagihan->tahun_pelajaran,
             'dibayar'           => $dibayarSekarang,
             'piutang'           => $piutang,
             'status'            => $status,

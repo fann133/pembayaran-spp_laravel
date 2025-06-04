@@ -62,6 +62,7 @@
                     <input type="hidden" id="nama" name="nama">
                     <input type="hidden" id="kelas" name="kelas">
                     <input type="hidden" id="nis" name="nis">
+                    <input type="hidden" id="tahun_pelajaran" name="tahun_pelajaran">
 
                     <!-- Jenis Pembayaran -->
                     <div class="mt-2">

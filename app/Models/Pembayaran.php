@@ -17,7 +17,7 @@ class Pembayaran extends Model
 
     protected $fillable = [
         'id_pembayaran', 'id_users', 'id_tagihan', 'id_siswa', 
-        'nama', 'nis', 'kelas', 'kode', 'nama_pembayaran', 'jenis', 
+        'nama', 'nis', 'kelas', 'tahun_pelajaran', 'kode', 'nama_pembayaran', 'jenis', 
         'bulan', 'jumlah_tagihan', 'dibayar', 'piutang', 
         'status', 'tanggal_bayar'
     ];

@@ -16,7 +16,7 @@ class Tagihan extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
-        'id_tagihan', 'id_siswa', 'nama', 'nis', 'kelas', 'kode', 'id_biaya', 
+        'id_tagihan', 'id_siswa', 'nama', 'nis', 'kelas', 'tahun_pelajaran', 'kode', 'id_biaya', 
         'nama_pembayaran', 'jenis', 'jumlah', 'bulan', 'status', 'tanggal_tagihan'
     ];
 

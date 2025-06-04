@@ -27,13 +27,6 @@ class PembayaranController extends Controller
     {
         $profil = ProfilSekolah::first();
         $tagihan = Tagihan::first();
-        
-        $logoNaunganPath = public_path('assets/img/profil-sekolah/' . $profil->logo_naungan);
-        $logoSekolahPath = public_path('assets/img/profil-sekolah/' . $profil->logo);
-
-        if (!file_exists($logoNaunganPath) || !file_exists($logoSekolahPath)) {
-            dd('Gambar tidak ditemukan!');
-        }
 
         $pembayaran = Pembayaran::with('siswa') // cukup siswa saja kalau memang ada relasinya
             ->findOrFail($id);
@@ -47,6 +40,7 @@ class PembayaranController extends Controller
 
     public function printAll(Request $request)
     {
+        $profil = ProfilSekolah::first();
         $ids = $request->input('pembayaran_id');
 
         if (empty($ids)) {
@@ -55,7 +49,7 @@ class PembayaranController extends Controller
 
         $pembayaran = Pembayaran::whereIn('id_pembayaran', $ids)->get();
         
-        $html = view('admin.pembayaran.print-pdf', compact('pembayaran'))->render();
+        $html = view('admin.pembayaran.print-pdf', compact('pembayaran', 'profil'))->render();
 
         $mpdf = new Mpdf();
         $mpdf->WriteHTML($html);

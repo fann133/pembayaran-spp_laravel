@@ -90,6 +90,22 @@
             font-size: 10px;
             color: #333;
         }
+
+        @media print {
+            p.print-footer {
+                position: fixed;
+                bottom: 5px;
+                right: 5px;
+                font-style: italic;
+                font-size: 11px;
+                margin: 0;
+            }
+
+            /* Kurangi margin kertas supaya elemen bisa mendekati tepi */
+            @page {
+                margin: 10mm 10mm 10mm 10mm;
+            }
+        }
     </style>
 </head>
 <body>
@@ -154,7 +170,7 @@
                     <tr>
                         <td style="padding-right: 20px;"><strong>Tahun Pelajaran</strong></td>
                         <td>:</td>
-                        <td style="padding-left: 10px;">{{ $tagihan->tahun_ajar ?? '-' }}</td>
+                        <td style="padding-left: 10px;">{{ $tagihan->tahun_pelajaran}}</td>
                     </tr>
                 </table>
             </td>
@@ -195,5 +211,9 @@
             </tr>
         </table>
     </div>
+
+    <p class="print-footer">
+        Dicetak pada: {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('l, d F Y') }} oleh {{ auth()->user()->name }}
+    </p>
 </body>
 </html>

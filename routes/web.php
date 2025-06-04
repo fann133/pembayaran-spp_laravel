@@ -142,7 +142,7 @@ Route::middleware(['auth'])->group(function () {
         // Manajemen Pembayaran
         Route::get('/pembayaran', [AdminPembayaranController::class, 'index'])->name('admin.pembayaran.index');
         Route::get('/pembayaran/print/{id}', [AdminPembayaranController::class, 'print'])->name('admin.pembayaran.print');
-        Route::post('/pembayaran/printAll', [AdminPembayaranController::class, 'printAll'])->name('admin.pembayaran.printAll');
+        Route::post('/pembayaran/print', [AdminPembayaranController::class, 'printAll'])->name('admin.pembayaran.printAll');
         Route::post('/pembayaran/export-excel', [AdminPembayaranController::class, 'exportExcel'])->name('admin.pembayaran.exportExcel');
         Route::delete('/pembayaran/{id}', [AdminPembayaranController::class, 'destroy'])->name('admin.pembayaran.destroy');
 
