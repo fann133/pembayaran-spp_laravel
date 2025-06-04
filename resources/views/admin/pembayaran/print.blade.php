@@ -125,26 +125,39 @@
     <div class="title">INVOICE PEMBAYARAN</div>
 
     <!-- Data Diri -->
-    <table class="data-diri" style="width: 100%; margin-bottom: 20px;">
+    <table style="width: 100%; margin-bottom: 20px;">
         <tr>
-            <td style="width: 20%;"><strong>Nama Siswa</strong></td>
-            <td style="width: 2%;">:</td>
-            <td>{{ $pembayaran->nama }}</td>
-        </tr>
-        <tr>
-            <td><strong>NIS</strong></td>
-            <td>:</td>
-            <td>{{ $pembayaran->nis }}</td>
-        </tr>
-        <tr>
-            <td><strong>Kelas</strong></td>
-            <td>:</td>
-            <td>{{ $pembayaran->kelas }}</td>
-        </tr>
-        <tr>
-            <td><strong>Tahun Ajar</strong></td>
-            <td>:</td>
-            <td>{{ $pembayaran->tahun_ajar ?? '-' }}</td>
+            <!-- Kolom Kiri -->
+            <td style="width: 50%; vertical-align: top;">
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="width: 18%;"><strong>Nama</strong></td>
+                        <td style="width: 5%;">:</td>
+                        <td>{{ $pembayaran->nama }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>NIS</strong></td>
+                        <td>:</td>
+                        <td>{{ $pembayaran->nis }}</td>
+                    </tr>
+                </table>
+            </td>
+
+            <!-- Kolom Kanan -->
+            <td style="width: 50%; vertical-align: top; text-align: right;">
+                <table style="display: inline-block; text-align: left;">
+                    <tr>
+                        <td style="width: 60%; padding-right: 20px;"><strong>Kelas</strong></td>
+                        <td style="width: 5%;">:</td>
+                        <td style="padding-left: 10px;">{{ $pembayaran->kelas }}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding-right: 20px;"><strong>Tahun Pelajaran</strong></td>
+                        <td>:</td>
+                        <td style="padding-left: 10px;">{{ $pembayaran->tahun_ajar ?? '-' }}</td>
+                    </tr>
+                </table>
+            </td>
         </tr>
     </table>
 
@@ -159,16 +172,24 @@
                 </td>
             </tr>
             <tr>
-                <td class="label">Kode</td>
-                <td class="value">{{ $pembayaran->kode }}</td>
+                <td class="label">Jenis</td>
+                <td class="value">{{ $pembayaran->jenis }} ({{ $pembayaran->kode }})</td>
             </tr>
             <tr>
                 <td class="label">Bulan</td>
-                <td class="value"><strong>{{ $pembayaran->bulan }}</strong></td>
+                <td class="value"><strong>{{ !empty($pembayaran->bulan) ? $pembayaran->bulan : '-' }}</strong></td>
             </tr>
             <tr>
                 <td class="label">Total Tagihan</td>
-                <td class="value"><strong>Rp{{ number_format($tagihan->jumlah, 0, ',', '.') }}</strong></td>
+                <td class="value"><strong>Rp{{ number_format($pembayaran->jumlah_tagihan, 0, ',', '.') }}</strong></td>
+            </tr>
+            <tr>
+                <td class="label">Total di bayar</td>
+                <td class="value"><strong>Rp{{ number_format($pembayaran->dibayar, 0, ',', '.') }}</strong></td>
+            </tr>
+            <tr>
+                <td class="label">Piutang</td>
+                <td class="value"><strong>Rp{{ number_format($pembayaran->piutang, 0, ',', '.') }}</strong></td>
             </tr>
             <tr>
                 <td class="label">Status</td>

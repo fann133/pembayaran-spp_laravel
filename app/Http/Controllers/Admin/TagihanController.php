@@ -5,16 +5,17 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Models\ProfilSekolah;
 use App\Models\Siswa;
 use App\Models\Biaya;
 use App\Models\Tagihan;
 use App\Models\Pembayaran;
 use App\Models\Setting;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Log;
 use Mpdf\Mpdf;
-use Illuminate\Support\Facades\View;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
 
 class TagihanController extends Controller
@@ -202,11 +203,12 @@ class TagihanController extends Controller
 
     public function print($id_tagihan)
     {
+        $profil = ProfilSekolah::first();
         $tagihan = DB::table('tagihan')->where('id_tagihan', $id_tagihan)->first();
         if (!$tagihan) {
             abort(404, 'Tagihan tidak ditemukan');
         }
-        $html = view('admin.tagihan.print', compact('tagihan'))->render();
+        $html = view('admin.tagihan.print', compact('tagihan', 'profil'))->render();
         $mpdf = new Mpdf();
         $mpdf->WriteHTML($html);
         return $mpdf->Output('tagihan-' . $tagihan->nama . '.pdf', 'I');
