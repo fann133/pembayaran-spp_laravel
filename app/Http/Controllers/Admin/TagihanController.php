@@ -222,12 +222,13 @@ class TagihanController extends Controller
 
     public function printAll(Request $request)
     {
+        $profil = ProfilSekolah::first();
         $ids = $request->input('tagihan_id');
         if (empty($ids)) {
             return redirect()->back()->with('error', 'Centang dulu data tagihan siswa!');
         }
         $tagihan = Tagihan::whereIn('id_tagihan', $ids)->get();
-        $html = view('admin.tagihan.print-pdf', compact('tagihan'))->render();
+        $html = view('admin.tagihan.print-pdf', compact('tagihan', 'profil'))->render();
         $mpdf = new Mpdf();
         $mpdf->WriteHTML($html);
         $mpdf->Output('Data-Tagihan.pdf', 'I'); // I = inline di browser

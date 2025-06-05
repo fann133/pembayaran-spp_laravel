@@ -136,7 +136,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/tagihan/payment/{id}', [AdminTagihanController::class, 'payment'])->name('admin.tagihan.payment');
         Route::post('/tagihan/payment/{id}', [AdminTagihanController::class, 'processPayment'])->name('admin.tagihan.processPayment');
         Route::get('/tagihan/print/{id_tagihan}', [AdminTagihanController::class, 'print'])->name('admin.tagihan.print');
-        Route::post('/tagihan/printAll', [AdminTagihanController::class, 'printAll'])->name('admin.tagihan.printAll');
+        Route::post('/tagihan/print', [AdminTagihanController::class, 'printAll'])->name('admin.tagihan.printAll');
         Route::delete('/tagihan/{id}', [AdminTagihanController::class, 'destroy'])->name('admin.tagihan.destroy');
 
         // Manajemen Pembayaran
