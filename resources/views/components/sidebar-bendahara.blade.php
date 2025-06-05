@@ -27,7 +27,7 @@
         Data Akademik
     </div>
 
-    <li class="nav-item {{ request()->routeIs('bendahara.siswa.index', 'bendahara.siswa.show') ? 'active' : '' }}">
+    <li class="nav-item {{ request()->routeIs('bendahara.siswa.index', 'bendahara.siswa.create', 'bendahara.siswa.edit', 'bendahara.siswa.show') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('bendahara.siswa.index') }}">
             <i class="fas fa-fw fa-chart-line"></i>
             <span>Siswa</span></a>
@@ -45,7 +45,7 @@
             <span>Biaya</span></a>
     </li>
 
-    <li class="nav-item {{ request()->routeIs('bendahara.tagihan.index', 'bendahara.tagihan.payment') ? 'active' : '' }}">
+    <li class="nav-item {{ request()->routeIs('bendahara.tagihan.index', 'bendahara.tagihan.create', 'bendahara.tagihan.payment') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('bendahara.tagihan.index') }}">
             <i class="fas fa-fw fa-hand-holding-usd"></i>
             <span>Tagihan</span></a>

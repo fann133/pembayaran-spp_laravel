@@ -34,6 +34,9 @@ class BiayaController extends Controller
 
     public function store(Request $request)
     {
+        $request->merge([
+            'jumlah' => preg_replace('/[^\d]/', '', $request->jumlah)
+        ]);
         $validator = \Validator::make($request->all(), [
             'nama'      => 'required|string|max:255', // ✅ Tambah nama
             'jenis'     => 'required|in:SPP,NON-SPP', // ✅ Ubah ke ENUM
@@ -87,6 +90,9 @@ class BiayaController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->merge([
+            'jumlah' => preg_replace('/[^\d]/', '', $request->jumlah)
+        ]);
         $validator = \Validator::make($request->all(), [
             'nama'      => 'required|string|max:255',
             'jenis'     => 'required|in:SPP,NON-SPP',

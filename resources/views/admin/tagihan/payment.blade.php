@@ -96,9 +96,18 @@
             </h1>
         </div>
         <p class="text-muted mt-1">Halaman ini menampilkan detail tagihan dan form konfirmasi pembayaran.</p>
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle"></i> {{ session('success') }}
+                <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+
         @if(session('error'))
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                {{ session('error') }}
+                <i class="fas fa-times-circle"></i> {{ session('error') }}
                 <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Bendahara;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Models\ProfilSekolah;
 use App\Models\Siswa;
 use App\Models\Biaya;
 use App\Models\Tagihan;
@@ -183,13 +184,14 @@ class TagihanController extends Controller
 
     public function print($id_tagihan)
     {
+        $profil = ProfilSekolah::first();
         $tagihan = DB::table('tagihan')->where('id_tagihan', $id_tagihan)->first();
 
         if (!$tagihan) {
             abort(404, 'Tagihan tidak ditemukan');
         }
 
-        $html = view('bendahara.tagihan.print', compact('tagihan'))->render();
+        $html = view('bendahara.tagihan.print', compact('tagihan', 'profil'))->render();
 
         $mpdf = new Mpdf();
         $mpdf->WriteHTML($html);
@@ -198,6 +200,7 @@ class TagihanController extends Controller
 
     public function printAll(Request $request)
     {
+        $profil = ProfilSekolah::first();
         $ids = $request->input('tagihan_id');
 
         if (empty($ids)) {
@@ -206,7 +209,7 @@ class TagihanController extends Controller
 
         $tagihan = Tagihan::whereIn('id_tagihan', $ids)->get();
 
-        $html = view('bendahara.tagihan.print-pdf', compact('tagihan'))->render();
+        $html = view('bendahara.tagihan.print-pdf', compact('tagihan', 'profil'))->render();
 
         $mpdf = new Mpdf();
         $mpdf->WriteHTML($html);

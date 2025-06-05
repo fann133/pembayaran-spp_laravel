@@ -73,7 +73,7 @@
     </li>
     
     
-    <li class="nav-item {{ request()->routeIs('admin.tagihan.index', 'admin.tagihan.edit', 'admin.tagihan.payment') ? 'active' : '' }}">
+    <li class="nav-item {{ request()->routeIs('admin.tagihan.index','admin.tagihan.create', 'admin.tagihan.edit', 'admin.tagihan.payment') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('admin.tagihan.index') }}">
             <i class="fas fa-fw fa-hand-holding-usd"></i>
             <span>Tagihan</span></a>

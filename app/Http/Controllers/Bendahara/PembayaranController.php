@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Bendahara;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pembayaran;
+use App\Models\ProfilSekolah;
 use Mpdf\Mpdf;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PembayaranExport;
@@ -16,15 +17,16 @@ class PembayaranController extends Controller
     public function index()
     {
         $pembayaran = Pembayaran::with('tagihan')->orderBy('created_at', 'desc')->get();
-        return view('Bendahara.pembayaran.index', compact('pembayaran'));
+        return view('bendahara.pembayaran.index', compact('pembayaran'));
     }
 
     public function print($id)
     {
+        $profil = ProfilSekolah::first();
         $pembayaran = Pembayaran::with('siswa') // cukup siswa saja kalau memang ada relasinya
             ->findOrFail($id);
 
-        $html = view('Bendahara.pembayaran.print', compact('pembayaran'))->render();
+        $html = view('bendahara.pembayaran.print', compact('pembayaran', 'profil'))->render();
 
         $mpdf = new Mpdf();
         $mpdf->WriteHTML($html);
@@ -33,6 +35,7 @@ class PembayaranController extends Controller
 
     public function printAll(Request $request)
     {
+        $profil = ProfilSekolah::first();
         $ids = $request->input('pembayaran_id');
 
         if (empty($ids)) {
@@ -41,7 +44,7 @@ class PembayaranController extends Controller
 
         $pembayaran = Pembayaran::whereIn('id_pembayaran', $ids)->get();
         
-        $html = view('Bendahara.pembayaran.print-pdf', compact('pembayaran'))->render();
+        $html = view('bendahara.pembayaran.print-pdf', compact('pembayaran', 'profil'))->render();
 
         $mpdf = new Mpdf();
         $mpdf->WriteHTML($html);

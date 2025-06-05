@@ -64,7 +64,7 @@
 
                     <div class="mt-2">
                         <label class="form-label">Jumlah</label>
-                        <input type="text" name="jumlah" id="jumlah" class="form-control" value="{{  number_format($biaya->jumlah, 0, ',', '.') }}">
+                        <input type="text" name="jumlah" id="jumlah" class="form-control" value="Rp{{  number_format($biaya->jumlah, 0, ',', '.') }}">
                     </div>
 
                     <div class="mt-2">
@@ -129,7 +129,7 @@
     window.addEventListener('DOMContentLoaded', function () {
         let val = jumlahInput.value.replace(/[^\d]/g, '');
         if (val) {
-            jumlahInput.value = formatRupiah(val, 'Rp.');
+            jumlahInput.value = formatRupiah(val, 'Rp');
         }
     });
 </script>

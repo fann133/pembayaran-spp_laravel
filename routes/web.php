@@ -200,6 +200,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard', [BendaharaDashboardController::class, 'index'])->name('bendahara.dashboard');
 
         Route::get('/siswa', [BendaharaSiswaController::class, 'index'])->name('bendahara.siswa.index');
+        Route::get('/siswa/create', [BendaharaSiswaController::class, 'create'])->name('bendahara.siswa.create');
+        Route::post('/siswa/store', [BendaharaSiswaController::class, 'store'])->name('bendahara.siswa.store');
+        Route::get('/siswa/edit/{id}', [BendaharaSiswaController::class, 'edit'])->name('bendahara.siswa.edit');
+        Route::put('/siswa/{id}/update', [BendaharaSiswaController::class, 'update'])->name('bendahara.siswa.update');
         Route::get('/siswa/{id_siswa}', [BendaharaSiswaController::class, 'show'])->name('bendahara.siswa.show');
 
         // Manajemen Biaya

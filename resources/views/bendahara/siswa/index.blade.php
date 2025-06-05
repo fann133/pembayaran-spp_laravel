@@ -4,9 +4,17 @@
 @section('content')
 <div class="container-fluid">
 
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ route('bendahara.dashboard') }}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Siswa</li>
+    </ol>
+    </nav>
+
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
+            <i class="fas fa-check-circle"></i> {{ session('success') }}
             <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -15,7 +23,7 @@
 
     @if(session('error'))
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('error') }}
+            <i class="fas fa-times-circle"></i> {{ session('error') }}
             <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -31,6 +39,9 @@
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">Data Siswa</h6>
+                <a href="{{ route('bendahara.siswa.create') }}" class="btn btn-primary btn-sm">
+                    <i class="fas fa-plus"> Tambah Data</i>
+                </a>
             </div>
             
             <div class="card-body border-bottom-primary">
@@ -61,6 +72,9 @@
                                 <td>
                                     <a href="{{ route('bendahara.siswa.show', $siswa->id_siswa) }}" class="btn btn-info btn-circle btn-sm">
                                         <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{{ route('bendahara.siswa.edit', $siswa->id_siswa) }}" class="btn btn-warning btn-circle btn-sm mr-1">
+                                        <i class="fas fa-pen"></i>
                                     </a>
                                 </td>
                             </tr>

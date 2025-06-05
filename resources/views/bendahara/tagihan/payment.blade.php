@@ -78,7 +78,16 @@
         }
     }
 </style>
-
+<div class="container-fluid">
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ route('bendahara.dashboard') }}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('bendahara.tagihan.index') }}">Tagihan</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Bayar Tagihan</li>
+    </ol>
+    </nav>
+</div>
 <div class="container-payment bg-white rounded shadow-sm border-bottom-primary">
     <div class="mb-4">
         <div class="d-flex justify-content-between align-items-center">
@@ -87,6 +96,23 @@
             </h1>
         </div>
         <p class="text-muted mt-1">Halaman ini menampilkan detail tagihan dan form konfirmasi pembayaran.</p>
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle"></i> {{ session('success') }}
+                <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fas fa-times-circle"></i> {{ session('error') }}
+                <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
     </div>
 
     <div class="card shadow mb-4">
@@ -128,7 +154,7 @@
                     @csrf
                     <div class="mb-3 inputWithIcon">
                         <label for="dibayar" class="form-label">Jumlah yang Dibayar</label>
-                        <input type="text" class="form-control" id="dibayar" name="dibayar" placeholder="Rp 0" required>
+                        <input type="text" class="form-control" id="dibayar" name="dibayar" placeholder="Rp0">
                         <span class="fas fa-money-bill-wave"></span>
                     </div>
 
@@ -160,7 +186,7 @@
     input?.addEventListener('input', function(e) {
         let value = input.value.replace(/[^\d]/g, '');
         if (parseInt(value) > max) value = max;
-        input.value = formatRupiah(value, 'Rp ');
+        input.value = formatRupiah(value, 'Rp');
     });
 
     function formatRupiah(angka, prefix) {
