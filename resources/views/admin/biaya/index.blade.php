@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Data Biaya')
+@section('title', $pengaturan->nama_aplikasi . ' | Data Biaya')
 
 @section('content')
 <div class="container-fluid">

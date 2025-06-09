@@ -73,11 +73,11 @@
                                     <form class="user" action="{{ route('login.authenticate') }}" method="POST">
                                         @csrf
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-user" value="{{ old('username') }}" name="username"
+                                            <input type="text" class="form-control" value="{{ old('username') }}" name="username"
                                                 id="username" placeholder="Username">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user" name="password"
+                                            <input type="password" class="form-control" name="password"
                                                 id="password" placeholder="Password">
                                         </div>
                                         <div class="form-group">
@@ -92,7 +92,7 @@
                                             </div>
                                         </div>
                                         <hr>
-                                        <button type="submit" class="btn btn-{{ $pengaturan->tema }} btn-user btn-block">
+                                        <button type="submit" class="btn btn-{{ $pengaturan->tema }} btn- btn-block">
                                             Login
                                         </button>
                                     </form>

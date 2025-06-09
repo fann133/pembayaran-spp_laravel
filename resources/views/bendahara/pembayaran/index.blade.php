@@ -109,7 +109,7 @@
                                 <td>Rp{{ number_format($item->dibayar, 0, ',', '.') }}</td>
                                 <td>Rp{{ number_format($item->piutang, 0, ',', '.') }}</td>
                                 <td>
-                                    <span class="badge {{ $item->status == 'LUNAS' ? 'bg-success' : 'bg-warning' }}">
+                                    <span class="badge {{ $item->status == 'LUNAS' ? 'bg-success' : 'bg-danger' }} text-light">
                                         {{ $item->status }}
                                     </span>
                                 </td>

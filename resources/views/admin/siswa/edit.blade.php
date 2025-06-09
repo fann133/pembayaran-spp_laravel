@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Ubah Siswa')
+@section('title', $pengaturan->nama_aplikasi . ' | Ubah Siswa')
 
 @section('content')
 <div class="container-fluid">

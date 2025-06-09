@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Data Guru')
+@section('title', $pengaturan->nama_aplikasi . ' | Data Guru')
 @section('content')
 <div class="container-fluid">
     <!-- Breadcrumb Navigation -->

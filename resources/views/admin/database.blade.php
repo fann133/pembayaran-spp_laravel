@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Database')
+@section('title', $pengaturan->nama_aplikasi . ' | Database')
 @section('content')
 <div class="container-fluid">
     <!-- Breadcrumb Navigation -->

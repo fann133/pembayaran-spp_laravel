@@ -31,30 +31,30 @@
         Master
     </div>
 
-        <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-cog"></i>
-                <span>Data Akademik</span>
-            </a>
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item {{ request()->routeIs('admin.profil.index') ? 'active' : '' }}" href="{{ route('admin.profil') }}">
-                        <i class="fas fa-fw fa-school"></i> Profil Sekolah
-                    </a>
-                    <a class="collapse-item {{ request()->routeIs('admin.siswa.index', 'admin.siswa.create', 'admin.siswa.edit') ? 'active' : '' }}" href="{{ route('admin.siswa.index') }}">
-                        <i class="fas fa-fw fa-user"></i> Siswa
-                    </a>
-                    <a class="collapse-item {{ request()->routeIs('admin.guru.index', 'admin.guru.create', 'admin.guru.edit') ? 'active' : '' }}" href="{{ route('admin.guru.index') }}">
-                        <i class="fas fa-fw fa-user-graduate"></i> Guru
-                    </a>
-                    <a class="collapse-item {{ request()->routeIs('admin.kelas.index', 'admin.kelas.create', 'admin.kelas.show', 'admin.kelas.edit') ? 'active' : '' }}" href="{{ route('admin.kelas.index') }}">
-                        <i class="fas fa-fw fa-chalkboard-teacher"></i> Kelas
-                    </a>
-                </div>
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+            aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Data Akademik</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item {{ request()->routeIs('admin.profil') ? 'active' : '' }}" href="{{ route('admin.profil') }}">
+                    <i class="fas fa-fw fa-school"></i> Profil Sekolah
+                </a>
+                <a class="collapse-item {{ request()->routeIs('admin.siswa.index', 'admin.siswa.create', 'admin.siswa.edit') ? 'active' : '' }}" href="{{ route('admin.siswa.index') }}">
+                    <i class="fas fa-fw fa-user"></i> Siswa
+                </a>
+                <a class="collapse-item {{ request()->routeIs('admin.guru.index', 'admin.guru.create', 'admin.guru.edit') ? 'active' : '' }}" href="{{ route('admin.guru.index') }}">
+                    <i class="fas fa-fw fa-user-graduate"></i> Guru
+                </a>
+                <a class="collapse-item {{ request()->routeIs('admin.kelas.index', 'admin.kelas.create', 'admin.kelas.show', 'admin.kelas.edit') ? 'active' : '' }}" href="{{ route('admin.kelas.index') }}">
+                    <i class="fas fa-fw fa-chalkboard-teacher"></i> Kelas
+                </a>
             </div>
-        </li>
+        </div>
+    </li>
 
         
     <!-- Divider -->

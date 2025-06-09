@@ -89,9 +89,9 @@
                                 <td>{{ number_format($item->jumlah, 0, ',', '.') }}</td>
                                 <td>
                                     @if($item->status == 'BELUM DIBAYAR')
-                                        <span class="badge bg-danger text-light">Belum Dibayar</span>
+                                        <span class="badge bg-danger text-light">BELUM LUNAS</span>
                                     @else
-                                        <span class="badge bg-success text-light">Sudah Dibayar</span>
+                                        <span class="badge bg-success text-light">LUNAS</span>
                                     @endif
                                 </td>
                                 <td>
