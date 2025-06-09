@@ -70,12 +70,14 @@
                                 <td>{{ $siswa->kelas }}</td>
                                 <td>{{ ucfirst($siswa->category) }}</td>
                                 <td>
-                                    <a href="{{ route('bendahara.siswa.show', $siswa->id_siswa) }}" class="btn btn-info btn-circle btn-sm">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                    <a href="{{ route('bendahara.siswa.edit', $siswa->id_siswa) }}" class="btn btn-warning btn-circle btn-sm mr-1">
-                                        <i class="fas fa-pen"></i>
-                                    </a>
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <a href="{{ route('bendahara.siswa.show', $siswa->id_siswa) }}" class="btn btn-info btn-circle btn-sm mr-1">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="{{ route('bendahara.siswa.edit', $siswa->id_siswa) }}" class="btn btn-warning btn-circle btn-sm">
+                                            <i class="fas fa-pen"></i>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach

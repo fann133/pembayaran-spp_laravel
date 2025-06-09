@@ -65,7 +65,7 @@
 
                     <div class="mt-2">
                         <label class="form-label">Jumlah</label>
-                        <input type="text" name="jumlah" class="form-control" value="{{  number_format($biaya->jumlah, 0, ',', '.') }}" required>
+                        <input type="text" name="jumlah" class="form-control" value="Rp{{  number_format($biaya->jumlah, 0, ',', '.') }}" required>
                     </div>
 
                     <div class="mt-2">
@@ -102,4 +102,36 @@
             </form>
     </div>
 </div>
+<script>
+    const jumlahInput = document.getElementById('jumlah');
+
+    jumlahInput?.addEventListener('input', function () {
+        let value = this.value.replace(/[^\d]/g, ''); // hanya angka
+        this.value = formatRupiah(value, 'Rp');
+    });
+
+    function formatRupiah(angka, prefix) {
+        let number_string = angka.toString().replace(/[^,\d]/g, ''),
+            split         = number_string.split(','),
+            sisa          = split[0].length % 3,
+            rupiah        = split[0].substr(0, sisa),
+            ribuan        = split[0].substr(sisa).match(/\d{3}/gi);
+
+        if (ribuan) {
+            let separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+
+        rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
+        return prefix ? prefix + rupiah : rupiah;
+    }
+
+    // Format ulang saat halaman dimuat jika ada nilai lama
+    window.addEventListener('DOMContentLoaded', function () {
+        let val = jumlahInput.value.replace(/[^\d]/g, '');
+        if (val) {
+            jumlahInput.value = formatRupiah(val, 'Rp.');
+        }
+    });
+</script>
 @endsection

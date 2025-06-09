@@ -4,9 +4,17 @@
 @section('content')
 <div class="container-fluid">
 
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ route('guru.dashboard') }}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Siswa</li>
+    </ol>
+    </nav>
+
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
+            <i class="fas fa-check-circle"></i> {{ session('success') }}
             <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -15,7 +23,7 @@
 
     @if(session('error'))
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('error') }}
+            <i class="fas fa-times-circle"></i> {{ session('error') }}
             <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -31,7 +39,7 @@
             <h6 class="m-0 font-weight-bold text-primary">Daftar Siswa</h6>
         </div>
         
-        <div class="card-body">
+        <div class="card-body border-bottom-primary">
             <div class="table-responsive pt-2">
                 <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
                     <thead>

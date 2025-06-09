@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Cache;
 use Jenssegers\Agent\Agent;
 use Carbon\Carbon;
 use App\Models\Setting;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -75,7 +76,7 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validator = \Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username,' . $id . ',id_users',
             'password' => 'nullable|min:5',

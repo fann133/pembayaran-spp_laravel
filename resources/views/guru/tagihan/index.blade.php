@@ -4,9 +4,17 @@
 @section('content')
 <div class="container-fluid">
 
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ route('guru.dashboard') }}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Tagihan</li>
+    </ol>
+    </nav>
+
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
+            <i class="fas fa-check-circle"></i> {{ session('success') }}
             <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -15,7 +23,7 @@
 
     @if(session('error'))
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('error') }}
+            <i class="fas fa-times-circle"></i> {{ session('error') }}
             <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -32,6 +40,9 @@
             <div class="card-header py-3 d-flex justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">Data Tagihan</h6>
                 <div>
+                    <a href="{{ route('guru.tagihan.create') }}" class="btn btn-primary btn-sm me-2">
+                        <i class="fas fa-plus"> Tambah Data</i>
+                    </a>
                     <button type="submit" form="printForm" class="btn btn-secondary btn-sm">
                         <i class="fas fa-print"> Print</i>
                     </button>

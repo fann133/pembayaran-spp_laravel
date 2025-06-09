@@ -115,7 +115,8 @@
                                 </td>
                                 <td>{{ $item->user->name }}</td>
                                 <td>
-                                    <a href="{{ route('bendahara.pembayaran.print', $item->id_pembayaran) }}" target="_blank" class="btn btn-secondary btn-circle btn-sm">
+                                  <div class="d-flex justify-content-center align-items-center">
+                                    <a href="{{ route('bendahara.pembayaran.print', $item->id_pembayaran) }}" target="_blank" class="btn btn-secondary btn-circle btn-sm mr-1">
                                         <i class="fas fa-print"></i>
                                     </a> 
                                     
@@ -128,6 +129,7 @@
                                       data-siswa="{{ $item->nama }}">
                                         <i class="fas fa-trash"></i>
                                     </a>
+                                  </div>
                                 </td>
                             </tr>
                             @endforeach

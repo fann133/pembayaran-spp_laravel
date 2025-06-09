@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Biaya;
 use App\Models\Setting;
+use Illuminate\Support\Facades\Validator;
 
 class BiayaController extends Controller
 {
@@ -37,7 +38,7 @@ class BiayaController extends Controller
         $request->merge([
             'jumlah' => preg_replace('/[^\d]/', '', $request->jumlah)
         ]);
-        $validator = \Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'nama'      => 'required|string|max:255', // ✅ Tambah nama
             'jenis'     => 'required|in:SPP,NON-SPP', // ✅ Ubah ke ENUM
             'kode'      => 'required|string|max:50|unique:biaya,kode',
@@ -93,7 +94,7 @@ class BiayaController extends Controller
         $request->merge([
             'jumlah' => preg_replace('/[^\d]/', '', $request->jumlah)
         ]);
-        $validator = \Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'nama'      => 'required|string|max:255',
             'jenis'     => 'required|in:SPP,NON-SPP',
             'kode'      => 'required|string|max:50|unique:biaya,kode,'.$id.',id_biaya',

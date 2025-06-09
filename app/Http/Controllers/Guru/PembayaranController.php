@@ -3,14 +3,15 @@
 namespace App\Http\Controllers\Guru;
 
 use App\Http\Controllers\Controller;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\PembayaranExport;
-use Illuminate\Support\Carbon;
-use Illuminate\Http\Request;
-use Mpdf\Mpdf;
-use App\Models\Pembayaran;
-use App\Models\Siswa;
+use App\Models\ProfilSekolah;
 use App\Models\Kelas;
+use App\Models\Siswa;
+use App\Models\Pembayaran;
+use Mpdf\Mpdf;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use App\Exports\PembayaranExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PembayaranController extends Controller
 {
@@ -33,10 +34,11 @@ class PembayaranController extends Controller
 
     public function print($id)
     {
+        $profil = ProfilSekolah::first();
         $pembayaran = Pembayaran::with('siswa') // cukup siswa saja kalau memang ada relasinya
             ->findOrFail($id);
 
-        $html = view('guru.pembayaran.print', compact('pembayaran'))->render();
+        $html = view('guru.pembayaran.print', compact('pembayaran', 'profil'))->render();
 
         $mpdf = new Mpdf();
         $mpdf->WriteHTML($html);
@@ -45,6 +47,7 @@ class PembayaranController extends Controller
 
     public function printAll(Request $request)
     {
+        $profil = ProfilSekolah::first();
         $ids = $request->input('pembayaran_id');
 
         if (empty($ids)) {
@@ -53,7 +56,7 @@ class PembayaranController extends Controller
 
         $pembayaran = Pembayaran::whereIn('id_pembayaran', $ids)->get();
         
-        $html = view('guru.pembayaran.print-pdf', compact('pembayaran'))->render();
+        $html = view('guru.pembayaran.print-pdf', compact('pembayaran', 'profil'))->render();
 
         $mpdf = new Mpdf();
         $mpdf->WriteHTML($html);

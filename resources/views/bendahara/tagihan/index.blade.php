@@ -95,11 +95,12 @@
                                     @endif
                                 </td>
                                 <td>
-                                        <a href="{{ route('bendahara.tagihan.payment', $item->id_tagihan) }}" class="btn btn-success btn-circle btn-sm">
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <a href="{{ route('bendahara.tagihan.payment', $item->id_tagihan) }}" class="btn btn-success btn-circle btn-sm mr-1">
                                             <i class="fas fa-shopping-cart"></i>
                                         </a>
 
-                                        <a href="{{ route('bendahara.tagihan.print', $item->id_tagihan) }}" target="_blank" class="btn btn-secondary btn-circle btn-sm">
+                                        <a href="{{ route('bendahara.tagihan.print', $item->id_tagihan) }}" target="_blank" class="btn btn-secondary btn-circle btn-sm mr-1">
                                             <i class="fas fa-print"></i>
                                         </a>
 
@@ -112,6 +113,7 @@
                                             data-siswa="{{ $item->nama }}">
                                             <i class="fas fa-trash"></i>
                                         </a>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach

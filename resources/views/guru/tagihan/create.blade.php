@@ -1,15 +1,14 @@
 @extends('layouts.master')
 
-@section('title', 'Tambah Tagihan')
+@section('title', $pengaturan->nama_aplikasi . ' | Tambah Tagihan')
 
 @section('content')
 <div class="container-fluid">
-
-    <!-- Breadcrumb Navigation -->
+   <!-- Breadcrumb Navigation -->
     <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ route('bendahara.dashboard') }}">Home</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('bendahara.tagihan.index') }}">Tagihan</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('guru.dashboard') }}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('guru.tagihan.index') }}">Tagihan</a></li>
         <li class="breadcrumb-item active" aria-current="page">Tambah Tagihan</li>
     </ol>
     </nav>
@@ -37,12 +36,12 @@
         <h1 class="h3 mb-0 text-gray-800">Tambah Data</h1>
     </div>
 
-    <div class="card shadow mb-4 border-bottom-primary">
+    <div class="card shadow mb-4 border-bottom-{{ $pengaturan->tema }}">
         <div class="card-header py-3 d-flex justify-content-center">
             <h6 class="m-0 font-weight-bold text-primary">Data Tagihan</h6>
         </div>
 
-            <form action="{{ route('bendahara.tagihan.store') }}" method="POST">
+            <form action="{{ route('guru.tagihan.store') }}" method="POST">
                 @csrf
 
                 <div class="container d-flex flex-column col-12 col-md-5 justify-content-center">
@@ -52,7 +51,11 @@
                         <select class="form-control select2" name="id_siswa" id="id_siswa">
                             <option value="">-- Pilih Siswa --</option>
                             @foreach ($siswas as $siswa)
-                                <option value="{{ $siswa->id_siswa }}" data-nama="{{ $siswa->nama }}" data-kelas="{{ $siswa->kelas }}" data-nis="{{ $siswa->nis }}">
+                                <option 
+                                    value="{{ $siswa->id_siswa }}"
+                                    data-nama="{{ $siswa->nama }}"
+                                    data-kelas="{{ $siswa->kelas }}"
+                                    data-nis="{{ $siswa->nis }}">
                                     {{ $siswa->nama }} - {{ $siswa->nis }} [{{ $siswa->kelas }}]
                                 </option>
                             @endforeach
@@ -63,6 +66,7 @@
                     <input type="hidden" id="nama" name="nama">
                     <input type="hidden" id="kelas" name="kelas">
                     <input type="hidden" id="nis" name="nis">
+                    <input type="hidden" id="tahun_pelajaran" name="tahun_pelajaran">
 
                     <!-- Jenis Pembayaran -->
                     <div class="mt-2">
@@ -103,8 +107,8 @@
                     <div class="mt-2 pb-4">
                         <label for="status">Status</label>
                         <select class="form-control" name="status">
-                            <option value="BELUM DIBAYAR">Belum Dibayar</option>
-                            <option value="SUDAH DIBAYAR">Sudah Dibayar</option>
+                            <option value="BELUM DIBAYAR">BELUM LUNAS</option>
+                            <option value="SUDAH DIBAYAR">LUNAS</option>
                         </select>
                     </div>
                 </div>
@@ -113,7 +117,7 @@
                     <div class="d-flex mb-5 bg-gray-200">
                         <div class="mb-4 mt-4 text-center w-75">
                             <button type="submit" class="btn btn-primary">Simpan</button>
-                            <a href="{{ route('bendahara.tagihan.index') }}" class="btn btn-secondary">Batal</a>
+                            <a href="{{ route('guru.tagihan.index') }}" class="btn btn-secondary">Batal</a>
                         </div>
                     </div>
                 </div>

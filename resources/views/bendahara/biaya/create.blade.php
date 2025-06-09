@@ -45,13 +45,13 @@
                 @csrf
                 <div class="container d-flex flex-column col-12 col-md-5 justify-content-center">
                     <div class="mt-2">
-                        <label for="nama" class="form-label">Nama Biaya</label> <!-- ✅ Tambah Nama -->
-                        <input type="text" id="nama" name="nama" class="form-control" placeholder="Masukan Nama Biaya" required>
+                        <label for="nama" class="form-label">Nama Biaya</label>
+                        <input type="text" id="nama" name="nama" class="form-control" placeholder="Masukan Nama Biaya">
                     </div>
 
                     <div class="mt-2">
                         <label for="jenis" class="form-label">Jenis Biaya</label>
-                        <select id="jenis" name="jenis" class="form-control" required> <!-- ✅ Ubah ke Select -->
+                        <select id="jenis" name="jenis" class="form-control">
                             <option value="SPP">SPP</option>
                             <option value="NON-SPP">NON-SPP</option>
                         </select>
@@ -59,17 +59,17 @@
 
                     <div class="mt-2">
                         <label class="form-label">Kode Biaya</label>
-                        <input type="text" name="kode" class="form-control" placeholder="Masukan Kode Biaya" required>
+                        <input type="text" name="kode" class="form-control" placeholder="Masukan Kode Biaya">
                     </div>
 
                     <div class="mt-2">
                         <label class="form-label">Jumlah</label>
-                        <input type="text" name="jumlah" id="rupiah" class="form-control" placeholder="Masukan Jumlah Biaya" required>
+                        <input type="text" name="jumlah" id="jumlah" class="form-control" placeholder="Masukan Jumlah Biaya">
                     </div>
 
                     <div class="mt-2">
                         <label class="form-label">Status</label>
-                        <select name="status" class="form-control" required>
+                        <select name="status" class="form-control">
                             <option value="AKTIF">AKTIF</option>
                             <option value="NON AKTIF">NON AKTIF</option>
                         </select>
@@ -77,7 +77,7 @@
 
                     <div class="mt-2">
                         <label class="form-label">Kategori</label>
-                        <select name="kategori" class="form-control" required>
+                        <select name="kategori" class="form-control">
                             <option value="Atas">Atas</option>
                             <option value="Menengah">Menengah</option>
                             <option value="Bawah">Bawah</option>
@@ -102,4 +102,38 @@
             </form>
     </div>
 </div>
+
+<script>
+    const jumlahInput = document.getElementById('jumlah');
+
+    jumlahInput?.addEventListener('input', function () {
+        let value = this.value.replace(/[^\d]/g, ''); // hanya angka
+        this.value = formatRupiah(value, 'Rp');
+    });
+
+    function formatRupiah(angka, prefix) {
+        let number_string = angka.toString().replace(/[^,\d]/g, ''),
+            split         = number_string.split(','),
+            sisa          = split[0].length % 3,
+            rupiah        = split[0].substr(0, sisa),
+            ribuan        = split[0].substr(sisa).match(/\d{3}/gi);
+
+        if (ribuan) {
+            let separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+
+        rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
+        return prefix ? prefix + rupiah : rupiah;
+    }
+
+    // Format ulang saat halaman dimuat jika ada nilai lama
+    window.addEventListener('DOMContentLoaded', function () {
+        let val = jumlahInput.value.replace(/[^\d]/g, '');
+        if (val) {
+            jumlahInput.value = formatRupiah(val, 'Rp.');
+        }
+    });
+</script>
+
 @endsection

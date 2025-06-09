@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 
 class TagihanController extends Controller
 {
@@ -40,7 +41,7 @@ class TagihanController extends Controller
 
     public function store(Request $request)
     {
-        $validator = \Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'id_siswa'          => 'required',
             'jenis_pembayaran'  => 'required',
             'status'            => 'required',
@@ -81,7 +82,7 @@ class TagihanController extends Controller
         }
 
         if (!$biaya) {
-            return redirect()->back()->with('error', 'Biaya tidak ditemukan untuk kategori ini.');
+            return redirect()->back()->with('error', 'Biaya tidak ditemukan untuk siswa ini.');
         }
 
         $profilSekolah = ProfilSekolah::first(); // asumsi cuma 1 baris data profil sekolah
@@ -149,7 +150,7 @@ class TagihanController extends Controller
         $id_users = Auth::check() ? Auth::user()->id_users : session('id_users');
 
         // Validasi awal
-        $validator = \Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'dibayar' => ['required'],
         ], [
             'dibayar.required' => 'Jumlah yang dibayar wajib diisi.',

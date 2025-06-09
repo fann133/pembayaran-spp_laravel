@@ -180,6 +180,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/siswa', [GuruSiswaController::class, 'index'])->name('guru.siswa.index');
 
         Route::get('/tagihan', [GuruTagihanController::class, 'index'])->name('guru.tagihan.index');
+        Route::get('/tagihan/create', [GuruTagihanController::class, 'create'])->name('guru.tagihan.create');
+        Route::post('/tagihan', [GuruTagihanController::class, 'store'])->name('guru.tagihan.store');  
         Route::get('/tagihan/payment/{id}', [GuruTagihanController::class, 'payment'])->name('guru.tagihan.payment');
         Route::post('/tagihan/payment/{id}', [GuruTagihanController::class, 'processPayment'])->name('guru.tagihan.processPayment');
         Route::get('/tagihan/print/{id_tagihan}', [GuruTagihanController::class, 'print'])->name('guru.tagihan.print');

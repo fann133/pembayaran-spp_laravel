@@ -11,7 +11,7 @@ class AplikasiController extends Controller
 {
     public function index()
     {
-        $pengaturan = Setting::first(); // Ambil baris pertama
+        $pengaturan = Setting::first();
 
         return view('admin.pengaturan.index', compact('pengaturan'));
     }

@@ -3,16 +3,20 @@
 namespace App\Http\Controllers\Guru;
 
 use App\Http\Controllers\Controller;
-use App\Models\Tagihan;
+use App\Models\ProfilSekolah;
 use App\Models\Siswa;
 use App\Models\Kelas;
-use Illuminate\Http\Request;
+use App\Models\Biaya;
+use App\Models\Tagihan;
 use App\Models\Pembayaran;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use App\Models\Setting;
 use Mpdf\Mpdf;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class TagihanController extends Controller
 {
@@ -27,14 +31,134 @@ class TagihanController extends Controller
     
         // Cari kelas yang dia ampu
         $kelasIds = Kelas::where('pengampu_kelas', $guru->id_guru)->pluck('id_kelas');
-    
-        // Ambil siswa dari kelas tersebut
         $siswaIds = Siswa::whereIn('id_kelas', $kelasIds)->pluck('id_siswa');
-    
-        // Ambil tagihan berdasarkan siswa tersebut
+
         $tagihans = Tagihan::whereIn('id_siswa', $siswaIds)->get();
     
         return view('guru.tagihan.index', compact('tagihans'));
+    }
+
+        public function create()
+    {
+        $user = Auth::user();
+        $guru = $user->guru;
+
+        if (!$guru) {
+            return back()->with('error', 'Data guru tidak ditemukan. Pastikan akun terhubung dengan data guru.');
+        }
+
+        $kelas = Kelas::where('pengampu_kelas', $guru->id_guru)->first();
+
+        if (!$kelas) {
+            return back()->with('error', 'Kelas yang diampu tidak ditemukan.');
+        }
+
+        $siswas = Siswa::where('id_kelas', $kelas->id_kelas)
+            ->whereIn('status', ['AKTIF', 'PINDAHAN'])
+            ->get();
+
+        $biayas = Biaya::where('status', 'AKTIF')->get();
+        $pengaturan = Setting::first();
+
+        return view('guru.tagihan.create', compact('siswas', 'biayas', 'pengaturan'));
+    }
+
+
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id_siswa'          => 'required',
+            'jenis_pembayaran'  => 'required',
+            'status'            => 'required',
+            'bulan'             => 'required_if:jenis_pembayaran,SPP|nullable',
+            'id_biaya'          => 'required_if:jenis_pembayaran,NON-SPP|nullable|exists:biaya,id_biaya',
+        ], [
+            'id_siswa.required'            => 'Siswa wajib dipilih.',
+            'jenis_pembayaran.required'    => 'Jenis pembayaran wajib dipilih.',
+            'jenis_pembayaran.in'          => 'Jenis pembayaran tidak valid.',
+            'status.required'              => 'Status pembayaran wajib diisi.',
+            'bulan.required_if'            => 'Bulan wajib diisi jika jenis pembayaran adalah SPP.',
+            'id_biaya.required_if'         => 'Nama pembayaran wajib dipilih jika jenis pembayaran adalah NON-SPP.',
+            'id_biaya.exists'              => 'Nama pembayaran tidak valid.',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('error', $validator->errors()->first()); // tampilkan error flash
+        }
+
+        // Cek data siswa berdasarkan id_siswa
+        $siswa = Siswa::where('id_siswa', $request->id_siswa)->first();
+        if (!$siswa) {
+            return redirect()->back()->with('error', 'Siswa tidak ditemukan.');
+        }
+
+        // Ambil data biaya
+        if (!$request->id_biaya) {
+            $biaya = Biaya::where([
+                ['jenis', $request->jenis_pembayaran],
+                ['kategori', $siswa->category],
+                ['status', 'AKTIF']
+            ])->first();
+        } else {
+            $biaya = Biaya::where('id_biaya', $request->id_biaya)->first();
+        }
+
+        if (!$biaya) {
+            return redirect()->back()->with('error', 'Biaya tidak ditemukan untuk siswa ini.');
+        }
+
+        $profilSekolah = ProfilSekolah::first(); // asumsi cuma 1 baris data profil sekolah
+        $tahunAjar = ProfilSekolah::first()?->tahun_pelajaran;
+
+        // Parameter pencarian untuk pengecekan
+        $queryParams = [
+            ['id_siswa',        $request->id_siswa],
+            ['nis',             $siswa->nis],
+            ['kelas',           $siswa->kelas],
+            ['kode',            $biaya->kode], // Gunakan kode sebagai patokan
+            ['jenis',           $biaya->jenis],
+            ['nama_pembayaran', $biaya->nama],
+            ['tahun_pelajaran', $tahunAjar],
+        ];
+
+        if ($biaya->jenis === 'SPP') {
+            $queryParams[] = ['bulan', $request->bulan]; // Tambahkan pengecekan bulan untuk SPP
+        }
+
+        // Cek apakah tagihan atau pembayaran sudah ada
+        $cekTagihan = Tagihan::where($queryParams)->exists();
+        $cekPembayaran = Pembayaran::where($queryParams)->exists();
+
+        if ($cekTagihan) {
+            return redirect()->back()->with('error', 'Tagihan ini sudah ada.');
+        }
+
+        if ($cekPembayaran) {
+            return redirect()->back()->with('error', 'Pembayaran untuk tagihan ini sudah pernah dibuat.');
+        }
+
+        // Simpan data tagihan
+        Tagihan::create([
+            'id_tagihan'        => Str::uuid(),
+            'id_siswa'          => $request->id_siswa,
+            'nama'              => $siswa->nama,
+            'nis'               => $siswa->nis,
+            'kelas'             => $siswa->kelas,
+            'id_biaya'          => $biaya->id_biaya,
+            'nama_pembayaran'   => $biaya->nama,
+            'jenis'             => $biaya->jenis,
+            'kode'              => $biaya->kode, // Menggunakan kode biaya dan menyimpannya di tagihan
+            'jumlah'            => $biaya->jumlah,
+            'bulan'             => $biaya->jenis === 'SPP' ? $request->bulan : '',
+            'status'            => $request->status,
+            'tahun_pelajaran'   => $tahunAjar,
+            'tanggal_tagihan'   => now()->toDateString(),
+        ]);
+
+        return redirect()->route('guru.tagihan.index')->with('success', 'Tagihan berhasil ditambahkan.');
     }
 
     public function payment($id)
@@ -49,7 +173,7 @@ class TagihanController extends Controller
         $id_users = Auth::check() ? Auth::user()->id_users : session('id_users');
 
         // Validasi awal
-        $validator = \Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'dibayar' => ['required'],
         ], [
             'dibayar.required' => 'Jumlah yang dibayar wajib diisi.',
@@ -113,13 +237,14 @@ class TagihanController extends Controller
 
     public function print($id_tagihan)
     {
+        $profil = ProfilSekolah::first();
         $tagihan = DB::table('tagihan')->where('id_tagihan', $id_tagihan)->first();
 
         if (!$tagihan) {
             abort(404, 'Tagihan tidak ditemukan');
         }
 
-        $html = view('guru.tagihan.print', compact('tagihan'))->render();
+        $html = view('guru.tagihan.print', compact('tagihan', 'profil'))->render();
 
         $mpdf = new Mpdf();
         $mpdf->WriteHTML($html);
@@ -128,6 +253,7 @@ class TagihanController extends Controller
 
     public function printAll(Request $request)
     {
+        $profil = ProfilSekolah::first();
         $ids = $request->input('tagihan_id');
 
         if (empty($ids)) {
@@ -136,7 +262,7 @@ class TagihanController extends Controller
 
         $tagihan = Tagihan::whereIn('id_tagihan', $ids)->get();
 
-        $html = view('guru.tagihan.print-pdf', compact('tagihan'))->render();
+        $html = view('guru.tagihan.print-pdf', compact('tagihan', 'profil'))->render();
 
         $mpdf = new Mpdf();
         $mpdf->WriteHTML($html);

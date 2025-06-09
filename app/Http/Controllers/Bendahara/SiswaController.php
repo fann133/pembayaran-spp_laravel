@@ -12,6 +12,7 @@ use App\Models\Biaya;
 use App\Models\Setting; 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
 
 class SiswaController extends Controller
 {
@@ -34,7 +35,7 @@ class SiswaController extends Controller
     // Simpan data siswa baru
     public function store(Request $request)
     {
-        $validator = \Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'nama'          => 'required|string|max:255',
             'nis'           => 'required|string|unique:siswas,nis',
             'tempat_lahir'  => 'required|string|max:255',
@@ -99,7 +100,7 @@ class SiswaController extends Controller
     // Ubah Siswa
     public function update(Request $request, $id)
     {
-        $validator = \Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'nama'          => 'required|string|max:255',
             'nis'           => 'required|string|unique:siswas,nis,' . $id . ',id_siswa',
             'tempat_lahir'  => 'required|string|max:255',

@@ -16,6 +16,7 @@ use Mpdf\Mpdf;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 
 class TagihanController extends Controller
 {
@@ -37,12 +38,28 @@ class TagihanController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'id_siswa' => 'required',
             'jenis_pembayaran' => 'required',
             'status' => 'required',
-            'bulan' => $request->jenis_pembayaran === 'SPP' ? 'required' : 'nullable',
+            'bulan' => 'required_if:jenis_pembayaran,SPP|nullable',
+            'id_biaya'          => 'required_if:jenis_pembayaran,NON-SPP|nullable|exists:biaya,id_biaya',
+        ], [
+            'id_siswa.required'            => 'Siswa wajib dipilih.',
+            'jenis_pembayaran.required'    => 'Jenis pembayaran wajib dipilih.',
+            'jenis_pembayaran.in'          => 'Jenis pembayaran tidak valid.',
+            'status.required'              => 'Status pembayaran wajib diisi.',
+            'bulan.required_if'            => 'Bulan wajib diisi jika jenis pembayaran adalah SPP.',
+            'id_biaya.required_if'         => 'Nama pembayaran wajib dipilih jika jenis pembayaran adalah NON-SPP.',
+            'id_biaya.exists'              => 'Nama pembayaran tidak valid.',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('error', $validator->errors()->first()); // tampilkan error flash
+        }
 
         // Cek data siswa berdasarkan id_siswa
         $siswa = Siswa::where('id_siswa', $request->id_siswa)->first();
@@ -121,14 +138,23 @@ class TagihanController extends Controller
     public function processPayment(Request $request, $id)
     {
         $tagihan = Tagihan::findOrFail($id);
-
-        // Ambil ID user dari Auth atau session
         $id_users = Auth::check() ? Auth::user()->id_users : session('id_users');
 
-        // Ambil input dibayar dan bersihkan formatnya
-        $dibayarSekarang = str_replace(['Rp', '.', ' '], '', $request->dibayar);
+        // Validasi awal
+        $validator = Validator::make($request->all(), [
+            'dibayar' => ['required'],
+        ], [
+            'dibayar.required' => 'Jumlah yang dibayar wajib diisi.',
+        ]);
 
-        // Konversi ke integer
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('error', $validator->errors()->first());
+        }
+        
+        $dibayarSekarang = str_replace(['Rp', '.', ' '], '', $request->dibayar);
         $dibayarSekarang = (int) $dibayarSekarang;
 
         // Validasi jumlah pembayaran

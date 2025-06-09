@@ -9,6 +9,7 @@ use App\Models\Setting;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class GuruController extends Controller
 {
@@ -30,7 +31,7 @@ class GuruController extends Controller
     // Sistem Tambah Guru
     public function store(Request $request)
     {
-        $validator = \Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'nama'          => 'required|string|max:255',
             'nip'           => 'required|string|max:255|unique:gurus',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
@@ -87,7 +88,7 @@ class GuruController extends Controller
     // Sistem Ubah Guru
     public function update(Request $request, $id)
     {
-        $validator = \Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'nama'          => 'required|string|max:255',
             'nip'           => 'required|unique:gurus,nip,' . $id . ',id_guru',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',

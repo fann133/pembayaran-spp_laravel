@@ -9,6 +9,7 @@ use App\Models\Guru;
 use App\Models\Kelas;
 use App\Models\Setting;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
 
 class KelasController extends Controller
 {
@@ -29,7 +30,7 @@ class KelasController extends Controller
 
     public function store(Request $request)
     {
-        $validator = \Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'nama'           => 'required|string|max:255',
             'kode_kelas'     => 'required|string|max:255|unique:kelas,kode_kelas',
             'deskripsi'      => 'nullable|string',
@@ -84,7 +85,7 @@ class KelasController extends Controller
 
     public function update(Request $request, $id_kelas)
     {
-        $validator = \Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'nama'           => 'required|string|max:255',
             'kode_kelas'     => 'required|string|max:255|unique:kelas,kode_kelas,' . $id_kelas . ',id_kelas',
             'pengampu_kelas' => 'nullable|exists:gurus,id_guru',

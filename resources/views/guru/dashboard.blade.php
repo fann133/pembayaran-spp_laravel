@@ -4,9 +4,16 @@
 @section('content')
 <div class="container-fluid">
 
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page">Home</li>
+    </ol>
+    </nav>
+
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
+            <i class="fas fa-check-circle"></i> {{ session('success') }}
             <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -15,7 +22,7 @@
 
     @if(session('error'))
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('error') }}
+            <i class="fas fa-times-circle"></i> {{ session('error') }}
             <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -36,14 +43,12 @@
                     @endforeach
                 </select>
             </div>
-        
+
             <div class="form-group mr-2">
                 <label for="tahun" class="mr-2">Tahun</label>
                 <select name="tahun" id="tahun" class="form-control select2" onchange="this.form.submit()">
                     @foreach ($tahunList as $tahun)
-                        <option value="{{ $tahun }}" {{ $tahun == $tahunDipilih ? 'selected' : '' }}>
-                            {{ $tahun }}
-                        </option>
+                        <option value="{{ $tahun }}" {{ $tahun == $tahunDipilih ? 'selected' : '' }}>{{ $tahun }}</option>
                     @endforeach
                 </select>
             </div>
@@ -95,7 +100,7 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Pembayaran
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Progress {{ \Carbon\Carbon::create()->month($bulanDipilih)->translatedFormat('F') }} - {{ $tahunDipilih }}
                             </div>
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
@@ -125,11 +130,11 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                Pemasukan Perbulan</div>
+                                Jumlah Pemasukan {{ \Carbon\Carbon::create()->month($bulanDipilih)->translatedFormat('F') }} - {{ $tahunDipilih }}</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">Rp {{ number_format($pemasukanBulanIni, 0, ',', '.') }}</div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-coins fa-2x text-gray-300"></i>
+                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>

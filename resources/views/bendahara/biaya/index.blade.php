@@ -85,22 +85,24 @@
                                 </td>
                                 <td>{{ $b->kode }}</td>
                                 <td>{{ $b->jenis }}</td>
-                                <td>{{ number_format((float) $b->jumlah, 0, ',', '.') }}</td>
+                                <td>Rp{{ number_format((float) $b->jumlah, 0, ',', '.') }}</td>
 
                                 <td>{{ $b->kategori }}</td>
                                 <td>
-                                    <a href="{{ route('bendahara.biaya.edit', $b->id_biaya) }}" class="btn btn-warning btn-circle btn-sm">
-                                        <i class="fas fa-pen"></i>
-                                    </a>
-                                    
-                                    <a href="#" class="btn btn-danger btn-circle btn-sm delete-btn"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#deleteModalBiaya"
-                                        data-id="{{ $b->id_biaya }}"
-                                        data-nama="{{ $b->nama }}"
-                                        data-kode="{{ $b->kode }}">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <a href="{{ route('bendahara.biaya.edit', $b->id_biaya) }}" class="btn btn-warning btn-circle btn-sm mr-1">
+                                            <i class="fas fa-pen"></i>
+                                        </a>
+                                        
+                                        <a href="#" class="btn btn-danger btn-circle btn-sm delete-btn"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#deleteModalBiaya"
+                                            data-id="{{ $b->id_biaya }}"
+                                            data-nama="{{ $b->nama }}"
+                                            data-kode="{{ $b->kode }}">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
