@@ -107,7 +107,7 @@
                     <!-- Foto Profil -->
                     <img id="avatarPreview"
                         src="{{ $user->gambar ? asset('assets/img/profil/' . $user->gambar) : asset('assets/img/no-avatar.png') }}"
-                        class="rounded-circle mb-3 border border-secondary"
+                        class="rounded-circle mb-3 {{ $user->gambar ? 'border border-secondary' : '' }}"
                         width="100" height="100"
                         alt="{{ $user->name }}">
 

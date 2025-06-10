@@ -30,7 +30,7 @@
                         ? asset('assets/img/profil/' . $gambar)
                         : asset('assets/img/no-avatar.png');
                 @endphp
-                <img class="img-profile rounded-circle border border-secondary" src="{{ $pathGambar }}">
+                <img class="img-profile rounded-circle {{ ($pathGambar == asset('assets/img/no-avatar.png')) ? '' : 'border border-secondary' }}" src="{{ $pathGambar }}">
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
