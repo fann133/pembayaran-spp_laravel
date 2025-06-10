@@ -32,18 +32,22 @@ class GuruController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'nama'          => 'required|string|max:255',
-            'nip'           => 'required|string|max:255|unique:gurus',
+            'nama'          => 'required|string|max:255|regex:/^[a-zA-Z\s]+$/',
+            'nip'           => 'required|string|max:255|regex:/^[0-9]+$/|unique:gurus',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
-            'tempat_lahir'  => 'required|string|max:255',
+            'tempat_lahir'  => 'required|string|max:255|regex:/^[a-zA-Z\s]+$/',
             'tanggal_lahir' => 'required|date',
             'agama'         => 'required|string|max:50',
             'status'        => 'required|in:TETAP,HONOR,MAGANG',
             'role_id'       => 'required|in:3,4,5',
         ], [
             'nama.required'          => 'Nama wajib diisi.',
+            'nama.regex'             => 'Nama hanya boleh berisi huruf.',
             'nip.required'           => 'NIP wajib diisi.',
             'nip.unique'             => 'NIP sudah digunakan.',
+            'nip.regex'              => 'NIP hanya boleh berisi angka.',
+            'tempat_lahir.required'  => 'Tempat lahir wajib diisi.',
+            'tempat_lahir.regex'     => 'Tempat lahir hanya boleh berisi huruf.',
             'jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',
             'jenis_kelamin.in'       => 'Jenis kelamin tidak valid.',
             'tempat_lahir.required'  => 'Tempat lahir wajib diisi.',
@@ -89,18 +93,22 @@ class GuruController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'nama'          => 'required|string|max:255',
-            'nip'           => 'required|unique:gurus,nip,' . $id . ',id_guru',
+            'nama'          => 'required|string|max:255|regex:/^[a-zA-Z\s]+$/',
+            'nip'           => 'required|max:255|regex:/^[0-9]+$/|unique:gurus,nip,' . $id . ',id_guru',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
-            'tempat_lahir'  => 'required|string|max:255',
+            'tempat_lahir'  => 'required|string|max:255|regex:/^[a-zA-Z\s]+$/',
             'tanggal_lahir' => 'required|date',
             'agama'         => 'required|string|max:255',
             'status'        => 'required|in:TETAP,HONOR,MAGANG',
             'role_id'       => 'required|in:3,4,5',
         ], [
             'nama.required'          => 'Nama wajib diisi.',
+            'nama.regex'             => 'Nama hanya boleh berisi huruf.',
             'nip.required'           => 'NIP wajib diisi.',
             'nip.unique'             => 'NIP sudah digunakan.',
+            'nip.regex'              => 'NIP hanya boleh berisi angka.',
+            'tempat_lahir.required'  => 'Tempat lahir wajib diisi.',
+            'tempat_lahir.regex'     => 'Tempat lahir hanya boleh berisi huruf.',
             'jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',
             'jenis_kelamin.in'       => 'Jenis kelamin tidak valid.',
             'tempat_lahir.required'  => 'Tempat lahir wajib diisi.',

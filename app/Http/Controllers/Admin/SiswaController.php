@@ -39,7 +39,7 @@ class SiswaController extends Controller
         $validator = Validator::make($request->all(), [
             'nama'          => 'required|string|max:255|regex:/^[a-zA-Z\s]+$/',
             'nis'           => 'required|string|regex:/^[0-9]+$/|unique:siswas,nis',
-            'tempat_lahir'  => 'required|string|max:255',
+            'tempat_lahir'  => 'required|string|max:255|regex:/^[a-zA-Z\s]+$/',
             'tanggal_lahir' => 'required|date',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
             'id_kelas'      => 'required|exists:kelas,id_kelas',
@@ -49,9 +49,10 @@ class SiswaController extends Controller
             'nama.required'           => 'Nama tidak boleh kosong.',
             'nama.regex'              => 'Nama hanya boleh berisi huruf.',
             'nis.required'            => 'NIS tidak boleh kosong.',
-            'nis.regex'               => 'NIS hanya boleh berisi angka.',
             'nis.unique'              => 'NIS telah digunakan.',
+            'nis.regex'               => 'NIS hanya boleh berisi angka.',
             'tempat_lahir.required'   => 'Tempat lahir tidak boleh kosong.',
+            'tempat_lahir.regex'      => 'Tempat lahir hanya boleh berisi huruf.',
             'tanggal_lahir.required'  => 'Tanggal lahir tidak boleh kosong.',
             'tanggal_lahir.date'      => 'Format tanggal lahir tidak valid.',
             'jenis_kelamin.required'  => 'Jenis kelamin wajib dipilih.',
@@ -105,9 +106,9 @@ class SiswaController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'nama'          => 'required|string|max:255',
-            'nis'           => 'required|string|unique:siswas,nis,' . $id . ',id_siswa',
-            'tempat_lahir'  => 'required|string|max:255',
+            'nama'          => 'required|string|max:255|regex:/^[a-zA-Z\s]+$/',
+            'nis'           => 'required|string|regex:/^[0-9]+$/|unique:siswas,nis,' . $id . ',id_siswa',
+            'tempat_lahir'  => 'required|string|max:255|regex:/^[a-zA-Z\s]+$/',
             'tanggal_lahir' => 'required|date',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
             'id_kelas'      => 'required|exists:kelas,id_kelas',
@@ -115,9 +116,12 @@ class SiswaController extends Controller
             'status'        => 'required|in:AKTIF,LULUS,PINDAHAN,KELUAR',
         ], [
             'nama.required'           => 'Nama tidak boleh kosong.',
+            'nama.regex'              => 'Nama hanya boleh berisi huruf.',
             'nis.required'            => 'NIS wajib diisi.',
             'nis.unique'              => 'NIS telah digunakan.',
+            'nis.regex'               => 'NIS hanya boleh berisi angka.',
             'tempat_lahir.required'   => 'Tempat lahir wajib diisi.',
+            'tempat_lahir.regex'      => 'Tempat lahir hanya boleh berisi huruf.',
             'tanggal_lahir.required'  => 'Tanggal lahir wajib diisi.',
             'tanggal_lahir.date'      => 'Format tanggal lahir tidak valid.',
             'jenis_kelamin.required'  => 'Jenis kelamin wajib dipilih.',
