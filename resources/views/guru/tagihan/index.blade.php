@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Data Tagihan')
+@section('title', $pengaturan->nama_aplikasi . ' | Data Tagihan')
 @section('content')
 <div class="container-fluid">
 
@@ -38,7 +38,7 @@
 
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Data Tagihan</h6>
+                <h6 class="m-0 font-weight-bold text-{{ $pengaturan->tema }}">Data Tagihan</h6>
                 <div>
                     <a href="{{ route('guru.tagihan.create') }}" class="btn btn-primary btn-sm me-2">
                         <i class="fas fa-plus"> Tambah Data</i>
@@ -49,7 +49,7 @@
                 </div>
             </div>
             
-            <div class="card-body border-bottom-primary">
+            <div class="card-body border-bottom-{{ $pengaturan->tema }}">
                 <form id="printForm" method="POST" action="{{ route('guru.tagihan.printAll') }}" target="_blank">
                     @csrf
                 <div class="table-responsive pt-2">

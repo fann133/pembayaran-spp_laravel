@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Data Biaya')
+@section('title', $pengaturan->nama_aplikasi . ' | Data Biaya')
 
 @section('content')
 <div class="container-fluid">
@@ -38,14 +38,14 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Data Biaya</h6>
+            <h6 class="m-0 font-weight-bold text-{{ $pengaturan->tema }}">Data Biaya</h6>
             <a href="{{ route('bendahara.biaya.create') }}" class="btn btn-primary btn-sm">
                 <i class="fas fa-plus"> Tambah Data</i>
             </a>
         </div>
 
 
-        <div class="card-body border-bottom-primary">
+        <div class="card-body border-bottom-{{ $pengaturan->tema }}">
             <div class="mb-5 row justify-content-center d-flex align-items-center">
                 <div class="col-auto">
                     <label class="form-label">Filter Kategori</label>

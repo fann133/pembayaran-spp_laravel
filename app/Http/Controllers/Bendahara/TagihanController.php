@@ -10,6 +10,7 @@ use App\Models\Siswa;
 use App\Models\Biaya;
 use App\Models\Tagihan;
 use App\Models\Pembayaran;
+use App\Models\Setting;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use Mpdf\Mpdf;
@@ -26,14 +27,17 @@ class TagihanController extends Controller
         $tagihan = Tagihan::with('siswa.kelasData', 'biaya')
                 ->orderBy('created_at', 'desc') // Menampilkan data terbaru di atas
                 ->get();
-        return view('bendahara.tagihan.index', compact('tagihan'));
+
+        $pengaturan = Setting::first();
+        return view('bendahara.tagihan.index', compact('tagihan', 'pengaturan'));
     }
 
     public function create()
     {
+        $pengaturan = Setting::first();
         $siswas = Siswa::whereIn('status', ['AKTIF', 'PINDAHAN'])->get();
         $biayas = Biaya::where('status', 'AKTIF')->get();
-        return view('bendahara.tagihan.create', compact('siswas', 'biayas'));
+        return view('bendahara.tagihan.create', compact('siswas', 'biayas', 'pengaturan'));
     }
 
     public function store(Request $request)
@@ -131,8 +135,9 @@ class TagihanController extends Controller
 
     public function payment($id)
     {
+        $pengaturan = Setting::first();
         $tagihan = Tagihan::with('siswa', 'biaya')->findOrFail($id);
-        return view('bendahara.tagihan.payment', compact('tagihan'));
+        return view('bendahara.tagihan.payment', compact('tagihan', 'pengaturan'));
     }
 
     public function processPayment(Request $request, $id)

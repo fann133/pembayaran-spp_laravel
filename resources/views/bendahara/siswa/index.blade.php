@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Data Siswa')
+@section('title', $pengaturan->nama_aplikasi . ' | Data Siswa')
 @section('content')
 <div class="container-fluid">
 
@@ -38,13 +38,13 @@
 
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Data Siswa</h6>
+                <h6 class="m-0 font-weight-bold text-{{ $pengaturan->tema }}">Data Siswa</h6>
                 <a href="{{ route('bendahara.siswa.create') }}" class="btn btn-primary btn-sm">
                     <i class="fas fa-plus"> Tambah Data</i>
                 </a>
             </div>
             
-            <div class="card-body border-bottom-primary">
+            <div class="card-body border-bottom-{{ $pengaturan->tema }}">
                 <div class="table-responsive pt-2">
                     <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
                         <thead>
@@ -55,7 +55,6 @@
                                 <th>Tempat, Tanggal Lahir</th>
                                 <th>Jenis Kelamin</th>
                                 <th>Kelas</th>
-                                <th>Kategori</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -68,7 +67,6 @@
                                 <td>{{ $siswa->tempat_lahir }}, {{ \Carbon\Carbon::parse($siswa->tanggal_lahir)->translatedFormat('d F Y') }}</td>
                                 <td>{{ $siswa->jenis_kelamin }}</td>
                                 <td>{{ $siswa->kelas }}</td>
-                                <td>{{ ucfirst($siswa->category) }}</td>
                                 <td>
                                     <div class="d-flex justify-content-center align-items-center">
                                         <a href="{{ route('bendahara.siswa.show', $siswa->id_siswa) }}" class="btn btn-info btn-circle btn-sm mr-1">

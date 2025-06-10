@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Dashboard')
+@section('title', $pengaturan->nama_aplikasi . ' | Dashboard')
 @section('content')
 <div class="container-fluid">
 
@@ -31,7 +31,7 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">{{ 'Dashboard' . (!empty($namaSekolah) ? ' - ' . $namaSekolah : '') }}</h1>
+        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
         <form method="GET" action="" class="form-inline mb-3">
             <div class="form-group mr-2">
                 <label for="bulan" class="mr-2">Bulan</label>

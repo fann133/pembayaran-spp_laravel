@@ -1,5 +1,5 @@
-@extends('layouts.master') {{-- Sesuaikan jika layout-nya beda --}}
-@section('title', 'Data Siswa')
+@extends('layouts.master')
+@section('title', $pengaturan->nama_aplikasi . ' | Data Siswa')
 
 @section('content')
 <div class="container-fluid">
@@ -36,10 +36,10 @@
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Daftar Siswa</h6>
+            <h6 class="m-0 font-weight-bold text-{{ $pengaturan->tema }}">Daftar Siswa</h6>
         </div>
         
-        <div class="card-body border-bottom-primary">
+        <div class="card-body border-bottom-{{ $pengaturan->tema }}">
             <div class="table-responsive pt-2">
                 <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
                     <thead>
@@ -50,7 +50,7 @@
                             <th>Tempat, Tanggal Lahir</th>
                             <th>Jenis Kelamin</th>
                             <th>Kelas</th>
-                            <th>Kategori</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -62,7 +62,11 @@
                             <td>{{ $siswa->tempat_lahir }}, {{ \Carbon\Carbon::parse($siswa->tanggal_lahir)->translatedFormat('d F Y') }}</td>
                             <td>{{ $siswa->jenis_kelamin }}</td>
                             <td>{{ $siswa->kelas }}</td>
-                            <td>{{ $siswa->category }}</td>
+                            <td>
+                                <a href="{{ route('guru.siswa.show', $siswa->id_siswa) }}" class="btn btn-info btn-circle btn-sm">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>

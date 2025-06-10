@@ -24,10 +24,10 @@
     <!-- Divider -->
     <hr class="sidebar-divider">
 
-    <li class="nav-item {{ request()->routeIs('guru.siswa.index') ? 'active' : '' }}">
+    <li class="nav-item {{ request()->routeIs('guru.siswa.index', 'guru.siswa.show') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('guru.siswa.index') }}">
             <i class="fas fa-fw fa-user"></i>
-            <span>Data Siswa</span></a>
+            <span>Siswa</span></a>
     </li>
     
     <!-- Divider -->
@@ -38,7 +38,7 @@
         Transaksi
     </div>
     
-    <li class="nav-item {{ request()->routeIs('guru.tagihan.index', 'guru.tagihan.payment') ? 'active' : '' }}">
+    <li class="nav-item {{ request()->routeIs('guru.tagihan.index', 'guru.tagihan.create', 'guru.tagihan.payment') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('guru.tagihan.index') }}">
             <i class="fas fa-fw fa-hand-holding-usd"></i>
             <span>Tagihan</span></a>

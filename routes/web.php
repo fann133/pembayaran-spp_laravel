@@ -178,6 +178,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard', [GuruDashboardController::class, 'index'])->name('guru.dashboard');
 
         Route::get('/siswa', [GuruSiswaController::class, 'index'])->name('guru.siswa.index');
+        Route::get('/siswa/{id_siswa}', [GuruSiswaController::class, 'show'])->name('guru.siswa.show');
 
         Route::get('/tagihan', [GuruTagihanController::class, 'index'])->name('guru.tagihan.index');
         Route::get('/tagihan/create', [GuruTagihanController::class, 'create'])->name('guru.tagihan.create');

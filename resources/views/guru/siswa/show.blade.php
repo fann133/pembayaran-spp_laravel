@@ -7,8 +7,8 @@
     <!-- Breadcrumb Navigation -->
     <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ route('bendahara.dashboard') }}">Home</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('bendahara.siswa.index') }}">Siswa</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('guru.dashboard') }}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('guru.siswa.index') }}">Siswa</a></li>
         <li class="breadcrumb-item active" aria-current="page">Lihat Siswa</li>
     </ol>
     </nav>

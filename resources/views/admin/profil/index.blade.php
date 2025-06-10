@@ -149,7 +149,7 @@
                         @endif
 
                         <div class="form-group text-center">
-                            <label for="logo" class="d-block mb-2">Upload Logo Baru</label>
+                            <label for="logo" class="d-block mb-2">Upload Logo</label>
                             <div class="custom-file" style="max-width: 250px; margin: 0 auto;">
                                 <input type="file" class="custom-file-input" id="logo" name="logo">
                                 <label class="custom-file-label text-left" for="logo">Pilih file</label>
@@ -169,7 +169,7 @@
                         @endif
                 
                         <div class="form-group text-center">
-                            <label for="logo_naungan" class="d-block mb-2">Upload Logo Naungan</label>
+                            <label for="logo_naungan" class="d-block mb-2">Upload Logo</label>
                             <div class="custom-file" style="max-width: 250px; margin: 0 auto;">
                                 <input type="file" class="custom-file-input" id="logo_naungan" name="logo_naungan" aria-describedby="logo_naungan">
                                 <label class="custom-file-label text-left" for="logo_naungan">Pilih file</label>

@@ -7,6 +7,7 @@ use App\Models\ProfilSekolah;
 use App\Models\Kelas;
 use App\Models\Siswa;
 use App\Models\Pembayaran;
+use App\Models\Setting;
 use Mpdf\Mpdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -24,12 +25,11 @@ class PembayaranController extends Controller
         }
 
         $kelasIds = Kelas::where('pengampu_kelas', $guru->id_guru)->pluck('id_kelas');
-
         $siswaIds = Siswa::whereIn('id_kelas', $kelasIds)->pluck('id_siswa');
-
         $pembayarans = Pembayaran::whereIn('id_siswa', $siswaIds)->get();
+        $pengaturan = Setting::first();
 
-        return view('guru.pembayaran.index', compact('pembayarans'));
+        return view('guru.pembayaran.index', compact('pembayarans', 'pengaturan'));
     }
 
     public function print($id)

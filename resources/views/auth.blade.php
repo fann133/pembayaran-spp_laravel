@@ -35,11 +35,6 @@
             $pengaturan = Setting::first();
     @endphp
 
-    <nav class="navbar navbar-expand-lg navbar-light shadow-sm mb-4 w-100" style="height: 40px; background-color: rgba(200, 200, 200, 0.5);">
-        <div class="container-fluid px-2 d-flex justify-content-center justify-content-lg-start align-items-center">
-            <h4 class="ml-lg-4 mb-0 font-weight-bold text-dark"><i class="{{ $pengaturan->ikon_sidebar ?? 'fas fa-dollar-sign' }} mr-2"></i> {{ $pengaturan->nama_aplikasi }}</h4>
-        </div>
-    </nav>
     <div class="container">
 
         <!-- Outer Row -->

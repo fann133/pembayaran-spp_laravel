@@ -38,7 +38,7 @@
 
     <div class="card shadow mb-4 border-bottom-{{ $pengaturan->tema }}">
         <div class="card-header py-3 d-flex justify-content-center">
-            <h6 class="m-0 font-weight-bold text-primary">Data Tagihan</h6>
+            <h6 class="m-0 font-weight-bold text-{{ $pengaturan->tema }}">Data Tagihan</h6>
         </div>
 
             <form action="{{ route('guru.tagihan.store') }}" method="POST">

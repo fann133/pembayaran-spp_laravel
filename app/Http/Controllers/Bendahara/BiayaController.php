@@ -6,14 +6,15 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Models\Biaya;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Validator;
 
 class BiayaController extends Controller
 {
     public function index(Request $request)
     {
+        $pengaturan = Setting::first();
         $kategori = $request->input('kategori'); // Ambil kategori dari request
-
         $query = Biaya::query();
         
         if ($kategori) {
@@ -21,14 +22,16 @@ class BiayaController extends Controller
         }
 
         return view('bendahara.biaya.index', [
-            'biayaList' => $query->get(),
-            'kategoriTerpilih' => $kategori,
+            'biayaList'         => $query->get(),
+            'kategoriTerpilih'  => $kategori,
+            'pengaturan'        => $pengaturan
         ]);
     }
 
     public function create()
     {
-        return view('bendahara.biaya.create');
+        $pengaturan = Setting::first();
+        return view('bendahara.biaya.create', compact('pengaturan'));
     }
 
     public function store(Request $request)
@@ -85,8 +88,9 @@ class BiayaController extends Controller
 
     public function edit($id)
     {
+        $pengaturan = Setting::first();
         $biaya = Biaya::findOrFail($id);
-        return view('bendahara.biaya.edit', compact('biaya'));
+        return view('bendahara.biaya.edit', compact('biaya', 'pengaturan'));
     }
 
 

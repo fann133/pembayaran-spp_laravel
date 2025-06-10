@@ -18,9 +18,10 @@ class SiswaController extends Controller
 {
     public function index()
     {
+        $pengaturan = Setting::first();
         $siswas = Siswa::with('kelasData')->get();
         $siswa = Siswa::orderBy('created_at', 'desc')->orderBy('updated_at', 'desc')->get();
-        return view('bendahara.siswa.index', compact('siswa', 'siswas'));
+        return view('bendahara.siswa.index', compact('siswa', 'siswas', 'pengaturan'));
     }
 
     // Tambah Siswa
@@ -156,7 +157,7 @@ class SiswaController extends Controller
     public function show($id_siswa)
     {
         $siswa = Siswa::where('id_siswa', $id_siswa)->firstOrFail();
-
-        return view('bendahara.siswa.show', compact('siswa'));
+        $pengaturan = Setting::first();
+        return view('bendahara.siswa.show', compact('siswa', 'pengaturan'));
     }
 }

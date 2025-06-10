@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Data Pembayaran')
+@section('title', $pengaturan->nama_aplikasi . ' | Data Pembayaran')
 @section('content')
 <div class="container-fluid">
 
@@ -39,7 +39,7 @@
 
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Data Pembayaran</h6>
+                <h6 class="m-0 font-weight-bold text-{{ $pengaturan->tema }}">Data Pembayaran</h6>
                 <!-- Dropdown Menu -->
                 <div class="dropdown no-arrow">
                   <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuTools" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -61,7 +61,7 @@
                 </div>
             </div>
             
-            <div class="card-body border-bottom-primary">
+            <div class="card-body border-bottom-{{ $pengaturan->tema }}">
               <form id="excelForm" method="POST" action="{{ route('bendahara.pembayaran.exportExcel') }}" style="display: none;">
                 @csrf
                   @foreach ($pembayaran as $p)

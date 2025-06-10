@@ -3,11 +3,12 @@ namespace App\Http\Controllers\Bendahara;
 
 use App\Http\Controllers\Controller;
 
-use App\Models\Guru;
 use App\Models\ProfilSekolah;
 use App\Models\Siswa;
+use App\Models\Guru;
 use App\Models\Tagihan;
 use App\Models\Pembayaran;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -23,7 +24,6 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
         $bulanNow = Carbon::now()->translatedFormat('F'); 
-        $namaSekolah = ProfilSekolah::first()->nama_sekolah ?? 'Nama Sekolah';
 
         $bulanDipilih = $request->input('bulan', now()->format('m'));
         $tahunDipilih = $request->input('tahun', now()->format('Y'));
@@ -105,9 +105,9 @@ class DashboardController extends Controller
 
         $kelasData = $dataPie->pluck('kelas');
         $jumlahBelumBayar = $dataPie->pluck('belum_bayar');
+        $pengaturan = Setting::first();
 
         return view('bendahara.dashboard', [
-            'namaSekolah'               => $namaSekolah,
             'jumlahSiswaAktif'          => $jumlahSiswaAktif,
             'jumlahGuru'                => $jumlahGuru,
             'progress'                  => $progress,
@@ -124,7 +124,8 @@ class DashboardController extends Controller
             'tahunList'                 => $tahunList,
             'dataPie'                   => $dataPie,
             'kelasData'                 => $kelasData,
-            'jumlahBelumBayar'          => $jumlahBelumBayar
+            'jumlahBelumBayar'          => $jumlahBelumBayar,
+            'pengaturan'                => $pengaturan
         ]);
     }
 }

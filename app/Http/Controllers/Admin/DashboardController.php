@@ -24,7 +24,6 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
         $bulanNow = Carbon::now()->translatedFormat('F'); 
-        $namaSekolah = ProfilSekolah::first()->nama_sekolah ?? 'Nama Sekolah';
 
         $bulanDipilih = $request->input('bulan', now()->format('m'));
         $tahunDipilih = $request->input('tahun', now()->format('Y'));
@@ -111,7 +110,6 @@ class DashboardController extends Controller
 
 
         return view('admin.dashboard', [
-            'namaSekolah'               => $namaSekolah,
             'jumlahSiswaAktif'          => $jumlahSiswaAktif,
             'jumlahGuru'                => $jumlahGuru,
             'progress'                  => $progress,

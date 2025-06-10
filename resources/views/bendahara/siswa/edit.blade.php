@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Ubah Siswa')
+@section('title', $pengaturan->nama_aplikasi . ' | Ubah Siswa')
 
 @section('content')
 <div class="container-fluid">
@@ -38,7 +38,7 @@
 
     <div class="card shadow mb-4 border-bottom-{{ $pengaturan->tema }}">
         <div class="card-header py-3 d-flex justify-content-center">
-            <h6 class="m-0 font-weight-bold text-primary">Data Siswa</h6>
+            <h6 class="m-0 font-weight-bold text-{{ $pengaturan->tema }}">Data Siswa</h6>
         </div>
 
         <form action="{{ route('bendahara.siswa.update', $siswa->id_siswa) }}" method="POST">

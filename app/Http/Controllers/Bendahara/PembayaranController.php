@@ -3,21 +3,23 @@
 namespace App\Http\Controllers\Bendahara;
 
 use App\Http\Controllers\Controller;
-use App\Models\Pembayaran;
 use App\Models\ProfilSekolah;
+use App\Models\Pembayaran;
+use App\Models\Setting;
 use Mpdf\Mpdf;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\PembayaranExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use App\Exports\PembayaranExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PembayaranController extends Controller
 {
     // Menampilkan daftar pembayaran
     public function index()
     {
+        $pengaturan = Setting::first();
         $pembayaran = Pembayaran::with('tagihan')->orderBy('created_at', 'desc')->get();
-        return view('bendahara.pembayaran.index', compact('pembayaran'));
+        return view('bendahara.pembayaran.index', compact('pembayaran', 'pengaturan'));
     }
 
     public function print($id)

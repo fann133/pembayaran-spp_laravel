@@ -32,8 +32,6 @@ class DashboardController extends Controller
             return redirect()->back()->with('error', 'Data guru tidak ditemukan.');
         }
 
-        $namaSekolah = ProfilSekolah::first()?->nama_sekolah ?? 'Nama Sekolah';
-
         // Kelas yang diampu oleh guru sebagai wali kelas
         $kelasDiampu = Kelas::where('pengampu_kelas', $guru->id_guru)->pluck('nama');
         $idKelasDiampu = Kelas::where('pengampu_kelas', $guru->id_guru)->pluck('id_kelas');
@@ -138,7 +136,6 @@ class DashboardController extends Controller
         $pengaturan = Setting::first();
 
         return view('guru.dashboard', compact(
-            'namaSekolah',
             'guru',
             'jumlahSiswa',
             'bulanDipilih',

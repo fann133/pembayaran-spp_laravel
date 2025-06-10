@@ -23,6 +23,7 @@ class TagihanController extends Controller
 
     public function index()
     {
+        $pengaturan = Setting::first();
         $guru = auth()->user()->guru;
     
         if (!$guru) {
@@ -35,7 +36,7 @@ class TagihanController extends Controller
 
         $tagihans = Tagihan::whereIn('id_siswa', $siswaIds)->get();
     
-        return view('guru.tagihan.index', compact('tagihans'));
+        return view('guru.tagihan.index', compact('tagihans', 'pengaturan'));
     }
 
         public function create()
@@ -110,7 +111,7 @@ class TagihanController extends Controller
             return redirect()->back()->with('error', 'Biaya tidak ditemukan untuk siswa ini.');
         }
 
-        $profilSekolah = ProfilSekolah::first(); // asumsi cuma 1 baris data profil sekolah
+        $profilSekolah = ProfilSekolah::first();
         $tahunAjar = ProfilSekolah::first()?->tahun_pelajaran;
 
         // Parameter pencarian untuk pengecekan
@@ -164,7 +165,8 @@ class TagihanController extends Controller
     public function payment($id)
     {
         $tagihan = Tagihan::with('siswa', 'biaya')->findOrFail($id);
-        return view('guru.tagihan.payment', compact('tagihan'));
+        $pengaturan = Setting::first();
+        return view('guru.tagihan.payment', compact('tagihan', 'pengaturan'));
     }
 
     public function processPayment(Request $request, $id)

@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Pembayaran Tagihan')
+@section('title', $pengaturan->nama_aplikasi . ' | Pembayaran Tagihan')
 
 @section('content')
 <style>

@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Dashboard')
+@section('title', $pengaturan->nama_aplikasi . ' | Dashboard')
 @section('content')
 <div class="container-fluid">
 
@@ -31,7 +31,7 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">{{ 'Dashboard' . (!empty($namaSekolah) ? ' - ' . $namaSekolah : '') }}</h1>
+        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
         <form method="GET" action="" class="form-inline mb-3">
             <div class="form-group mr-2">
                 <label for="bulan" class="mr-2">Bulan</label>
@@ -154,10 +154,10 @@
 
         <!-- Area Chart -->
         <div class="col-xl-8 col-lg-7">
-            <div class="card shadow mb-4 border-bottom-primary">
+            <div class="card shadow mb-4 border-bottom-{{ $pengaturan->tema }}">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Tabel Pembayaran {{ request('tahun') ?? date('Y') }}</h6>
+                <h6 class="m-0 font-weight-bold text-{{ $pengaturan->tema }}">Tabel Pembayaran {{ request('tahun') ?? date('Y') }}</h6>
             
                     <div class="dropdown no-arrow">
                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -187,11 +187,11 @@
 
         <!-- Pie Chart -->
         <div class="col-xl-4 col-lg-5">
-            <div class="card shadow mb-4 border-bottom-primary">
+            <div class="card shadow mb-4 border-bottom-{{ $pengaturan->tema }}">
                 <!-- Card Header - Dropdown -->
                 <div
                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Diagram Tagihan SPP {{ \Carbon\Carbon::create()->month($bulanDipilih)->translatedFormat('F') }} - {{ $tahunDipilih }}
+                    <h6 class="m-0 font-weight-bold text-{{ $pengaturan->tema }}">Diagram Tagihan SPP {{ \Carbon\Carbon::create()->month($bulanDipilih)->translatedFormat('F') }} - {{ $tahunDipilih }}
                     </h6>
                     <div class="dropdown no-arrow">
                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
