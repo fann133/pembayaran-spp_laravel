@@ -12,7 +12,7 @@ class RoleMiddleware
     {
         // Pastikan user sudah login
         if (!Auth::check()) {
-            return redirect()->route('login');
+            return redirect()->route('auth');
         }
 
         $user = Auth::user();
@@ -20,11 +20,11 @@ class RoleMiddleware
 
         // Mapping role ke role_id di database
         $allowedRoles = [
-            'admin' => 1,
-            'siswa' => 2,
-            'guru' => 3,
+            'admin'     => 1,
+            'siswa'     => 2,
+            'guru'      => 3,
             'bendahara' => 4,
-            'kepsek' => 5,
+            'kepsek'    => 5,
         ];
 
         // Jika role tidak sesuai, arahkan ke halaman blank

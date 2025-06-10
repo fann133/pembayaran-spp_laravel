@@ -11,8 +11,6 @@
         <div class="sidebar-brand-text mx-3">{{ $pengaturan->nama_aplikasi }}</div>
     </a>
 
-
-
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
 
