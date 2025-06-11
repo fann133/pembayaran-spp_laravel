@@ -43,10 +43,10 @@ class TagihanController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'id_siswa' => 'required',
-            'jenis_pembayaran' => 'required',
-            'status' => 'required',
-            'bulan' => 'required_if:jenis_pembayaran,SPP|nullable',
+            'id_siswa'          => 'required',
+            'jenis_pembayaran'  => 'required',
+            'status'            => 'required',
+            'bulan'             => 'required_if:jenis_pembayaran,SPP|nullable',
             'id_biaya'          => 'required_if:jenis_pembayaran,NON-SPP|nullable|exists:biaya,id_biaya',
         ], [
             'id_siswa.required'            => 'Siswa wajib dipilih.',
@@ -114,19 +114,19 @@ class TagihanController extends Controller
 
         // Simpan data tagihan
         Tagihan::create([
-            'id_tagihan' => Str::uuid(),
-            'id_siswa' => $request->id_siswa,
-            'nama' => $siswa->nama,
-            'nis' => $siswa->nis,
-            'kelas' => $siswa->kelas,
-            'id_biaya' => $biaya->id_biaya,
-            'nama_pembayaran' => $biaya->nama,
-            'jenis' => $biaya->jenis,
-            'kode' => $biaya->kode, // Menggunakan kode biaya dan menyimpannya di tagihan
-            'jumlah' => $biaya->jumlah,
-            'bulan' => $biaya->jenis === 'SPP' ? $request->bulan : '',
-            'status' => $request->status,
-            'tanggal_tagihan' => now()->toDateString(),
+            'id_tagihan'        => Str::uuid(),
+            'id_siswa'          => $request->id_siswa,
+            'nama'              => $siswa->nama,
+            'nis'               => $siswa->nis,
+            'kelas'             => $siswa->kelas,
+            'id_biaya'          => $biaya->id_biaya,
+            'nama_pembayaran'   => $biaya->nama,
+            'jenis'             => $biaya->jenis,
+            'kode'              => $biaya->kode, // Menggunakan kode biaya dan menyimpannya di tagihan
+            'jumlah'            => $biaya->jumlah,
+            'bulan'             => $biaya->jenis === 'SPP' ? $request->bulan : '',
+            'status'            => $request->status,
+            'tanggal_tagihan'   => now()->toDateString(),
         ]);
 
         return redirect()->route('bendahara.tagihan.index')->with('success', 'Tagihan berhasil ditambahkan.');
@@ -173,22 +173,22 @@ class TagihanController extends Controller
 
         // Simpan transaksi pembayaran tanpa menghapus riwayat sebelumnya
         Pembayaran::create([
-            'id_pembayaran' => Str::uuid(),
-            'id_users' => $id_users,
-            'id_tagihan' => $tagihan->id_tagihan,
-            'id_siswa' => $tagihan->id_siswa,
-            'nama' => $tagihan->nama,
-            'nis' => $tagihan->nis,
-            'kelas' => $tagihan->kelas,
-            'kode' => $tagihan->kode,
-            'nama_pembayaran' => $tagihan->nama_pembayaran,
-            'jenis' => $tagihan->jenis,
-            'bulan' => $tagihan->bulan,
-            'jumlah_tagihan' => $tagihan->jumlah, // Menyimpan jumlah tagihan awal
-            'dibayar' => $dibayarSekarang,
-            'piutang' => $piutang,
-            'status' => $status,
-            'tanggal_bayar' => now()->toDateString(),
+            'id_pembayaran'     => Str::uuid(),
+            'id_users'          => $id_users,
+            'id_tagihan'        => $tagihan->id_tagihan,
+            'id_siswa'          => $tagihan->id_siswa,
+            'nama'              => $tagihan->nama,
+            'nis'               => $tagihan->nis,
+            'kelas'             => $tagihan->kelas,
+            'kode'              => $tagihan->kode,
+            'nama_pembayaran'   => $tagihan->nama_pembayaran,
+            'jenis'             => $tagihan->jenis,
+            'bulan'             => $tagihan->bulan,
+            'jumlah_tagihan'    => $tagihan->jumlah, // Menyimpan jumlah tagihan awal
+            'dibayar'           => $dibayarSekarang,
+            'piutang'           => $piutang,
+            'status'            => $status,
+            'tanggal_bayar'     => now()->toDateString(),
         ]);
 
         if ($status == 'LUNAS') {

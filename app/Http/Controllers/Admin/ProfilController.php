@@ -61,7 +61,7 @@ class ProfilController extends Controller
             return redirect()->back()
                 ->withErrors($validator)
                 ->withInput()
-                ->with('error', $validator->errors()->first());  // Flash error pesan pertama
+                ->with('error', $validator->errors()->first());
         }
 
         $profil = ProfilSekolah::first();

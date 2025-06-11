@@ -25,13 +25,13 @@ class DashboardController extends Controller
     {
         $bulanNow = Carbon::now()->translatedFormat('F'); 
 
-        $bulanDipilih = $request->input('bulan', now()->format('m'));
-        $tahunDipilih = $request->input('tahun', now()->format('Y'));
-        $tanggal = Carbon::now()->format('Y-m-d');
+        $bulanDipilih   = $request->input('bulan', now()->format('m'));
+        $tahunDipilih   = $request->input('tahun', now()->format('Y'));
+        $tanggal        = Carbon::now()->format('Y-m-d');
 
-        $totalSiswa = Siswa::whereIn('status', ['AKTIF', 'PINDAHAN'])->count();
-        $jumlahSiswaAktif = $totalSiswa;
-        $jumlahGuru = Guru::count();
+        $totalSiswa         = Siswa::whereIn('status', ['AKTIF', 'PINDAHAN'])->count();
+        $jumlahSiswaAktif   = $totalSiswa;
+        $jumlahGuru         = Guru::count();
 
         $daftarBulan = Pembayaran::select(DB::raw('DISTINCT MONTH(tanggal_bayar) as bulan'))
             ->whereNotNull('tanggal_bayar')
@@ -73,8 +73,8 @@ class DashboardController extends Controller
             ->groupByRaw('MONTH(tanggal_bayar)')
             ->get();
 
-        $labels = [];
-        $dataSPP = [];
+        $labels     = [];
+        $dataSPP    = [];
         $dataNonSPP = [];
 
         for ($i = 1; $i <= 12; $i++) {

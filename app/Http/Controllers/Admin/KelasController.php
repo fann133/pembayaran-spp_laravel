@@ -36,10 +36,10 @@ class KelasController extends Controller
             'deskripsi'      => 'nullable|string',
             'pengampu_kelas' => 'nullable|exists:gurus,id_guru|unique:kelas,pengampu_kelas',
         ], [
-            'nama.required'           => 'Nama kelas wajib diisi.',
+            'nama.required'           => 'Nama kelas tidak boleh kosong.',
             'nama.string'             => 'Nama kelas harus berupa teks.',
             'nama.max'                => 'Nama kelas maksimal 255 karakter.',
-            'kode_kelas.required'     => 'Kode kelas wajib diisi.',
+            'kode_kelas.required'     => 'Kode kelas tidak boleh kosong.',
             'kode_kelas.string'       => 'Kode kelas harus berupa teks.',
             'kode_kelas.max'          => 'Kode kelas maksimal 255 karakter.',
             'kode_kelas.unique'       => 'Kode kelas sudah digunakan.',

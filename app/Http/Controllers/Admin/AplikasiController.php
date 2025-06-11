@@ -20,10 +20,10 @@ class AplikasiController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nama_aplikasi' => 'required|max:30',
-            'ikon_sidebar' => 'required',
-            'tema' => 'required',
-            'footer' => 'required',
-            'logo' => 'nullable|image|mimes:png,jpg,jpeg|max:5048',
+            'ikon_sidebar'  => 'required',
+            'tema'          => 'required',
+            'footer'        => 'required',
+            'logo'          => 'nullable|image|mimes:png,jpg,jpeg|max:5048',
         ], [
             'nama_aplikasi.required' => 'Nama Aplikasi tidak boleh kosong.',
             'nama_aplikasi.max'      => 'Nama aplikasi maksimal 30 karakter.',

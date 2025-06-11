@@ -24,10 +24,10 @@ class PembayaranController extends Controller
             return back()->with('error', 'Data guru tidak ditemukan.');
         }
 
-        $kelasIds = Kelas::where('pengampu_kelas', $guru->id_guru)->pluck('id_kelas');
-        $siswaIds = Siswa::whereIn('id_kelas', $kelasIds)->pluck('id_siswa');
-        $pembayarans = Pembayaran::whereIn('id_siswa', $siswaIds)->get();
-        $pengaturan = Setting::first();
+        $kelasIds       = Kelas::where('pengampu_kelas', $guru->id_guru)->pluck('id_kelas');
+        $siswaIds       = Siswa::whereIn('id_kelas', $kelasIds)->pluck('id_siswa');
+        $pembayarans    = Pembayaran::whereIn('id_siswa', $siswaIds)->get();
+        $pengaturan     = Setting::first();
 
         return view('guru.pembayaran.index', compact('pembayarans', 'pengaturan'));
     }

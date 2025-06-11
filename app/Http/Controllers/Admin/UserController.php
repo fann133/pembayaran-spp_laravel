@@ -82,10 +82,10 @@ class UserController extends Controller
             'password' => 'nullable|min:5',
             'role_id' => 'required|in:1,2,3,4,5', // Pastikan role_id valid
         ], [
-            'name.required'     => 'Nama wajib diisi.',
+            'name.required'     => 'Nama tidak boleh kosong.',
             'name.string'       => 'Nama harus berupa teks.',
             'name.max'          => 'Nama maksimal 255 karakter.',
-            'username.required' => 'Username wajib diisi.',
+            'username.required' => 'Username tidak boleh kosong.',
             'username.string'   => 'Username harus berupa teks.',
             'username.max'      => 'Username maksimal 255 karakter.',
             'username.unique'   => 'Username sudah digunakan, silakan gunakan yang lain.',

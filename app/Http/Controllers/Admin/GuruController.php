@@ -52,7 +52,7 @@ class GuruController extends Controller
             'tanggal_lahir.date'     => 'Format tanggal lahir tidak valid.',
             'jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',
             'jenis_kelamin.in'       => 'Jenis kelamin tidak valid.',
-            'agama.required'         => 'Agama wajib diisi.',
+            'agama.required'         => 'Agama wajib dipilih.',
             'status.required'        => 'Status wajib dipilih.',
             'status.in'              => 'Status tidak valid.',
             'role_id.required'       => 'Jabatan wajib dipilih.',
