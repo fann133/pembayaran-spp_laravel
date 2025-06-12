@@ -91,7 +91,6 @@ class SiswaController extends Controller
         return redirect()->route('admin.siswa.index')->with('success', 'Siswa berhasil ditambahkan');
     }
 
-
     // Tampilan View Edit Siswa
     public function edit($id)
     {
