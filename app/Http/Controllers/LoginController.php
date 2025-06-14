@@ -22,11 +22,11 @@ class LoginController extends Controller
         $credentials = $request->validate([
             'username' => 'required',
             'password' => 'required',
-            // 'g-recaptcha-response' => 'required',
+            'g-recaptcha-response' => 'required',
         ], [
             'username.required' => 'Username tidak boleh kosong',
             'password.required' => 'Password tidak boleh kosong',
-            // 'g-recaptcha-response.required' => 'Centang dan selesaikan reCAPTCHA',
+            'g-recaptcha-response.required' => 'Centang dan selesaikan reCAPTCHA',
         ]);
 
         // Ambil user berdasarkan username
@@ -42,32 +42,32 @@ class LoginController extends Controller
             return back()->withErrors(['password' => 'Password salah'])->withInput();
         }
 
-        // // Cek apakah reCAPTCHA valid
-        // $recaptchaResponse = $request->input('g-recaptcha-response');
+        // Cek apakah reCAPTCHA valid
+        $recaptchaResponse = $request->input('g-recaptcha-response');
         
-        // // Cek apakah kunci reCAPTCHA sudah terpasang
-        // $secretKey = env('RECAPTCHA_SECRETKEY');
-        // if (empty($secretKey)) {
-        //     return back()->withErrors(['recaptcha' => 'Konfigurasi reCAPTCHA belum disetting.'])->withInput();
-        // }
+        // Cek apakah kunci reCAPTCHA sudah terpasang
+        $secretKey = env('RECAPTCHA_SECRETKEY');
+        if (empty($secretKey)) {
+            return back()->withErrors(['recaptcha' => 'Konfigurasi reCAPTCHA belum disetting.'])->withInput();
+        }
 
-        // // Kirim request ke Google reCAPTCHA untuk verifikasi
-        // $response = Http::timeout(30)->asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-        //     'secret' => $secretKey,
-        //     'response' => $recaptchaResponse,
-        // ]);
+        // Kirim request ke Google reCAPTCHA untuk verifikasi
+        $response = Http::timeout(30)->asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret' => $secretKey,
+            'response' => $recaptchaResponse,
+        ]);
 
-        // // // Pastikan response dari Google berhasil
-        // // if (!$response->successful()) {
-        // //     return back()->withErrors(['recaptcha' => 'Verifikasi reCAPTCHA gagal. Coba lagi.'])->withInput();
-        // // }
+        // Pastikan response dari Google berhasil
+        if (!$response->successful()) {
+            return back()->withErrors(['recaptcha' => 'Verifikasi reCAPTCHA gagal. Coba lagi.'])->withInput();
+        }
 
-        // // $result = $response->json();
+        $result = $response->json();
         
-        // // // Cek hasil verifikasi reCAPTCHA
-        // // if (!$result['success']) {
-        // //     return back()->withErrors(['recaptcha' => 'Verifikasi reCAPTCHA gagal'])->withInput();
-        // // }
+        // Cek hasil verifikasi reCAPTCHA
+        if (!$result['success']) {
+            return back()->withErrors(['recaptcha' => 'Verifikasi reCAPTCHA gagal'])->withInput();
+        }
 
         // Login user
         Auth::login($user);
