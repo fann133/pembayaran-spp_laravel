@@ -106,16 +106,27 @@ class KelasController extends Controller
             return redirect()->back()
                 ->withErrors($validator)
                 ->withInput()
-                ->with('error', $validator->errors()->first()); // tampilkan error flash
+                ->with('error', $validator->errors()->first());
         }
 
         $kelas = Kelas::findOrFail($id_kelas);
+
+        // Simpan nama lama untuk perbandingan
+        $namaLama = $kelas->nama;
+
+        // Update data kelas
         $kelas->update([
             'nama'           => $request->nama,
             'kode_kelas'     => $request->kode_kelas,
             'pengampu_kelas' => $request->pengampu_kelas,
             'deskripsi'      => $request->deskripsi,
         ]);
+
+        // Jika nama kelas berubah, update juga di tabel siswas
+        if ($namaLama !== $request->nama) {
+            Siswa::where('id_kelas', $id_kelas)
+                ->update(['kelas' => $request->nama]);
+        }
 
         return redirect()->route('admin.kelas.index')->with('success', 'Kelas berhasil diperbarui');
     }
