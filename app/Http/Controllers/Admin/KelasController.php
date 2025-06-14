@@ -130,6 +130,7 @@ class KelasController extends Controller
 
         return redirect()->route('admin.kelas.index')->with('success', 'Kelas berhasil diperbarui');
     }
+    
 
     public function destroy($id_kelas)
     {
