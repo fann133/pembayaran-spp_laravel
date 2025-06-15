@@ -84,8 +84,13 @@
                         <h6 class="m-0 font-weight-bold text-primary">Logo Aplikasi</h6>
                     </div>
                     <div class="card-body text-center">
-                        @if(!empty($pengaturan->logo))
-                            <img src="{{ asset($pengaturan->logo) }}" alt="Logo Aplikasi" class="img-fluid mb-3" width="150">
+                        @php
+                            $logoPath = $pengaturan->logo ?? 'assets/img/logo-login/logo.png';
+                            $fullPath = public_path($logoPath);
+                        @endphp
+
+                        @if(file_exists($fullPath))
+                            <img src="{{ asset($logoPath) }}" alt="Logo Aplikasi" class="img-fluid mb-3" width="150">
                         @else
                             <img src="{{ asset('assets/img/logo-login/logo.png') }}" alt="Logo Default" class="img-fluid mb-3" width="150">
                         @endif
