@@ -9,6 +9,7 @@ use App\Models\Siswa; // Pastikan model Siswa diimpor
 use App\Models\User; // Pastikan model User diimpor
 use App\Models\Kelas; // Pastikan model User diimpor
 use App\Models\Biaya;
+use App\Models\Tagihan;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -143,6 +144,18 @@ class SiswaController extends Controller
         $siswa = Siswa::findOrFail($id);
         $kelas = Kelas::where('id_kelas', $request->id_kelas)->first();
         $category = Biaya::where('kategori', $request->category)->first();
+
+        if ($request->status === 'LULUS') {
+            $tagihanBelumLunas = Tagihan::where('id_siswa', $siswa->id_siswa)
+                ->where('status', 'BELUM DIBAYAR')
+                ->count();
+
+            if ($tagihanBelumLunas > 0) {
+                return redirect()->back()
+                    ->withInput()
+                    ->with('error', 'Siswa tidak dapat diluluskan karena masih memiliki tagihan yang belum dilunasi.');
+            }
+        }
 
         // Update data siswa
         $siswa->update([
