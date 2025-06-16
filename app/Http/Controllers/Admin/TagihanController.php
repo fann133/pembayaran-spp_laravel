@@ -204,7 +204,7 @@ class TagihanController extends Controller
             $tagihan->update([
                 'jumlah' => $piutang
             ]);
-            return redirect()->route('admin.tagihan.index')->with('warning', 'Pembayaran berhasil. Tagihan belum lunas.');
+            return redirect()->route('admin.tagihan.index')->with('error', 'Pembayaran berhasil. Tagihan belum lunas.');
         }                
     }
 
